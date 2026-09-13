@@ -450,6 +450,7 @@ button{cursor:pointer}
 .auth-input{width:100%;border:1px solid var(--line);background:#f7faf8;padding:14px;border-radius:14px;font-size:13px;font-weight:600;color:var(--ink);outline:none;}
 .auth-input:focus{border-color:var(--green);background:#fff;}
 .auth-action{width:100%;border:0;border-radius:14px;padding:14px;background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(8,127,78,.2);}
+.auth-action:disabled{opacity:.65;cursor:not-allowed;transform:none;}
 .auth-switch{border:0;background:none;color:var(--green);font-weight:800;font-size:11px;margin-top:18px;width:100%;}
 .auth-error{display:none;background:#fff0f0;border:1px solid #ffcaca;color:#d92f3d;border-radius:14px;padding:12px;font-size:11px;font-weight:700;line-height:1.5;margin-bottom:12px;text-align:center;}
 .auth-error.show{display:block;}
@@ -1511,11 +1512,27 @@ function showRegisterScreen(prefillPhone='', prefillReferral=''){
     document.getElementById('registerReferral').value = String(prefillReferral || urlRef).trim().toUpperCase();
     setAuthScreen('registerScreen');
 }
-function showAuthLoader(message, callback){
+async function showAuthLoader(message, callback){
     const l=document.getElementById('authLoading');
-    document.getElementById('authLoadingText').textContent=message;
+    const text=document.getElementById('authLoadingText');
+    const loginBtn=document.getElementById('loginBtn');
+    const registerBtn=document.getElementById('registerBtn');
+    text.textContent=message;
     l.classList.add('show');
-    setTimeout(()=>{l.classList.remove('show'); callback&&callback();},2000);
+    if(loginBtn) loginBtn.disabled=true;
+    if(registerBtn) registerBtn.disabled=true;
+    const startedAt=Date.now();
+    try{
+        if(callback) await callback();
+    }finally{
+        // Toujours laisser voir l'animation au moins 2 secondes.
+        const remaining=Math.max(0,2000-(Date.now()-startedAt));
+        setTimeout(()=>{
+            l.classList.remove('show');
+            if(loginBtn) loginBtn.disabled=false;
+            if(registerBtn) registerBtn.disabled=false;
+        }, remaining);
+    }
 }
 async function handleLogin(){
     const phone=normalizePhone(document.getElementById('loginPhone').value);
@@ -1523,7 +1540,7 @@ async function handleLogin(){
     const err=document.getElementById('loginError');
     err.classList.remove('show');
     if(!phone || !password){ err.textContent='Veuillez entrer votre numéro de téléphone et votre mot de passe.'; err.classList.add('show'); return; }
-    showAuthLoader('🔎 Vérification du compte...', async()=>{
+    await showAuthLoader('🔎 Connexion en cours...', async()=>{
         try{
             const snap=await getDoc(userDoc(phone));
             if(!snap.exists()){
@@ -1533,11 +1550,11 @@ async function handleLogin(){
                 return;
             }
             const account=snap.data();
-            if(account.deleted === true || account.status === 'blocked' || account.status === 'deleted'){ err.textContent='⛔ Votre compte a été supprimé. Vous ne pouvez plus accéder à VIGORA RDC.'; err.classList.add('show'); return; }
+            if(account.deleted === true || account.status === 'blocked' || account.status === 'deleted'){ err.textContent='⛔ Votre compte est bloqué ou supprimé. Veuillez contacter l’administration.'; err.classList.add('show'); return; }
             if(account.password !== password){ err.textContent='Mot de passe incorrect.'; err.classList.add('show'); return; }
             accountCache[phone.replace(/\D/g,'')] = account;
             loginSuccess(account,phone);
-        }catch(e){ console.error(e); err.textContent='Erreur Firebase : '+e.message; err.classList.add('show'); }
+        }catch(e){ console.error(e); err.textContent='Erreur Firebase : '+(e?.message || e); err.classList.add('show'); }
     });
 }
 function loginSuccess(account,phone){
@@ -1579,6 +1596,34 @@ async function handleRegister(){
         account.sponsorReferralCode=referralCode;
         await setDoc(userDoc(clean), {...account, createdAt:serverTimestamp()});
         accountCache[clean]=account;
+
+        // MESSAGE DE BIENVENUE AUTOMATIQUE (conversation privée avec l'administration)
+        // Le message est envoyé au moment où le compte est créé afin que
+        // l'utilisateur le retrouve immédiatement dans Notifications/Discussion.
+        try{
+          const welcomePhoneId=String(phone).replace(/\D/g,'');
+          const welcomeText=`Bonjour ${name} 👋
+
+Bienvenue sur VIGORA RDC ! 🎉
+Votre compte vient d'être créé avec succès.
+
+J'espère que vous allez bien. Si vous avez une question ou besoin d'aide, vous pouvez nous répondre directement ici. Notre équipe pourra vous accompagner.
+
+Merci et bienvenue parmi nous ! ❤️`;
+          await addDoc(collection(db,'supportThreads',welcomePhoneId,'messages'),{
+            sender:'admin', senderName:'Administration', title:'Bienvenue sur VIGORA RDC',
+            text:welcomeText, createdAt:serverTimestamp(), readByUser:false, automatic:true
+          });
+          await setDoc(doc(db,'supportThreads',welcomePhoneId),{
+            phone:phone, name:name, lastMessage:welcomeText,
+            lastSender:'admin', updatedAt:serverTimestamp(), unreadForUser:true,
+            createdBy:'automatic-welcome'
+          },{merge:true});
+        }catch(welcomeError){
+          // Le compte reste créé même si l'envoi de la notification échoue.
+          console.warn('Message de bienvenue non envoyé :', welcomeError);
+        }
+
         if(sponsor){
           const spKey=String(sponsor.phone).replace(/\D/g,'');
           const sponsorSnap=await getDoc(userDoc(spKey));
@@ -1594,11 +1639,12 @@ async function handleRegister(){
             await setDoc(userDoc(spKey),sp,{merge:true});
           }
         }
-        document.getElementById('registerSuccess').textContent='✅ Compte créé avec succès. Votre compte commence à 0 FC, sans historique ni produit.';
+        document.getElementById('registerSuccess').textContent='✅ Compte créé avec succès. Ouverture de votre accueil...';
         document.getElementById('registerSuccess').classList.add('show');
         userData=account; currentAccountPhone=phone;
-        setTimeout(()=>loginSuccess(account,phone),500);
-      }catch(e){ console.error(e); err.textContent='Erreur Firebase : '+e.message; err.classList.add('show'); }
+        // Après la création, on laisse l'animation se terminer puis on ouvre automatiquement l'accueil.
+        setTimeout(()=>loginSuccess(account,phone),300);
+      }catch(e){ console.error(e); err.textContent='Erreur Firebase : '+(e?.message || e); err.classList.add('show'); }
     });
 }
 function logoutUser(){
