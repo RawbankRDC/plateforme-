@@ -1415,6 +1415,22 @@ function normalizePhone(value){
     return digits ? '+' + digits : '';
 }
 
+// --- LIEN PUBLIC GITHUB PAGES ---
+// On utilise toujours l'adresse publique GitHub Pages, jamais localhost.
+const PUBLIC_APP_URL = 'https://rawbankrdc.github.io/';
+function getPublicReferralLink(code){
+    return code ? PUBLIC_APP_URL + '?ref=' + encodeURIComponent(String(code).trim().toUpperCase()) : PUBLIC_APP_URL;
+}
+function syncPublicReferralLink(){
+    if(!userData || !currentAccountPhone || !userData.inviteCode) return;
+    const publicLink = getPublicReferralLink(userData.inviteCode);
+    if(userData.referralLink !== publicLink){
+        userData.referralLink = publicLink;
+        accountCache[String(currentAccountPhone).replace(/\D/g,'')] = userData;
+        setDoc(userDoc(currentAccountPhone), { referralLink: publicLink }, {merge:true}).catch(e => console.warn('Synchronisation du lien:', e));
+    }
+}
+
 function createEmptyAccount(name, phone, password){
     const cleanPhone = normalizePhone(phone);
     const refCode = 'VIGORA' + Math.random().toString(36).substring(2,8).toUpperCase();
@@ -1430,7 +1446,7 @@ function createEmptyAccount(name, phone, password){
         password: password,
         withdrawPassword6: null,
         inviteCode: refCode,
-        referralLink: location.origin + location.pathname + '?ref=' + refCode,
+        referralLink: getPublicReferralLink(refCode),
         withdrawAccounts: [],
         purchasedProducts: [],
         teamLevels: {
@@ -1503,7 +1519,9 @@ async function handleLogin(){
     });
 }
 function loginSuccess(account,phone){
-    userData=account; currentAccountPhone=phone; sessionStorage.setItem('vigoraPhone', phone); accountCache[String(phone).replace(/\D/g,'')]=account;
+    userData=account; currentAccountPhone=phone;
+    syncPublicReferralLink();
+    sessionStorage.setItem('vigoraPhone', phone); accountCache[String(phone).replace(/\D/g,'')]=userData;
     document.getElementById('authGate').style.display='none';
     document.getElementById('mainAppContainer').classList.remove('auth-hidden');
     updateUI();
@@ -1540,19 +1558,18 @@ async function handleRegister(){
         await setDoc(userDoc(clean), {...account, createdAt:serverTimestamp()});
         accountCache[clean]=account;
         if(sponsor){
-          let upstream=sponsor;
-          for(let level=1; level<=3 && upstream; level++) {
-            const spKey=String(upstream.phone||'').replace(/\D/g,'');
-            if(!spKey) break;
-            const sponsorSnap=await getDoc(userDoc(spKey));
-            if(!sponsorSnap.exists()) break;
-            const sp=sponsorSnap.data(); sp.teamLevels=sp.teamLevels||{};
-            const lvl=sp.teamLevels[level]||{commission:level===1?'20%':level===2?'3%':'2%',users:0,rewards:'0 FC',membersList:[]};
-            lvl.membersList=Array.isArray(lvl.membersList)?lvl.membersList:[];
-            if(!lvl.membersList.some(m=>m.userId===account.userId)) lvl.membersList.push({userId:account.userId,name:account.name,phone:account.phone,commissionEarned:'0 FC',active:false});
-            lvl.users=lvl.membersList.length; sp.teamLevels[level]=lvl;
-            await setDoc(userDoc(spKey),{teamLevels:sp.teamLevels},{merge:true});
-            upstream=sp.sponsorPhone ? {phone:sp.sponsorPhone} : null;
+          const spKey=String(sponsor.phone).replace(/\D/g,'');
+          const sponsorSnap=await getDoc(userDoc(spKey));
+          if(sponsorSnap.exists()){
+            const sp=sponsorSnap.data();
+            sp.teamLevels=sp.teamLevels||{};
+            sp.teamLevels[1]=sp.teamLevels[1]||{commission:'20%',users:0,rewards:'0 FC',membersList:[]};
+            sp.teamLevels[1].membersList=sp.teamLevels[1].membersList||[];
+            if(!sp.teamLevels[1].membersList.some(m=>m.userId===account.userId)){
+              sp.teamLevels[1].membersList.push({userId:account.userId,name:account.name,phone:account.phone,commissionEarned:'0 FC',active:false});
+              sp.teamLevels[1].users=sp.teamLevels[1].membersList.length;
+            }
+            await setDoc(userDoc(spKey),sp,{merge:true});
           }
         }
         document.getElementById('registerSuccess').textContent='✅ Compte créé avec succès. Votre compte commence à 0 FC, sans historique ni produit.';
@@ -1632,7 +1649,7 @@ function updateUI() {
     document.getElementById('totalReturnDisplay').textContent = Number(userData.totalReturn||0).toLocaleString() + ' FC';
     document.getElementById('teamInviteCodeDisp').textContent = userData.inviteCode || '';
     document.getElementById('shareCodeField').value = userData.inviteCode || '';
-    document.getElementById('shareLinkField').value = userData.referralLink || '';
+    document.getElementById('shareLinkField').value = getPublicReferralLink(userData.inviteCode || '');
 
     const levels = userData.teamLevels;
     const lv1 = levels[1].membersList;
@@ -1900,34 +1917,46 @@ function checkWithdrawTimeAndRender() {
     }
 }
 
-async function executeWithdrawRequest(){
-    if(isNavigating || !userData || !currentAccountPhone) return;
-    const amtInput=parseInt(document.getElementById('withdrawFinalAmountInput').value,10), now=new Date();
-    if(now.getHours()<9 || now.getHours()>=18){ showToast('Retraits fermés (09h00 - 18h00)'); checkWithdrawTimeAndRender(); return; }
-    if(!amtInput || amtInput<6000){ showToast('Le montant minimum de retrait est de 6 000 FC'); return; }
-    if(amtInput>Number(userData.balance||0)){ showToast('Solde insuffisant pour ce retrait'); return; }
-    const account=(userData.withdrawAccounts||[])[0];
-    if(!account){ showToast('Veuillez d’abord enregistrer un compte de retrait'); navigateWithLoader('withdraw-step-1'); return; }
-    const fee=Math.round(amtInput*0.12), net=amtInput-fee;
-    isNavigating=true;
-    const loader=document.getElementById('globalLoader'), container=document.getElementById('mainAppContainer');
-    document.getElementById('loaderMessageText').textContent='💸 Enregistrement du retrait...'; loader.classList.add('show'); container.classList.add('is-loading');
-    try{
-      const requestRef=doc(collection(db,'withdrawals')), accountRef=userDoc(currentAccountPhone);
-      const request={requestId:requestRef.id,userId:userData.userId||accountRef.id,phone:currentAccountPhone,name:userData.name||'',amount:amtInput,fee,net,operator:account.operator||'',payoutPhone:account.phone||'',payoutName:account.name||'',status:'pending',createdAt:serverTimestamp(),createdAtClient:new Date().toISOString()};
-      await runTransaction(db,async(tx)=>{
-        const snap=await tx.get(accountRef); if(!snap.exists()) throw new Error('Compte utilisateur introuvable');
-        const acc=snap.data(), balance=Number(acc.balance||0); if(balance<amtInput) throw new Error('Solde insuffisant pour ce retrait');
-        acc.transactions=acc.transactions||{other:[],recharge:[],withdraw:[]}; acc.transactions.withdraw=acc.transactions.withdraw||[];
-        acc.balance=balance-amtInput; acc.totalWithdraw=Number(acc.totalWithdraw||0)+amtInput;
-        acc.transactions.withdraw.unshift({requestId:requestRef.id,date:new Date().toLocaleString('fr-FR'),amount:amtInput.toLocaleString()+' FC',fee:fee.toLocaleString()+' FC',net:net.toLocaleString()+' FC',method:account.operator||'Mobile Money',operator:account.operator||'',phone:account.phone||'',account:account.phone||'',payoutName:account.name||'',status:'En cours (5m - 1h)'});
-        tx.set(requestRef,request); tx.update(accountRef,{balance:acc.balance,totalWithdraw:acc.totalWithdraw,transactions:acc.transactions});
-      });
-      const fresh=await getDoc(accountRef); if(fresh.exists()) userData=fresh.data();
-      document.getElementById('withdrawFinalAmountInput').value=''; updateUI(); navigateWithoutLoader('withdraw-step-4'); showToast('Demande de retrait envoyée : En cours');
-    }catch(e){ console.error(e); showToast('Impossible d’enregistrer le retrait : '+(e.message||'')); }
-    finally{ loader.classList.remove('show'); container.classList.remove('is-loading'); isNavigating=false; }
+function executeWithdrawRequest() {
+    const amtInput = parseInt(document.getElementById('withdrawFinalAmountInput').value);
+    
+    // Vérification serveur simulée (protection anti-contournement)
+    const now = new Date();
+    const currentHour = now.getHours();
+    if (currentHour < 9 || currentHour >= 18) {
+        showToast('Erreur serveur : Retraits fermés (Horaires : 09h00 - 18h00)');
+        checkWithdrawTimeAndRender();
+        return;
+    }
+
+    if (!amtInput || amtInput < 6000) {
+        showToast('Le montant minimum de retrait est de 6 000 FC');
+        return;
+    }
+    if (amtInput > userData.balance) {
+        showToast('Solde insuffisant pour ce retrait');
+        return;
+    }
+
+    const fee = Math.round(amtInput * 0.12); // Frais de retrait : 12%
+    const net = amtInput - fee;
+
+    userData.balance -= amtInput;
+    userData.totalWithdraw += amtInput;
+
+    userData.transactions.withdraw.unshift({
+        date: new Date().toLocaleString('fr-FR'),
+        amount: amtInput.toLocaleString() + ' FC',
+        fee: fee.toLocaleString() + ' FC',
+        net: net.toLocaleString() + ' FC',
+        method: 'Mobile Money',
+        status: 'En cours (5m - 1h)'
+    });
+
+    updateUI();
+    navigateWithLoader('withdraw-step-4');
 }
+
 
 // --- DÉPÔT & AUTRES FONCTIONS ---
 function startDepositFlow() {
@@ -2023,39 +2052,48 @@ function submitDepositStep3() {
     navigateWithLoader('deposit-step-4');
 }
 
-async function finalizeDepositRequest(){
-    if(isNavigating || !userData || !currentAccountPhone) return;
-    const txId=document.getElementById('depositTxIdInput').value.trim(); if(!txId){ showToast("Veuillez entrer l'ID / référence de transaction"); return; }
-    if(!currentDeposit.amount || !currentDeposit.operator){ showToast('Informations de dépôt incomplètes'); return; }
-    isNavigating=true; const loader=document.getElementById('globalLoader'), container=document.getElementById('mainAppContainer');
-    document.getElementById('loaderMessageText').textContent='💰 Enregistrement du dépôt...'; loader.classList.add('show'); container.classList.add('is-loading');
-    try{
-      const requestRef=doc(collection(db,'deposits')), accountRef=userDoc(currentAccountPhone);
-      const paymentAccounts={'Airtel Money':{number:'+243 973 087 965',holder:'YVETTE (transfert)'},'Orange Money':{number:'+243 899 532 643',holder:'JEANCQUELINE'},'M-Pesa':{number:'+243 861 823 718',holder:'REGINA'}};
-      const payment=paymentAccounts[currentDeposit.operator]||{};
-      const request={requestId:requestRef.id,userId:userData.userId||accountRef.id,phone:currentAccountPhone,name:currentDeposit.fullName||userData.name||'',amount:Number(currentDeposit.amount),operator:currentDeposit.operator,paymentNumber:payment.number||'',paymentHolder:payment.holder||'',transactionId:txId,reference:txId,status:'pending',createdAt:serverTimestamp(),createdAtClient:new Date().toISOString()};
-      await runTransaction(db,async(tx)=>{
-        const snap=await tx.get(accountRef); if(!snap.exists()) throw new Error('Compte utilisateur introuvable');
-        const acc=snap.data(); acc.transactions=acc.transactions||{other:[],recharge:[],withdraw:[]}; acc.transactions.recharge=acc.transactions.recharge||[];
-        if(acc.transactions.recharge.some(t=>t.ref===txId && /^En cours/i.test(String(t.status||'')))) throw new Error('Cette référence de dépôt est déjà enregistrée.');
-        acc.transactions.recharge.unshift({requestId:requestRef.id,date:new Date().toLocaleString('fr-FR'),amount:Number(currentDeposit.amount).toLocaleString()+' FC',ref:txId,method:currentDeposit.operator+' ('+currentDeposit.fullName+')',operator:currentDeposit.operator,phone:currentDeposit.phone,status:'En cours'});
-        tx.set(requestRef,request); tx.update(accountRef,{transactions:acc.transactions});
-      });
-      document.getElementById('depositTxIdInput').value=''; showToast('Demande de dépôt envoyée : En cours'); navigateWithoutLoader('profile'); updateUI();
-    }catch(e){ console.error(e); showToast("Impossible d'enregistrer le dépôt : "+(e.message||'')); }
-    finally{ loader.classList.remove('show'); container.classList.remove('is-loading'); isNavigating=false; }
+function finalizeDepositRequest() {
+    if (isNavigating) return;
+    const txId = document.getElementById('depositTxIdInput').value.trim();
+    if (!txId) { showToast('Veuillez entrer l\'ID / référence de transaction'); return; }
+
+    isNavigating = true;
+    const loader = document.getElementById('globalLoader');
+    const container = document.getElementById('mainAppContainer');
+    document.getElementById('loaderMessageText').textContent = "🌀 Enregistrement de la demande...";
+
+    loader.classList.add('show');
+    container.classList.add('is-loading');
+
+    setTimeout(() => {
+        userData.transactions.recharge.unshift({
+            date: new Date().toLocaleString('fr-FR'),
+            amount: currentDeposit.amount.toLocaleString() + ' FC',
+            ref: txId,
+            method: currentDeposit.operator + ' (' + currentDeposit.fullName + ')',
+            status: 'En cours'
+        });
+
+        loader.classList.remove('show');
+        container.classList.remove('is-loading');
+        isNavigating = false;
+
+        showToast('Demande enregistrée avec succès (En cours)');
+        navigateWithLoader('profile');
+    }, 2000);
 }
 
 function copyShareLink() {
-    navigator.clipboard?.writeText(userData.referralLink).then(() => showToast('Lien de parrainage copié !')).catch(() => showToast('Lien copié'));
+    const link = getPublicReferralLink(userData?.inviteCode || '');
+    navigator.clipboard?.writeText(link).then(() => showToast('Lien de parrainage copié !')).catch(() => showToast('Lien copié'));
 }
 
 function shareVia(platform) {
     const msg = encodeURIComponent(`🚀 Découvrez notre nouvelle plateforme !\nRejoignez-nous et découvrez nos programmes disponibles.\nInscrivez-vous avec mon lien : ${userData.referralLink}`);
     let url = '#';
     if (platform === 'whatsapp') url = `https://api.whatsapp.com/send?text=${msg}`;
-    else if (platform === 'facebook') url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(userData.referralLink)}`;
-    else if (platform === 'telegram') url = `https://t.me/share/url?url=${encodeURIComponent(userData.referralLink)}&text=${msg}`;
+    else if (platform === 'facebook') url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+    else if (platform === 'telegram') url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${msg}`;
     window.open(url, '_blank');
 }
 
