@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b7a4b">
+<title>VIGORA RDC — Plateforme</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root{
+    --green:#087f4e;
+    --green2:#0baa68;
+    --green3:#e9f8f1;
+    --dark:#0b1720;
+    --ink:#13212b;
+    --muted:#71808c;
+    --bg:#f5f8f7;
+    --white:#fff;
+    --line:#e8efec;
+    --orange:#f28a24;
+    --red:#e84d4d;
+    --blue:#3d82f6;
+    --gold:#d99b22;
+    --shadow:0 8px 28px rgba(17,42,31,.08);
+    --shadow2:0 14px 38px rgba(17,42,31,.13);
+    --radius:18px;
+    --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:#dfe8e4;color:var(--ink);
+    min-height:100vh;
+}
+button,a{font:inherit}
+button{cursor:pointer}
+
+.phone-field{display:flex;align-items:stretch;width:100%;}
+.phone-prefix{display:flex;align-items:center;justify-content:center;min-width:58px;padding:0 12px;background:#eef6f2;color:var(--green);font-weight:800;border:1px solid var(--line);border-right:0;border-radius:12px 0 0 12px;font-size:13px;}
+.phone-field input{border-radius:0 12px 12px 0 !important;flex:1;min-width:0;}
+.security-box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);text-align:center;}
+.security-icon{width:58px;height:58px;border-radius:18px;background:var(--green3);color:var(--green);display:grid;place-items:center;margin:0 auto 14px;font-size:24px;}
+.security-box h3{font-size:17px;margin-bottom:7px;}
+.security-box p{font-size:10px;line-height:1.6;color:var(--muted);margin-bottom:18px;}
+.security-code{width:100%;text-align:center;letter-spacing:8px;font-size:22px;font-weight:800;}
+
+.app.is-loading {
+    filter: blur(5px);
+    pointer-events: none;
+    transition: filter 0.2s ease;
+}
+
+.app{
+    width:100%;max-width:450px;min-height:100vh;margin:auto;
+    background:var(--bg);position:relative;overflow:hidden;
+    box-shadow:0 0 50px rgba(0,0,0,.12);
+    transition: filter 0.2s ease;
+}
+@media(min-width:451px){
+    .app{min-height:900px;height:900px;margin:18px auto;border-radius:30px;overflow-y:auto}
+}
+.page{display:none;min-height:100vh;padding-bottom:92px;animation:pageIn .35s var(--ease)}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.topbar{
+    padding:18px 18px 16px;background:var(--white);
+    display:flex;align-items:center;justify-content:space-between;
+    border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-logo{
+    width:40px;height:40px;border-radius:13px;background:var(--green);
+    color:white;display:grid;place-items:center;box-shadow:0 6px 15px rgba(8,127,78,.25);
+}
+.brand-name{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.brand-sub{font-size:9px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:1px}
+.icon-btn{
+    width:40px;height:40px;border:1px solid var(--line);background:#fff;
+    border-radius:13px;color:var(--ink);display:grid;place-items:center;
+}
+.icon-btn:active{transform:scale(.94)}
+
+.hero{
+    margin:0;background:linear-gradient(135deg,#071b14,#0c3d2a 55%,#0b7f50);
+    color:white;padding:22px 18px 26px;position:relative;overflow:hidden;
+}
+.hero:before,.hero:after{
+    content:"";position:absolute;border-radius:50%;pointer-events:none;
+}
+.hero:before{width:180px;height:180px;background:rgba(255,255,255,.06);right:-60px;top:-65px}
+.hero:after{width:120px;height:120px;background:rgba(255,255,255,.04);left:-55px;bottom:-55px}
+.hero-content{position:relative;z-index:2}
+.hero-line{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.welcome{font-size:11px;color:#b8d9ca}
+.hero-title{font-size:23px;font-weight:800;letter-spacing:-.7px}
+.hero-title span{color:#8be2bc}
+.hero-visual{
+    height:142px;border-radius:20px;margin-top:16px;
+    background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+    border:1px solid rgba(255,255,255,.11);display:grid;place-items:center;
+    overflow:hidden;position:relative;
+}
+.hero-visual .orb{
+    width:90px;height:90px;border-radius:28px;background:rgba(255,255,255,.1);
+    display:grid;place-items:center;animation:float 3s ease-in-out infinite;
+}
+.hero-visual i{font-size:42px;color:#9ff0ca}
+.hero-visual:after{
+    content:"";position:absolute;width:150px;height:150px;border:1px solid rgba(255,255,255,.08);
+    border-radius:50%;animation:pulse 3s infinite;
+}
+@keyframes float{50%{transform:translateY(-7px) rotate(2deg)}}
+@keyframes pulse{0%,100%{transform:scale(.85);opacity:.2}50%{transform:scale(1.1);opacity:.7}}
+
+.section{padding:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:-28px;position:relative;z-index:5}
+.stat{
+    background:white;border:1px solid var(--line);border-radius:16px;padding:13px 8px;
+    text-align:center;box-shadow:var(--shadow);
+}
+.stat i{font-size:15px;color:var(--green);margin-bottom:7px}
+.stat strong{display:block;font-size:12px}
+.stat small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+
+.quick{
+    background:white;border:1px solid var(--line);border-radius:18px;padding:15px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:8px;box-shadow:var(--shadow);
+}
+.quick button{border:0;background:none;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:7px}
+.quick-icon{
+    width:44px;height:44px;border-radius:14px;background:var(--green3);
+    color:var(--green);display:grid;place-items:center;transition:.2s;
+}
+.quick button:active .quick-icon{transform:scale(.92)}
+.quick span{font-size:9px;font-weight:600}
+
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 11px}
+.section-head h3{font-size:15px;font-weight:800}
+.section-head span{font-size:10px;color:var(--green);font-weight:700}
+
+.notice{
+    background:white;border:1px solid var(--line);border-left:4px solid var(--green);
+    border-radius:16px;padding:15px;box-shadow:var(--shadow);
+}
+.notice-top{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800}
+.notice-top i{color:var(--green)}
+.notice p{font-size:11px;line-height:1.6;color:var(--muted);margin-top:8px}
+
+.products-head{
+    background:linear-gradient(135deg,#071b14,#0c3d2a);
+    color:white;padding:22px 17px 24px;
+}
+.products-head .small{font-size:10px;color:#9bcab6;text-transform:uppercase;letter-spacing:1.2px}
+.products-head h2{font-size:23px;margin-top:5px}
+.products-head p{font-size:11px;color:#b7cfc4;margin-top:6px;line-height:1.5}
+
+.product-wrap{padding:15px}
+.product-card{
+    background:white;border:1px solid var(--line);border-radius:20px;
+    margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden;position:relative;
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+.product-card.featured{border-color:#b8e7d0}
+.product-image{
+    height:118px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#0b5136,#0ca66a);
+    display:flex;align-items:center;justify-content:center;
+}
+.product-image:before{
+    content:"";position:absolute;width:210px;height:210px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.14);animation:spin 12s linear infinite;
+}
+.product-image:after{
+    content:"";position:absolute;inset:-50%;
+    background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.13) 50%,transparent 58%);
+    animation:shine 4s linear infinite;
+}
+.product-art{position:relative;z-index:2;width:68px;height:68px;border-radius:22px;
+    background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);
+    display:grid;place-items:center;animation:float 2.8s ease-in-out infinite}
+.product-art i{font-size:29px;color:white}
+.product-badge{
+    position:absolute;left:12px;top:11px;z-index:4;background:rgba(255,255,255,.94);
+    color:var(--green);font-size:9px;font-weight:800;padding:6px 9px;border-radius:20px;
+}
+.product-live{
+    position:absolute;right:12px;top:11px;z-index:4;color:white;background:rgba(5,30,21,.38);
+    backdrop-filter:blur(8px);font-size:9px;padding:6px 8px;border-radius:20px;
+}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#7ff0b8;margin-right:4px;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.35}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shine{to{transform:translateX(45%) translateY(45%)}}
+
+.product-body{padding:14px}
+.product-title-row{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.product-title{font-size:14px;font-weight:800}
+.product-title i{color:var(--green);margin-right:6px}
+.product-duration{font-size:9px;color:var(--muted);background:#f3f7f5;padding:6px 8px;border-radius:9px;white-space:nowrap}
+.product-price{margin-top:7px;font-size:19px;font-weight:800;color:var(--green)}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.metric{background:#f7faf8;border:1px solid #edf2ef;border-radius:11px;padding:9px 5px;text-align:center}
+.metric i{font-size:11px;color:var(--green);display:block;margin-bottom:4px}
+.metric label{display:block;font-size:8px;color:var(--muted)}
+.metric strong{display:block;font-size:10px;margin-top:2px}
+.metric.total strong{color:var(--orange)}
+.product-actions{display:grid;grid-template-columns:1fr 1.45fr;gap:8px;margin-top:12px}
+.btn{
+    border:0;border-radius:12px;padding:11px;font-size:10px;font-weight:800;
+    transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn:active{transform:scale(.97)}
+.btn-light{background:#eef6f2;color:var(--green)}
+.btn-primary{background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;box-shadow:0 7px 16px rgba(8,127,78,.2)}
+
+.team{
+    background:linear-gradient(180deg,#061910 0%,#071c13 100%);color:white;min-height:100vh;
+    padding-bottom:100px;
+}
+.team .topbar{background:transparent;color:white;border-color:rgba(255,255,255,.08)}
+.team .brand-sub{color:#8bb6a4}.team .brand-logo{background:#0ba76a}
+.team .icon-btn{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.1);color:white}
+.team-hero{padding:3px 16px 20px}
+.team-hero h2{font-size:23px}.team-hero p{font-size:11px;color:#93b5a6;margin-top:6px}
+.invite{
+    margin-top:16px;background:linear-gradient(135deg,#0d3a29,#0b291e);
+    border:1px solid rgba(120,221,174,.14);border-radius:18px;padding:14px;
+}
+.invite-label{font-size:9px;color:#8fb9a8;text-transform:uppercase;letter-spacing:1px}
+.invite-code{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.invite-code strong{font-family:monospace;font-size:17px;letter-spacing:1px}
+.copy{border:0;background:#0ba76a;color:white;border-radius:10px;padding:9px 11px;font-size:10px;font-weight:800}
+.team-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.team-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 7px;text-align:center}
+.team-stat strong{display:block;font-size:16px}.team-stat small{font-size:8px;color:#8da99c}
+.levels{padding:0 16px}
+.level{
+    background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);
+    border-radius:17px;padding:14px;margin-bottom:10px;display:grid;
+    grid-template-columns:52px 1fr 1fr 1fr;align-items:center;gap:6px;cursor:pointer;
+    transition:background .2s;
+}
+.level:hover{background:rgba(255,255,255,.08)}
+.lv{width:42px;height:42px;border-radius:13px;background:#0ba76a;display:grid;place-items:center;font-size:11px;font-weight:800}
+.level:nth-child(2) .lv{background:#16895d}.level:nth-child(3) .lv{background:#236d50}
+.level strong{font-size:12px}.level small{display:block;font-size:8px;color:#819c90;margin-top:3px}
+
+.profile{background:var(--bg);min-height:100vh}
+.profile-head{background:linear-gradient(135deg,#087f4e,#0baa68);padding:24px 18px 45px;color:white}
+.profile-row{display:flex;align-items:center;gap:13px}
+.avatar{width:62px;height:62px;border-radius:20px;background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.28);display:grid;place-items:center;font-size:25px}
+.phone{font-size:17px;font-weight:800}.vip{display:inline-flex;gap:5px;margin-top:5px;background:#092b1e;
+    color:#ffd66b;border-radius:20px;padding:4px 8px;font-size:8px;font-weight:800}
+.wallets{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:-28px 16px 0;position:relative}
+.wallet{background:white;border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:var(--shadow)}
+.wallet i{color:var(--green);font-size:13px}.wallet small{display:block;color:var(--muted);font-size:9px;margin-top:7px}
+.wallet strong{display:block;font-size:15px;margin-top:3px}.wallet.orange i,.wallet.orange strong{color:var(--orange)}
+.panel{margin:14px 16px;background:white;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:var(--shadow)}
+.panel h3{font-size:14px;margin-bottom:11px}
+.data-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.data{background:#f7faf8;border:1px solid #edf2ef;border-radius:12px;padding:11px}
+.data i{font-size:11px;color:var(--green)}.data label{display:block;color:var(--muted);font-size:8px;margin-top:5px}.data strong{font-size:12px}
+.menu{margin:14px 16px;background:white;border:1px solid var(--line);border-radius:18px;padding:4px 14px;box-shadow:var(--shadow)}
+.menu-item{width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:14px 0;display:flex;align-items:center;justify-content:space-between;text-align:left}
+.menu-item:last-child{border-bottom:0}
+.menu-left{display:flex;align-items:center;gap:11px}.menu-icon{width:33px;height:33px;border-radius:10px;background:var(--green3);color:var(--green);display:grid;place-items:center;font-size:12px}
+.menu-name{font-size:11px;font-weight:700}.arrow{font-size:10px;color:#b5c2bd}
+.logout{margin:14px 16px 30px;width:calc(100% - 32px);border:1px solid #ffdede;background:white;color:#df4a4a;border-radius:14px;padding:13px;font-size:11px;font-weight:800}
+
+.bottom{
+    position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:450px;
+    height:73px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);
+    border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:100;
+}
+.nav{border:0;background:none;color:#93a19b;font-size:8px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.nav i{font-size:18px}.nav.active{color:var(--green)}
+.nav.active i{transform:translateY(-1px)}
+
+.form-group{margin-bottom:12px;text-align:left}
+.form-group label{display:block;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.form-group input{width:100%;border:1px solid var(--line);background:#f7faf8;padding:11px 14px;border-radius:12px;font-size:12px;font-weight:600;color:var(--ink);outline:none}
+.form-group input:focus{border-color:var(--green)}
+
+.tab-headers{display:flex;background:#edf3f0;padding:4px;border-radius:12px;margin-bottom:14px;gap:4px}
+.tab-btn{flex:1;background:none;border:0;padding:8px 4px;font-size:10px;font-weight:700;color:var(--muted);border-radius:9px;transition:.2s}
+.tab-btn.active{background:white;color:var(--green);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tx-table{display:flex;flex-direction:column;gap:8px;max-height:350px;overflow-y:auto}
+.tx-item{background:#f7faf8;border:1px solid #edf2ef;border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;font-size:10px}
+.tx-badge{padding:4px 8px;border-radius:8px;font-size:9px;font-weight:800}
+.tx-badge.success{background:#e9f8f1;color:var(--green)}
+.tx-badge.pending{background:#fdf6e9;color:var(--orange)}
+.tx-badge.rejected{background:#fdeeee;color:var(--red)}
+
+.my-product-card{background:#f7faf8;border:1px solid #edf2ef;border-radius:16px;padding:14px;margin-bottom:12px;position:relative}
+.my-product-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.my-product-title{font-size:13px;font-weight:800;color:var(--ink)}
+.my-product-badge{background:var(--green3);color:var(--green);padding:3px 8px;border-radius:10px;font-size:9px;font-weight:800}
+.my-product-details{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0;font-size:10px;color:var(--muted)}
+.my-product-details strong{color:var(--ink)}
+.claim-btn{width:100%;background:linear-gradient(135deg,var(--green2),var(--green));color:white;border:0;border-radius:10px;padding:10px;font-size:10px;font-weight:800;margin-top:8px}
+.claim-btn:disabled{background:#d5e2de;color:#8da09a;cursor:not-allowed}
+
+.support-link-item{display:flex;align-items:center;gap:12px;background:#f7faf8;border:1px solid #edf2ef;padding:12px 14px;border-radius:14px;margin-bottom:8px;text-decoration:none;color:var(--ink);font-size:11px;font-weight:700;transition:.2s}
+.support-link-item:hover{background:#eef6f2}
+.support-icon{width:36px;height:36px;border-radius:10px;background:var(--green3);color:var(--green);display:grid;place-items:center;font-size:16px}
+
+.subpage-container{padding:16px;background:var(--bg);min-height:calc(100vh - 65px)}
+.back-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.back-btn{
+    width:36px;height:36px;border:1px solid var(--line);background:#fff;
+    border-radius:10px;color:var(--ink);display:grid;place-items:center;cursor:pointer;
+}
+.subpage-title{font-size:16px;font-weight:800}
+
+.deposit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+.deposit-amount-btn {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 12px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: all 0.2s var(--ease);
+}
+.deposit-amount-btn:hover, .deposit-amount-btn:active {
+    border-color: var(--green);
+    background: var(--green3);
+    color: var(--green);
+    transform: translateY(-2px);
+}
+
+.operator-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+}
+.operator-card {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+.operator-card.selected {
+    border-color: var(--green);
+    background: var(--green3);
+}
+.operator-dot {
+    width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--muted);
+    display: grid; place-items: center;
+}
+.operator-card.selected .operator-dot {
+    border-color: var(--green);
+    background: var(--green);
+}
+
+.payment-box {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    margin-top: 12px;
+}
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+}
+.payment-row:last-child {
+    border-bottom: 0;
+}
+.payment-row span.label { color: var(--muted); }
+.payment-row strong { font-weight: 800; }
+
+.instruction-box {
+    background: #fdf6e9;
+    border: 1px solid #f9e2b8;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #7b5812;
+    margin-top: 14px;
+}
+
+#globalLoader{
+    position:fixed;inset:0;background:rgba(11,23,32,0.45);backdrop-filter:blur(4px);
+    z-index:9999;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s ease;
+}
+#globalLoader.show{display:flex;opacity:1}
+.loader-card{
+    background:white;padding:24px 28px;border-radius:20px;box-shadow:var(--shadow2);
+    display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;max-width:280px;border:1px solid var(--line);
+    animation:scaleUp 0.25s var(--ease);
+}
+@keyframes scaleUp{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+.spinner{
+    width:42px;height:42px;border:4px solid var(--line);border-top-color:var(--green);border-radius:50%;
+    animation:globalSpin 0.5s linear infinite;
+}
+@keyframes globalSpin{to{transform:rotate(360deg)}}
+.loader-text{font-size:12px;font-weight:700;color:var(--ink)}
+
+.toast{
+    position:fixed;left:50%;bottom:88px;transform:translate(-50%,20px);
+    background:#10251c;color:white;padding:10px 14px;border-radius:12px;font-size:10px;
+    opacity:0;pointer-events:none;z-index:500;transition:.3s;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ================= AUTHENTIFICATION VIGORA RDC ================= */
+#authGate{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:auto;padding:20px;}
+.auth-screen{width:100%;max-width:450px;min-height:calc(100vh - 40px);display:none;flex-direction:column;justify-content:center;position:relative;}
+.auth-screen.active{display:flex;}
+.auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:34px;}
+.auth-logo{width:58px;height:58px;border-radius:18px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:25px;box-shadow:0 10px 25px rgba(8,127,78,.22);}
+.auth-brand-name{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+.auth-brand-sub{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px;}
+.auth-title{font-size:31px;font-weight:800;letter-spacing:-1px;color:var(--ink);text-align:center;}
+.auth-subtitle{font-size:13px;color:var(--muted);line-height:1.5;text-align:center;margin:8px 0 25px;}
+.auth-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow2);}
+.auth-input{width:100%;border:1px solid var(--line);background:#f7faf8;padding:14px;border-radius:14px;font-size:13px;font-weight:600;color:var(--ink);outline:none;}
+.auth-input:focus{border-color:var(--green);background:#fff;}
+.auth-action{width:100%;border:0;border-radius:14px;padding:14px;background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(8,127,78,.2);}
+.auth-switch{border:0;background:none;color:var(--green);font-weight:800;font-size:11px;margin-top:18px;width:100%;}
+.auth-error{display:none;background:#fff0f0;border:1px solid #ffcaca;color:#d92f3d;border-radius:14px;padding:12px;font-size:11px;font-weight:700;line-height:1.5;margin-bottom:12px;text-align:center;}
+.auth-error.show{display:block;}
+.auth-success{display:none;background:var(--green3);border:1px solid #c6ead9;color:var(--green);border-radius:14px;padding:12px;font-size:11px;font-weight:700;line-height:1.5;margin-bottom:12px;text-align:center;}
+.auth-success.show{display:block;}
+.auth-note{text-align:center;color:var(--muted);font-size:9px;margin-top:18px;line-height:1.5;}
+#mainAppContainer.auth-hidden{display:none;}
+.auth-loading{position:fixed;inset:0;background:rgba(11,23,32,.42);backdrop-filter:blur(5px);z-index:10050;display:none;align-items:center;justify-content:center;}
+.auth-loading.show{display:flex;}
+.auth-loading-card{background:#fff;border-radius:20px;padding:23px 27px;text-align:center;box-shadow:var(--shadow2);}
+.auth-spinner{width:40px;height:40px;border:4px solid var(--line);border-top-color:var(--green);border-radius:50%;animation:globalSpin .5s linear infinite;margin:0 auto 12px;}
+.auth-loading-text{font-size:11px;font-weight:800;color:var(--ink);}
+
+
+.notification-btn{position:relative}
+.notification-badge{position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:#e53935;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.message-intro{display:flex;align-items:center;gap:12px;background:rgba(12,75,52,.08);border:1px solid rgba(12,75,52,.12);border-radius:18px;padding:14px;margin-bottom:14px}
+.support-avatar{width:46px;height:46px;border-radius:50%;background:#0b8f5a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px}
+.message-intro strong{display:block;font-size:16px}.message-intro small{display:block;color:var(--muted);margin-top:3px}
+.notifications-list{display:flex;flex-direction:column;gap:10px;min-height:180px;max-height:52vh;overflow:auto;padding:4px 1px}
+.msg{max-width:88%;padding:11px 13px;border-radius:16px;line-height:1.45;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.msg.admin{align-self:flex-start;background:#e9f7f0;border-bottom-left-radius:5px}.msg.user{align-self:flex-end;background:#0b8f5a;color:#fff;border-bottom-right-radius:5px}
+.msg .msg-meta{font-size:10px;opacity:.68;margin-top:5px}.msg-title{font-weight:800;margin-bottom:3px}
+.reply-box{margin-top:12px;background:#fff;border:1px solid #e2ebe7;border-radius:18px;padding:10px;position:sticky;bottom:8px;box-shadow:0 6px 22px rgba(0,0,0,.08)}
+.reply-box textarea{width:100%;resize:none;border:0;outline:0;font:inherit;padding:5px 3px;min-height:70px;background:transparent}.reply-box .btn{width:100%;margin-top:6px}
+.empty-state{text-align:center;color:var(--muted);padding:35px 10px}.empty-state i{font-size:30px;margin-bottom:8px}
+</style>
+</head>
+
+<body>
+<div id="authGate">
+  <section id="loginScreen" class="auth-screen active">
+    <div class="auth-brand"><div class="auth-logo"><i class="fa-solid fa-right-to-bracket"></i></div><div><div class="auth-brand-name">VIGORA RDC</div><div class="auth-brand-sub">Connexion</div></div></div>
+    <h1 class="auth-title">Bon retour !</h1>
+    <p class="auth-subtitle">Connectez-vous pour accéder à votre espace personnel.</p>
+    <div class="auth-card">
+      <div id="loginError" class="auth-error"></div>
+      <div class="form-group"><label>Numéro de téléphone</label><div class="phone-field"><span class="phone-prefix">+243</span><input class="auth-input" id="loginPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="999 000 000" autocomplete="tel"></div></div>
+      <div class="form-group"><label>Mot de passe</label><input class="auth-input" id="loginPassword" type="password" placeholder="Votre mot de passe" autocomplete="current-password"></div>
+      <button class="auth-action" id="loginBtn" onclick="handleLogin()"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</button>
+      <button class="auth-switch" onclick="showRegisterScreen()">Vous n'avez pas de compte ? <span>S'inscrire</span></button>
+    </div>
+    <div class="auth-note">VIGORA RDC • Accès sécurisé par numéro de téléphone</div>
+  </section>
+
+  <section id="registerScreen" class="auth-screen">
+    <div class="auth-brand"><div class="auth-logo"><i class="fa-solid fa-user-plus"></i></div><div><div class="auth-brand-name">VIGORA RDC</div><div class="auth-brand-sub">Inscription</div></div></div>
+    <h1 class="auth-title">Créer un compte</h1>
+    <p class="auth-subtitle">Créez votre compte avec votre numéro de téléphone.</p>
+    <div class="auth-card">
+      <div id="registerError" class="auth-error"></div>
+      <div id="registerSuccess" class="auth-success"></div>
+      <div class="form-group"><label>Nom complet</label><input class="auth-input" id="registerName" type="text" placeholder="Votre nom complet" autocomplete="name"></div>
+      <div class="form-group"><label>Numéro de téléphone</label><div class="phone-field"><span class="phone-prefix">+243</span><input class="auth-input" id="registerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="999 000 000" autocomplete="tel"></div></div>
+      <div class="form-group"><label>Code de parrainage</label><input class="auth-input" id="registerReferral" type="text" placeholder="Entrez le code de votre parrain" autocomplete="off" autocapitalize="characters"></div>
+      <div class="form-group"><label>Mot de passe</label><input class="auth-input" id="registerPassword" type="password" placeholder="Minimum 6 caractères" autocomplete="new-password"></div>
+      <div class="form-group"><label>Confirmer le mot de passe</label><input class="auth-input" id="registerPassword2" type="password" placeholder="Répétez votre mot de passe" autocomplete="new-password"></div>
+      <button class="auth-action" id="registerBtn" onclick="handleRegister()"><i class="fa-solid fa-user-plus"></i> Créer mon compte</button>
+      <button class="auth-switch" onclick="showLoginScreen()">J'ai déjà un compte ? <span>Se connecter</span></button>
+    </div>
+    <div class="auth-note">Nouveau compte = solde 0 FC, aucun historique, aucun produit et aucune opération.</div>
+  </section>
+</div>
+
+<div class="app auth-hidden" id="mainAppContainer">
+
+    <!-- ACCUEIL -->
+    <section id="home" class="page active">
+        <div class="topbar">
+            <div class="brand">
+                <div class="brand-logo"><i class="fa-solid fa-chart-line"></i></div>
+                <div><div class="brand-name">VIGORA RDC</div><div class="brand-sub">Espace personnel</div></div>
+            </div>
+            <button class="icon-btn notification-btn" onclick="openNotifications()" aria-label="Notifications">
+                <i class="fa-regular fa-bell"></i><span id="notificationBadge" class="notification-badge" style="display:none">0</span>
+            </button>
+        </div>
+
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-line">
+                    <div><div class="welcome">Bienvenue 👋</div><div class="hero-title">Votre espace <span>Vigora</span></div></div>
+                    <div class="icon-btn" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:white"><i class="fa-solid fa-shield-halved"></i></div>
+                </div>
+                <div class="hero-visual">
+                    <div class="orb"><i class="fa-solid fa-seedling"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="stats">
+                <div class="stat"><i class="fa-solid fa-wallet"></i><strong id="userBalanceDisplay">20 000 FC</strong><small>Solde</small></div>
+                <div class="stat"><i class="fa-solid fa-arrow-trend-up"></i><strong id="userRevenueDisplay">90 000 FC</strong><small>Revenus</small></div>
+                <div class="stat"><i class="fa-solid fa-headset"></i><strong>Support</strong><small>Assistance</small></div>
+            </div>
+
+            <div class="section-head"><h3>Accès rapide</h3><span>Tout voir</span></div>
+            <div class="quick">
+                <button onclick="navigateWithLoader('products')"><div class="quick-icon"><i class="fa-solid fa-cart-plus"></i></div><span>Investir</span></button>
+                <button onclick="startDepositFlow()"><div class="quick-icon"><i class="fa-solid fa-circle-arrow-down"></i></div><span>Dépôt</span></button>
+                <button onclick="startWithdrawFlow()"><div class="quick-icon"><i class="fa-solid fa-circle-arrow-up"></i></div><span>Retrait</span></button>
+                <button onclick="navigateWithLoader('team')"><div class="quick-icon"><i class="fa-solid fa-user-group"></i></div><span>Équipe</span></button>
+            </div>
+
+            <div class="section-head"><h3>Information</h3><span><i class="fa-solid fa-circle-info"></i></span></div>
+            <div class="notice">
+                <div class="notice-top"><i class="fa-solid fa-bullhorn"></i> Actualité de la plateforme</div>
+                <p>Bienvenue sur VIGORA RDC. Consultez les programmes disponibles, vos opérations et votre espace personnel depuis la navigation ci-dessous.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATALOGUE PRODUITS -->
+    <section id="products" class="page">
+        <div class="topbar">
+            <div class="brand"><div class="brand-logo"><i class="fa-solid fa-store"></i></div><div><div class="brand-name">Catalogue</div><div class="brand-sub">Investissement</div></div></div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="products-head">
+            <div class="small">Catalogue</div>
+            <h2>Programmes</h2>
+            <p>Chaque programme affiche clairement le montant, le revenu journalier, la durée et le revenu total.</p>
+        </div>
+
+        <div class="product-wrap">
+            <article class="product-card featured">
+                <div class="product-image">
+                    <span class="product-badge">POPULAIRE</span>
+                    <span class="product-live"><span class="dot"></span>Disponible</span>
+                    <div class="product-art"><i class="fa-solid fa-seedling"></i></div>
+                </div>
+                <div class="product-body">
+                    <div class="product-title-row">
+                        <div class="product-title"><i class="fa-solid fa-leaf"></i>Programme 20K</div>
+                        <div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div>
+                    </div>
+                    <div class="product-price">20 000 FC</div>
+                    <div class="product-grid">
+                        <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>20 000 FC</strong></div>
+                        <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Revenu / jour</label><strong>3 000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>90 000 FC</strong></div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 20K', 20000, 3000, 30, 90000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 20K', 20000, 3000, 30, 90000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">STANDARD</span><span class="product-live"><span class="dot"></span>Disponible</span>
+                    <div class="product-art"><i class="fa-solid fa-wheat-awn"></i></div>
+                </div>
+                <div class="product-body">
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 50K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-price">50 000 FC</div>
+                    <div class="product-grid">
+                        <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>50 000 FC</strong></div>
+                        <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Revenu / jour</label><strong>7 500 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>225 000 FC</strong></div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 50K', 50000, 7500, 30, 225000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 50K', 50000, 7500, 30, 225000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">PLUS</span><span class="product-live"><span class="dot"></span>Disponible</span>
+                    <div class="product-art"><i class="fa-solid fa-tree"></i></div>
+                </div>
+                <div class="product-body">
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 100K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-price">100 000 FC</div>
+                    <div class="product-grid">
+                        <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>100 000 FC</strong></div>
+                        <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Revenu / jour</label><strong>15 000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>450 000 FC</strong></div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 100K', 100000, 15000, 30, 450000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 100K', 100000, 15000, 30, 450000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">PRO</span><span class="product-live"><span class="dot"></span>Disponible</span>
+                    <div class="product-art"><i class="fa-solid fa-mountain-sun"></i></div>
+                </div>
+                <div class="product-body">
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 200K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-price">200 000 FC</div>
+                    <div class="product-grid">
+                        <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>200 000 FC</strong></div>
+                        <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Revenu / jour</label><strong>30 000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>900 000 FC</strong></div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 200K', 200000, 30000, 30, 900000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 200K', 200000, 30000, 30, 900000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">ELITE</span><span class="product-live"><span class="dot"></span>Disponible</span>
+                    <div class="product-art"><i class="fa-solid fa-gem"></i></div>
+                </div>
+                <div class="product-body">
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 500K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-price">500 000 FC</div>
+                    <div class="product-grid">
+                        <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>500 000 FC</strong></div>
+                        <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Revenu / jour</label><strong>75 000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>2 250 000 FC</strong></div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 500K', 500000, 75000, 30, 2250000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 500K', 500000, 75000, 30, 2250000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <span class="product-badge">VIP</span><span class="product-live"><span class="dot"></span>Disponible</span>
+                    <div class="product-art"><i class="fa-solid fa-crown"></i></div>
+                </div>
+                <div class="product-body">
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-price">1 000 000 FC</div>
+                    <div class="product-grid">
+                        <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>1 000 000 FC</strong></div>
+                        <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Revenu / jour</label><strong>150 000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>4 500 000 FC</strong></div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 1M', 1000000, 150000, 30, 4500000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1M', 1000000, 150000, 30, 4500000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- EQUIPE -->
+    <section id="team" class="page team">
+        <div class="topbar">
+            <div class="brand"><div class="brand-logo"><i class="fa-solid fa-users"></i></div><div><div class="brand-name">Mon équipe</div><div class="brand-sub">VIGORA RDC</div></div></div>
+            <button class="icon-btn" onclick="navigateWithLoader('page-share')"><i class="fa-solid fa-share-nodes"></i></button>
+        </div>
+        <div class="team-hero">
+            <h2>Développez votre équipe</h2>
+            <p>Invitez des membres et suivez les statistiques de votre équipe.</p>
+            <div class="invite">
+                <div class="invite-label">Code d'invitation</div>
+                <div class="invite-code"><strong id="teamInviteCodeDisp">VIGORA20K</strong><button class="copy" onclick="copyCode()">Copier <i class="fa-regular fa-copy"></i></button></div>
+            </div>
+            <div class="team-stats">
+                <div class="team-stat"><strong id="teamMembersCount">0</strong><small>Membres</small></div>
+                <div class="team-stat"><strong id="teamCommissionTotal">0 FC</strong><small>Commissions</small></div>
+                <div class="team-stat"><strong id="teamActiveCount">0</strong><small>Actifs</small></div>
+            </div>
+        </div>
+        <div class="levels">
+            <div class="section-head" style="color:white;margin-top:6px"><h3>Niveaux de l'équipe</h3><span style="color:#78dcb1" onclick="navigateWithLoader('page-team-details')">Détails</span></div>
+            <div class="level" onclick="openTeamLevel(1)">
+                <div class="lv">LV1</div>
+                <div><strong>20%</strong><small>Commission</small></div>
+                <div><strong id="teamLv1Users">0</strong><small>Utilisateurs</small></div>
+                <div><strong id="teamLv1Rewards">0 FC</strong><small>Récompenses</small></div>
+            </div>
+            <div class="level" onclick="openTeamLevel(2)">
+                <div class="lv">LV2</div>
+                <div><strong>3%</strong><small>Commission</small></div>
+                <div><strong id="teamLv2Users">0</strong><small>Utilisateurs</small></div>
+                <div><strong id="teamLv2Rewards">0 FC</strong><small>Récompenses</small></div>
+            </div>
+            <div class="level" onclick="openTeamLevel(3)">
+                <div class="lv">LV3</div>
+                <div><strong>2%</strong><small>Commission</small></div>
+                <div><strong id="teamLv3Users">0</strong><small>Utilisateurs</small></div>
+                <div><strong id="teamLv3Rewards">0 FC</strong><small>Récompenses</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFIL -->
+    <section id="profile" class="page profile">
+        <div class="profile-head">
+            <div class="profile-row">
+                <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                <div><div class="phone" id="userPhoneDisplay">+243 999 496 900</div><div class="vip"><i class="fa-solid fa-crown"></i> VIP 0</div></div>
+            </div>
+        </div>
+        <div class="wallets">
+            <div class="wallet"><i class="fa-solid fa-wallet"></i><small>Balance portefeuille</small><strong id="profileBalanceDisplay">20 000 FC</strong></div>
+            <div class="wallet orange"><i class="fa-solid fa-piggy-bank"></i><small>Portefeuille recharge</small><strong id="profileRechargeDisplay">0 FC</strong></div>
+        </div>
+        <div class="panel">
+            <h3>Panneau de données</h3>
+            <div class="data-grid">
+                <div class="data"><i class="fa-solid fa-arrow-down"></i><label>Recharge totale</label><strong id="totalRechargeDisplay">0 FC</strong></div>
+                <div class="data"><i class="fa-solid fa-arrow-up"></i><label>Retrait total</label><strong id="totalWithdrawDisplay">0 FC</strong></div>
+                <div class="data"><i class="fa-solid fa-chart-line"></i><label>Retour total</label><strong id="totalReturnDisplay">90 000 FC</strong></div>
+                <div class="data"><i class="fa-solid fa-users"></i><label>Revenu d'équipe</label><strong>0 FC</strong></div>
+            </div>
+        </div>
+        <div class="menu">
+            <button class="menu-item" onclick="navigateWithLoader('page-my-products')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-box-open"></i></span><span class="menu-name">Mes produits</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
+            <button class="menu-item" onclick="navigateWithLoader('page-earnings-history')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-chart-line"></i></span><span class="menu-name">Historique des gains</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
+            <button class="menu-item" onclick="navigateWithLoader('page-transactions')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-clock-rotate-left"></i></span><span class="menu-name">Historique des transactions</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
+            <button class="menu-item" onclick="navigateWithLoader('page-promo')"><span class="menu-left"><span class="menu-icon" style="background:#e9f8f1; color:var(--green);"><i class="fa-solid fa-ticket"></i></span><span class="menu-name">Code promo</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
+            <button class="menu-item" onclick="navigateWithLoader('page-password')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-lock"></i></span><span class="menu-name">Mot de passe</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
+            <button class="menu-item" onclick="navigateWithLoader('page-support')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-headset"></i></span><span class="menu-name">Service client</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
+        </div>
+        <button class="logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Se déconnecter</button>
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- PARCOURS DE DÉPÔT EN 4 ÉTAPES                          -->
+    <!-- ======================================================= -->
+
+    <section id="deposit-step-1" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Dépôt (1/4)</div><div class="brand-sub">Choix du montant</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);line-height:1.5;">Sélectionnez ou entrez le montant que vous souhaitez déposer :</p>
+            <div class="deposit-grid">
+                <button class="deposit-amount-btn" onclick="selectDepositAmount(20000)">20 000 FC</button>
+                <button class="deposit-amount-btn" onclick="selectDepositAmount(50000)">50 000 FC</button>
+                <button class="deposit-amount-btn" onclick="selectDepositAmount(100000)">100 000 FC</button>
+                <button class="deposit-amount-btn" onclick="selectDepositAmount(200000)">200 000 FC</button>
+                <button class="deposit-amount-btn" onclick="selectDepositAmount(500000)">500 000 FC</button>
+                <button class="deposit-amount-btn" onclick="selectDepositAmount(1000000)">1 000 000 FC</button>
+            </div>
+            <div class="form-group" style="margin-top:16px;">
+                <label>Ou entrez un autre montant personnalisé (FC)</label>
+                <input type="number" id="customDepositInput" placeholder="Ex: 75000">
+            </div>
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:10px;" onclick="submitCustomDepositAmount()">Suivant</button>
+        </div>
+    </section>
+
+    <section id="deposit-step-2" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('deposit-step-1')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Dépôt (2/4)</div><div class="brand-sub">Vos informations</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <div style="background:linear-gradient(135deg,rgba(12,146,95,.10),rgba(255,255,255,.72));border:1px solid rgba(12,146,95,.16);border-radius:14px;padding:12px;margin-bottom:14px;">
+                <strong style="display:block;color:var(--green);font-size:13px;margin-bottom:4px;"><i class="fa-solid fa-shield-halved"></i> Mode de paiement sécurisé</strong>
+                <span style="font-size:11px;color:var(--muted);line-height:1.5;">Sélectionnez l'opération souhaitée. Les coordonnées de paiement officielles s'affichent automatiquement.</span>
+            </div>
+            <p style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:14px;">Entrez votre nom complet, votre numéro de téléphone et choisissez votre opérateur mobile.</p>
+            
+            <div class="form-group">
+                <label>Nom complet</label>
+                <input type="text" id="depositFullName" placeholder="Ex: Jean Mukendi">
+            </div>
+
+            <div class="form-group">
+                <label>Numéro de téléphone</label>
+                <div class="phone-field"><span class="phone-prefix">+243</span><input type="tel" id="depositUserPhone" inputmode="numeric" maxlength="9" placeholder="999 000 000"></div>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+                <label>Sélectionnez votre opérateur</label>
+                <div class="operator-options">
+                    <div class="operator-card" id="op-airtel" onclick="selectOperator('Airtel Money')">
+                        <div class="operator-dot"></div>
+                        <div>
+                            <span style="color:var(--red)">🔴 Airtel Money</span>
+                            <small style="display:block;color:var(--muted);font-weight:600;margin-top:3px;">+243 973 087 965 · YVETTE (transfert)</small>
+                        </div>
+                    </div>
+                    <div class="operator-card" id="op-orange" onclick="selectOperator('Orange Money')">
+                        <div class="operator-dot"></div>
+                        <div>
+                            <span style="color:var(--orange)">🟠 Orange Money</span>
+                            <small style="display:block;color:var(--muted);font-weight:600;margin-top:3px;">+243 899 532 643 · JEANCQUELINE</small>
+                        </div>
+                    </div>
+                    <div class="operator-card" id="op-mpesa" onclick="selectOperator('M-Pesa')">
+                        <div class="operator-dot"></div>
+                        <div>
+                            <span style="color:#d4a017">🟡 M-Pesa</span>
+                            <small style="display:block;color:var(--muted);font-weight:600;margin-top:3px;">+243 861 823 718 · REGINA</small>
+                        </div>
+                    </div>
+                </div>
+                <label style="display:flex;align-items:center;gap:9px;margin-top:12px;font-size:12px;color:var(--muted);font-weight:700;cursor:pointer;">
+                    <input type="checkbox" id="saveDepositOperation" style="width:18px;height:18px;accent-color:var(--green);">
+                    Sauvegarder l'opération sélectionnée
+                </label>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:18px;" onclick="submitDepositStep2()">Valider et continuer</button>
+        </div>
+    </section>
+
+    <section id="deposit-step-3" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('deposit-step-2')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Dépôt (3/4)</div><div class="brand-sub">Paiement</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);line-height:1.5;">Veuillez effectuer le transfert vers le numéro marchand indiqué ci-dessous.</p>
+            
+            <div class="payment-box">
+                <div class="payment-row">
+                    <span class="label">Votre nom :</span>
+                    <strong id="summaryName">-</strong>
+                </div>
+                <div class="payment-row">
+                    <span class="label">Montant à payer :</span>
+                    <strong id="summaryAmount" style="color:var(--green)">0 FC</strong>
+                </div>
+                <div class="payment-row">
+                    <span class="label">Opérateur :</span>
+                    <strong id="summaryOperator">-</strong>
+                </div>
+                <div class="payment-row">
+                    <span class="label">Numéro destinataire :</span>
+                    <strong id="summaryDestinationNum" style="font-family:monospace; font-size:12px;">-</strong>
+                </div>
+            </div>
+
+            <button class="btn btn-light" style="width:100%; margin-top:10px; padding:12px;" onclick="copyDestinationNumber()">
+                <i class="fa-regular fa-copy"></i> Copier le numéro de paiement
+            </button>
+
+            <div class="instruction-box">
+                <strong>Instructions de paiement :</strong>
+                <p id="summaryInstructions" style="margin-top:4px; font-size:10px;">Veuillez envoyer exactement le montant indiqué sur le numéro du marchand ci-dessus, puis conservez le message de confirmation contenant l'ID de transaction.</p>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:18px;" onclick="submitDepositStep3()">J'ai payé, continuer</button>
+        </div>
+    </section>
+
+    <section id="deposit-step-4" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('deposit-step-3')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Dépôt (4/4)</div><div class="brand-sub">Confirmation</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:14px;">Entrez votre code ID / référence de transaction reçu après votre paiement.</p>
+            
+            <div class="form-group">
+                <label>Entrez votre code ID / référence de transaction</label>
+                <input type="text" id="depositTxIdInput" placeholder="Ex: PP260913.1234.A56789">
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:14px;" onclick="finalizeDepositRequest()">Confirmer la demande</button>
+        </div>
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- NOUVEAU PARCOURS DE RETRAIT EN 4 VRAIES ÉTAPES          -->
+    <!-- ======================================================= -->
+
+    <!-- SÉCURITÉ RETRAIT : code de retrait à 6 chiffres -->
+    <section id="withdraw-security-setup" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Sécurité du retrait</div><div class="brand-sub">Créer votre code</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <div class="security-box">
+                <div class="security-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Créer votre code de retrait</h3>
+                <p>Avant votre premier retrait, créez un code personnel de <strong>6 chiffres</strong>. Ce code est différent de votre mot de passe de connexion.</p>
+                <div class="form-group" style="text-align:left;"><label>Nouveau code de retrait</label><input class="security-code" type="password" id="withdrawSecurityNew" inputmode="numeric" maxlength="6" placeholder="••••••"></div>
+                <div class="form-group" style="text-align:left;margin-top:12px;"><label>Confirmer le code</label><input class="security-code" type="password" id="withdrawSecurityConfirm" inputmode="numeric" maxlength="6" placeholder="••••••"></div>
+                <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:18px;" onclick="saveWithdrawSecurityCode()"><i class="fa-solid fa-lock"></i> Enregistrer le code</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SÉCURITÉ RETRAIT : demander le code déjà enregistré -->
+    <section id="withdraw-security-check" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Sécurité du retrait</div><div class="brand-sub">Vérification</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <div class="security-box">
+                <div class="security-icon"><i class="fa-solid fa-key"></i></div>
+                <h3>Entrez votre code de retrait</h3>
+                <p>Pour continuer vers le retrait, saisissez le code de sécurité de <strong>6 chiffres</strong> que vous avez déjà enregistré.</p>
+                <div class="form-group" style="text-align:left;"><label>Code de retrait</label><input class="security-code" type="password" id="withdrawSecurityCheck" inputmode="numeric" maxlength="6" placeholder="••••••"></div>
+                <div id="withdrawSecurityError" class="auth-error" style="margin-top:12px;"></div>
+                <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:18px;" onclick="verifyWithdrawSecurityCode()"><i class="fa-solid fa-unlock"></i> Continuer</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ÉTAPE 1 RETRAIT : Ajouter un compte de retrait -->
+    <section id="withdraw-step-1" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Retrait (1/4)</div><div class="brand-sub">Ajouter un compte</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:14px;">Enregistrez votre compte de paiement pour effectuer des retraits sécurisés.</p>
+            
+            <div class="form-group">
+                <label>Numéro de téléphone</label>
+                <div class="phone-field"><span class="phone-prefix">+243</span><input type="tel" id="withdrawPhoneInput" inputmode="numeric" maxlength="9" placeholder="999 123 456" oninput="autoDetectAccountName(this.value)"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Nom du titulaire (associé automatiquement)</label>
+                <input type="text" id="withdrawHolderInput" placeholder="Détecté automatiquement...">
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+                <label>Sélectionnez l'opérateur</label>
+                <div class="operator-options">
+                    <div class="operator-card" id="w-op-orange" onclick="selectWithdrawOperator('Orange Money')">
+                        <div class="operator-dot"></div>
+                        <span style="color:var(--orange)">🟠 Orange Money</span>
+                    </div>
+                    <div class="operator-card" id="w-op-vodafone" onclick="selectWithdrawOperator('Vodafone / M-Pesa')">
+                        <div class="operator-dot"></div>
+                        <span style="color:var(--red)">🔴 Vodafone / M-Pesa</span>
+                    </div>
+                    <div class="operator-card" id="w-op-mtn" onclick="selectWithdrawOperator('MTN Mobile Money')">
+                        <div class="operator-dot"></div>
+                        <span style="color:#d4a017">🟡 MTN Mobile Money</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:18px;" onclick="saveWithdrawAccount()">Suivant</button>
+        </div>
+    </section>
+
+    <!-- ÉTAPE 2 RETRAIT : Liste des comptes enregistrés -->
+    <section id="withdraw-step-2" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('withdraw-step-1')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Retrait (2/4)</div><div class="brand-sub">Comptes enregistrés</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:14px;">Sélectionnez un compte enregistré ou ajoutez-en un nouveau.</p>
+            
+            <div id="savedAccountsContainer">
+                <!-- Injecté dynamiquement -->
+            </div>
+
+            <button class="btn btn-light" style="width:100%;padding:13px;margin-top:14px;" onclick="navigateWithLoader('withdraw-step-1')">
+                <i class="fa-solid fa-plus"></i> Ajouter un autre compte
+            </button>
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:10px;" onclick="proceedToWithdrawConditions()">Suivant</button>
+        </div>
+    </section>
+
+    <!-- ÉTAPE 3 RETRAIT : Conditions de retrait -->
+    <section id="withdraw-step-3" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('withdraw-step-2')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Retrait (3/4)</div><div class="brand-sub">Conditions & Montant</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <div class="payment-box">
+                <div class="payment-row"><span class="label">Montant minimum :</span><strong>6 000 FC</strong></div>
+                <div class="payment-row"><span class="label">Frais de retrait :</span><strong style="color:var(--red)">12 %</strong></div>
+                <div class="payment-row"><span class="label">Délai de traitement :</span><strong>5 minutes à 1 heure</strong></div>
+                <div class="payment-row"><span class="label">Heures autorisées :</span><strong style="color:var(--green)">09h00 à 18h00</strong></div>
+            </div>
+
+            <div class="form-group" style="margin-top:16px;">
+                <label>Montant à retirer (FC)</label>
+                <input type="number" id="withdrawFinalAmountInput" placeholder="Ex: 10000">
+            </div>
+
+            <div id="withdrawStatusContainer" style="margin-top:14px;">
+                <!-- Dynamique selon l'heure (bloqué ou actif) -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ÉTAPE 4 RETRAIT : Confirmation / Succès -->
+    <section id="withdraw-step-4" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('withdraw-step-3')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Retrait (4/4)</div><div class="brand-sub">Statut</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container" style="text-align:center; padding-top:40px;">
+            <div style="width:64px; height:64px; border-radius:50%; background:var(--green3); color:var(--green); display:grid; place-items:center; font-size:28px; margin:0 auto 16px;">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 style="font-size:16px; font-weight:800; margin-bottom:8px;">Demande de retrait soumise</h3>
+            <p style="font-size:11px; color:var(--muted); line-height:1.5; margin-bottom:24px;">Votre demande a été enregistrée avec succès. Elle sera traitée dans les délais indiqués (5 min à 1h).</p>
+            <button class="btn btn-primary" style="width:100%; padding:13px;" onclick="navigateWithLoader('profile')">Retour au profil</button>
+        </div>
+    </section>
+
+
+    <!-- AUTRES PAGES DÉDIÉES -->
+
+    <section id="page-share" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('team')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Partage</div><div class="brand-sub">Inviter des membres</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5;">Partagez votre lien personnel pour inviter de nouveaux membres dans votre équipe.</p>
+            
+            <div class="form-group">
+                <label>Votre code d'invitation</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="shareCodeField" value="VIGORA20K" readonly style="font-family:monospace;">
+                    <button class="btn btn-light" style="padding:11px 16px;" onclick="copyCode()">Copier</button>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+                <label>Votre lien d'invitation personnel</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="shareLinkField" value="https://vigora-rdc.com/register?ref=VIGORA20K" readonly style="font-family:monospace; font-size:10px;">
+                    <button class="btn btn-primary" style="padding:11px 16px;" onclick="copyShareLink()">Copier le lien</button>
+                </div>
+            </div>
+
+            <div class="section-head" style="margin-top:24px;"><h3>Partager via les applications</h3></div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+                <button class="support-link-item" style="border:0; width:100%; background:white;" onclick="shareVia('whatsapp')">
+                    <div class="support-icon" style="background:#e9f8f1; color:#25D366;"><i class="fa-brands fa-whatsapp"></i></div>
+                    <div style="text-align:left"><div>WhatsApp</div><small style="color:var(--muted)">Partager directement avec le message</small></div>
+                </button>
+                <button class="support-link-item" style="border:0; width:100%; background:white;" onclick="shareVia('facebook')">
+                    <div class="support-icon" style="background:#eef6f2; color:#1877F2;"><i class="fa-brands fa-facebook"></i></div>
+                    <div style="text-align:left"><div>Facebook</div><small style="color:var(--muted)">Publier ou envoyer sur Messenger</small></div>
+                </button>
+                <button class="support-link-item" style="border:0; width:100%; background:white;" onclick="shareVia('telegram')">
+                    <div class="support-icon" style="background:#e9f8f1; color:#24A1DE;"><i class="fa-brands fa-telegram"></i></div>
+                    <div style="text-align:left"><div>Telegram</div><small style="color:var(--muted)">Partager sur les canaux ou discussions</small></div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="page-team-details" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('team')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name" id="teamDetailsTitle">Équipe : Niveau 1</div><div class="brand-sub">Membres et statistiques</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <div class="tab-headers">
+                <button class="tab-btn active" id="lvTab1Btn" onclick="switchTeamLevelTab(1, this)">🟢 Niveau 1 (20%)</button>
+                <button class="tab-btn" id="lvTab2Btn" onclick="switchTeamLevelTab(2, this)">🔵 Niveau 2 (3%)</button>
+                <button class="tab-btn" id="lvTab3Btn" onclick="switchTeamLevelTab(3, this)">🟣 Niveau 3 (2%)</button>
+            </div>
+
+            <div id="teamLevelContentContainer" class="tx-table" style="margin-top:14px;"></div>
+        </div>
+    </section>
+
+    <section id="page-product-details" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('products')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name" id="detProdNameTitle">Détails du produit</div><div class="brand-sub">Informations complètes</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <div class="payment-box">
+                <div class="payment-row"><span class="label">💰 Montant de l'investissement :</span><strong id="detProdPrice" style="color:var(--green)">-</strong></div>
+                <div class="payment-row"><span class="label">📅 Durée du produit :</span><strong id="detProdDuration">-</strong></div>
+                <div class="payment-row"><span class="label">💵 Revenu par jour :</span><strong id="detProdDaily" style="color:var(--green)">-</strong></div>
+                <div class="payment-row"><span class="label">📊 Revenu total :</span><strong id="detProdTotal" style="color:var(--orange)">-</strong></div>
+                <div class="payment-row"><span class="label">🔄 Rendement prévu :</span><strong id="detProdCycles">30 cycles journaliers</strong></div>
+            </div>
+
+            <div class="instruction-box" style="margin-top:14px;">
+                <strong>📋 Fonctionnement du produit :</strong>
+                <p style="margin-top:4px; font-size:10px;">Une fois le programme activé, celui-ci génère des gains journaliers fixes chaque 24 heures pendant toute la durée mentionnée. Les fonds investis sont affectés aux programmes de développement de la plateforme.</p>
+            </div>
+
+            <div class="instruction-box" style="margin-top:10px; background:#e9f8f1; border-color:#b8e7d0; color:#065232;">
+                <strong>📆 Réclamations quotidiennes :</strong>
+                <p style="margin-top:4px; font-size:10px;">Vous devez vous rendre chaque jour dans l'onglet « Mes produits » pour réclamer manuellement votre revenu journalier. Celui-ci sera instantanément ajouté à votre solde principal.</p>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%; padding:14px; margin-top:20px;" onclick="proceedToBuyFromDetails()">Choisir ce programme</button>
+        </div>
+    </section>
+
+    <section id="page-product-confirm" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('products')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Confirmation</div><div class="brand-sub">Activation d'actif</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:13px; font-weight:800; text-align:center; margin-bottom:14px; color:var(--ink);">Êtes-vous sûr de vouloir activer ce produit ?</p>
+            
+            <div class="payment-box">
+                <div class="payment-row"><span class="label">Produit :</span><strong id="confProdName" style="color:var(--green)">-</strong></div>
+                <div class="payment-row"><span class="label">Montant :</span><strong id="confProdPrice">-</strong></div>
+                <div class="payment-row"><span class="label">Revenu / jour :</span><strong id="confProdDaily">-</strong></div>
+                <div class="payment-row"><span class="label">Durée :</span><strong id="confProdDuration">-</strong></div>
+                <div class="payment-row"><span class="label">Revenu total :</span><strong id="confProdTotal" style="color:var(--orange)">-</strong></div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px;">
+                <button class="btn btn-light" style="padding:13px;" onclick="navigateWithLoader('products')">❌ Annuler</button>
+                <button class="btn btn-primary" style="padding:13px;" onclick="executeProductActivation()">✅ Confirmer et activer</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="page-my-products" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Mes produits</div><div class="brand-sub">Gestion des actifs</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5;">Retrouvez ci-dessous vos investissements actifs et réclamez vos revenus journaliers en toute simplicité.</p>
+            <div id="myProductsListContainer"></div>
+        </div>
+    </section>
+
+    <section id="page-earnings-history" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Historique des gains</div><div class="brand-sub">Revenus journaliers</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5;">Liste exclusive des revenus journaliers réellement réclamés.</p>
+            <div class="tx-table" id="earningsHistoryListContainer"></div>
+        </div>
+    </section>
+
+    <section id="page-transactions" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Transactions</div><div class="brand-sub">Mouvements financiers</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5;">Consultez vos mouvements financiers séparés par catégorie.</p>
+            
+            <div class="tab-headers">
+                <button class="tab-btn active" onclick="switchTxTab('other', this)">➕ Autres</button>
+                <button class="tab-btn" onclick="switchTxTab('recharge', this)">💰 Recharge</button>
+                <button class="tab-btn" onclick="switchTxTab('withdraw', this)">💸 Retrait</button>
+            </div>
+
+            <div id="txTabOther" class="tx-table"></div>
+            <div id="txTabRecharge" class="tx-table" style="display:none;"></div>
+            <div id="txTabWithdraw" class="tx-table" style="display:none;"></div>
+        </div>
+    </section>
+
+    <section id="page-promo" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Code promo</div><div class="brand-sub">Avantages</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Entrez votre code promotionnel ci-dessous pour l'appliquer instantanément sur votre solde.</p>
+            
+            <div class="form-group">
+                <label>Code promotionnel</label>
+                <input type="text" id="promoCodeInput" placeholder="Ex: VIGORA2026">
+            </div>
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:10px;" onclick="verifyAndApplyPromo()">Vérifier et appliquer</button>
+        </div>
+    </section>
+
+    <section id="page-password" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Sécurité</div><div class="brand-sub">Mot de passe</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Veuillez entrer vos informations de sécurité actuelles et définir votre nouveau mot de passe.</p>
+            
+            <div class="form-group">
+                <label>Ancien mot de passe</label>
+                <input type="password" id="oldPasswordInput" placeholder="Entrez l'ancien mot de passe">
+            </div>
+            <div class="form-group">
+                <label>Nouveau mot de passe</label>
+                <input type="password" id="newPasswordInput" placeholder="Minimum 6 caractères">
+            </div>
+            <div class="form-group">
+                <label>Confirmer le nouveau mot de passe</label>
+                <input type="password" id="confirmPasswordInput" placeholder="Répétez le nouveau mot de passe">
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;padding:13px;margin-top:10px;" onclick="submitPasswordChange()">Enregistrer les modifications</button>
+        </div>
+    </section>
+
+    <section id="page-support" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Service client</div><div class="brand-sub">Assistance officielle</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Contactez notre équipe de support officielle via les canaux ci-dessous :</p>
+            
+            <div style="margin-top: 10px;">
+                <a href="https://chat.whatsapp.com/DZQHUITaht9GnzSLbTJaIq?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="support-link-item">
+                    <div class="support-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    <div><div>Groupe WhatsApp officiel</div><small style="color:var(--muted);font-weight:normal">Rejoindre le groupe VIGORA RDC</small></div>
+                </a>
+                <a href="https://t.me/+TGgAxvq5mA03NzM8" target="_blank" rel="noopener" class="support-link-item">
+                    <div class="support-icon"><i class="fa-brands fa-telegram"></i></div>
+                    <div><div>Groupe Telegram officiel</div><small style="color:var(--muted);font-weight:normal">Rejoindre le groupe VIGORA RDC</small></div>
+                </a>
+                <a href="https://t.me" target="_blank" class="support-link-item">
+                    <div class="support-icon"><i class="fa-solid fa-headset"></i></div>
+                    <div><div>Assistance en ligne (Agent)</div><small style="color:var(--muted);font-weight:normal">Disponible dans l'application</small></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- NOTIFICATIONS / MESSAGERIE AVEC L'ADMINISTRATEUR -->
+    <section id="notifications" class="page">
+        <div class="topbar">
+            <div class="brand">
+                <div class="back-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div><div class="brand-name">Notifications</div><div class="brand-sub">Messages & assistance</div></div>
+            </div>
+            <button class="icon-btn" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i></button>
+        </div>
+        <div class="subpage-container">
+            <div class="message-intro">
+                <div class="support-avatar"><i class="fa-solid fa-headset"></i></div>
+                <div><strong>VIGORA RDC</strong><small>Échange avec l'administration</small></div>
+            </div>
+            <div id="notificationsList" class="notifications-list">
+                <div class="empty-state"><i class="fa-regular fa-bell"></i><p>Chargement des messages...</p></div>
+            </div>
+            <div class="reply-box">
+                <textarea id="userReplyInput" rows="3" placeholder="Écrivez votre message à l'administration..."></textarea>
+                <button class="btn btn-primary" id="userReplyBtn" onclick="sendUserReply()"><i class="fa-solid fa-paper-plane"></i> Répondre</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- NAVIGATION INFÉRIEURE -->
+    <nav class="bottom">
+        <button class="nav active" data-page="home" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i><span>Accueil</span></button>
+        <button class="nav" data-page="products" onclick="navigateWithLoader('products')"><i class="fa-solid fa-store"></i><span>Produits</span></button>
+        <button class="nav" data-page="team" onclick="navigateWithLoader('team')"><i class="fa-solid fa-users"></i><span>Équipe</span></button>
+        <button class="nav" data-page="profile" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-user"></i><span>Mon compte</span></button>
+    </nav>
+</div>
+
+<div id="authLoading" class="auth-loading"><div class="auth-loading-card"><div class="auth-spinner"></div><div id="authLoadingText" class="auth-loading-text">Vérification...</div></div></div>
+
+<!-- OVERLAY DE CHARGEMENT GLOBAL -->
+<div id="globalLoader">
+    <div class="loader-card">
+        <div class="spinner"></div>
+        <div class="loader-text" id="loaderMessageText">Chargement de la page...</div>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs, serverTimestamp, addDoc, onSnapshot, orderBy, limit, runTransaction } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDkk8hgs1GxIMuFT__SP8YnVNY3PA2vTew",
+  authDomain: "vigora-8e490.firebaseapp.com",
+  projectId: "vigora-8e490",
+  storageBucket: "vigora-8e490.firebasestorage.app",
+  messagingSenderId: "832329608128",
+  appId: "1:832329608128:web:4e5af7387d7891a31d7625"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+const userDoc = phone => doc(db, 'users', String(phone).replace(/\D/g,''));
+
+// --- DONNÉES UTILISATEUR ET ÉTAT GLOBAL ---
+let userData = null;
+let currentAccountPhone = null;
+
+function normalizePhone(value){
+    let digits = String(value || '').replace(/\D/g,'');
+    if(digits.startsWith('243')) digits = digits.slice(3);
+    if(digits.startsWith('0')) digits = digits.slice(1);
+    if(digits.length === 9) return '+243' + digits;
+    return digits ? '+' + digits : '';
+}
+
+function createEmptyAccount(name, phone, password){
+    const cleanPhone = normalizePhone(phone);
+    const refCode = 'VIGORA' + Math.random().toString(36).substring(2,8).toUpperCase();
+    return {
+        userId: 'user_' + cleanPhone.replace(/\D/g,'') + '_' + Date.now(),
+        name: name.trim(),
+        phone: cleanPhone,
+        balance: 0,
+        rechargeBalance: 0,
+        totalRecharge: 0,
+        totalWithdraw: 0,
+        totalReturn: 0,
+        password: password,
+        withdrawPassword6: null,
+        inviteCode: refCode,
+        referralLink: location.origin + location.pathname + '?ref=' + refCode,
+        withdrawAccounts: [],
+        purchasedProducts: [],
+        teamLevels: {
+            1: { commission: '20%', users: 0, rewards: '0 FC', membersList: [] },
+            2: { commission: '3%', users: 0, rewards: '0 FC', membersList: [] },
+            3: { commission: '2%', users: 0, rewards: '0 FC', membersList: [] }
+        },
+        earningsHistory: [],
+        transactions: { other: [], recharge: [], withdraw: [] },
+        usedPromoCodes: []
+    };
+}
+
+let accountCache = {};
+function getAccounts(){ return accountCache; }
+async function saveAccounts(accounts){
+    accountCache = accounts || accountCache;
+    const jobs = Object.entries(accountCache).map(([key, acc]) => setDoc(userDoc(key), acc, {merge:true}));
+    try { await Promise.all(jobs); } catch(e) { console.error('Firestore saveAccounts', e); }
+}
+async function saveCurrentAccount(){
+    if(!userData || !currentAccountPhone) return;
+    accountCache[currentAccountPhone] = userData;
+    try { await setDoc(userDoc(currentAccountPhone), userData, {merge:true}); }
+    catch(e) { console.error('Firestore saveCurrentAccount', e); showToast('⚠️ Synchronisation Firebase impossible.'); }
+}
+function setAuthScreen(id){
+    document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+function showLoginScreen(){
+    document.getElementById('loginError').classList.remove('show');
+    setAuthScreen('loginScreen');
+}
+function showRegisterScreen(prefillPhone='', prefillReferral=''){
+    document.getElementById('registerError').classList.remove('show');
+    document.getElementById('registerSuccess').classList.remove('show');
+    if(prefillPhone) document.getElementById('registerPhone').value = String(prefillPhone).replace(/\D/g,'').replace(/^243/,'').slice(0,9);
+    const urlRef = new URLSearchParams(window.location.search).get('ref') || '';
+    document.getElementById('registerReferral').value = String(prefillReferral || urlRef).trim().toUpperCase();
+    setAuthScreen('registerScreen');
+}
+function showAuthLoader(message, callback){
+    const l=document.getElementById('authLoading');
+    document.getElementById('authLoadingText').textContent=message;
+    l.classList.add('show');
+    setTimeout(()=>{l.classList.remove('show'); callback&&callback();},2000);
+}
+async function handleLogin(){
+    const phone=normalizePhone(document.getElementById('loginPhone').value);
+    const password=document.getElementById('loginPassword').value;
+    const err=document.getElementById('loginError');
+    err.classList.remove('show');
+    if(!phone || !password){ err.textContent='Veuillez entrer votre numéro de téléphone et votre mot de passe.'; err.classList.add('show'); return; }
+    showAuthLoader('🔎 Vérification du compte...', async()=>{
+        try{
+            const snap=await getDoc(userDoc(phone));
+            if(!snap.exists()){
+                err.innerHTML="⚠️ Votre numéro n'a pas encore de compte.<br>Veuillez vous inscrire.";
+                err.classList.add('show');
+                document.getElementById('registerPhone').value=phone.replace(/\D/g,'').replace(/^243/,'').slice(0,9);
+                return;
+            }
+            const account=snap.data();
+            if(account.deleted === true || account.status === 'blocked' || account.status === 'deleted'){ err.textContent='⛔ Votre compte a été supprimé. Vous ne pouvez plus accéder à VIGORA RDC.'; err.classList.add('show'); return; }
+            if(account.password !== password){ err.textContent='Mot de passe incorrect.'; err.classList.add('show'); return; }
+            accountCache[phone.replace(/\D/g,'')] = account;
+            loginSuccess(account,phone);
+        }catch(e){ console.error(e); err.textContent='Erreur Firebase : '+e.message; err.classList.add('show'); }
+    });
+}
+function loginSuccess(account,phone){
+    userData=account; currentAccountPhone=phone; sessionStorage.setItem('vigoraPhone', phone); accountCache[String(phone).replace(/\D/g,'')]=account;
+    document.getElementById('authGate').style.display='none';
+    document.getElementById('mainAppContainer').classList.remove('auth-hidden');
+    updateUI();
+    navigateWithoutLoader('home');
+}
+async function handleRegister(){
+    const name=document.getElementById('registerName').value.trim();
+    const phone=normalizePhone(document.getElementById('registerPhone').value);
+    const referralCode=document.getElementById('registerReferral').value.trim().toUpperCase();
+    const pass=document.getElementById('registerPassword').value;
+    const pass2=document.getElementById('registerPassword2').value;
+    const err=document.getElementById('registerError');
+    err.classList.remove('show');
+    if(!name || !phone || !pass || !pass2){ err.textContent='Veuillez remplir tous les champs obligatoires.'; err.classList.add('show'); return; }
+    if(!/^\+?243\d{9}$/.test(phone)){ err.textContent='Veuillez entrer un numéro RDC valide (+243 suivi de 9 chiffres).'; err.classList.add('show'); return; }
+    if(pass.length<6){ err.textContent='Le mot de passe doit contenir au moins 6 caractères.'; err.classList.add('show'); return; }
+    if(pass!==pass2){ err.textContent='Les mots de passe ne correspondent pas.'; err.classList.add('show'); return; }
+    showAuthLoader('📝 Création de votre compte...', async()=>{
+      try{
+        const clean=phone.replace(/\D/g,'').replace(/^243/,'');
+        const existing=await getDoc(userDoc(clean));
+        if(existing.exists()){ err.textContent='Ce numéro possède déjà un compte. Connectez-vous.'; err.classList.add('show'); return; }
+        let sponsor=null;
+        if(referralCode){
+          const q=query(collection(db,'users'),where('inviteCode','==',referralCode));
+          const rs=await getDocs(q);
+          if(rs.empty){ err.textContent='Code de parrainage invalide. Vérifiez le code de votre parrain.'; err.classList.add('show'); return; }
+          sponsor=rs.docs[0].data();
+          if(sponsor.phone===phone){ err.textContent='Vous ne pouvez pas utiliser votre propre code de parrainage.'; err.classList.add('show'); return; }
+        }
+        const account=createEmptyAccount(name,phone,pass);
+        account.sponsorPhone=sponsor ? sponsor.phone : '';
+        account.sponsorReferralCode=referralCode;
+        await setDoc(userDoc(clean), {...account, createdAt:serverTimestamp()});
+        accountCache[clean]=account;
+        if(sponsor){
+          let upstream=sponsor;
+          for(let level=1; level<=3 && upstream; level++) {
+            const spKey=String(upstream.phone||'').replace(/\D/g,'');
+            if(!spKey) break;
+            const sponsorSnap=await getDoc(userDoc(spKey));
+            if(!sponsorSnap.exists()) break;
+            const sp=sponsorSnap.data(); sp.teamLevels=sp.teamLevels||{};
+            const lvl=sp.teamLevels[level]||{commission:level===1?'20%':level===2?'3%':'2%',users:0,rewards:'0 FC',membersList:[]};
+            lvl.membersList=Array.isArray(lvl.membersList)?lvl.membersList:[];
+            if(!lvl.membersList.some(m=>m.userId===account.userId)) lvl.membersList.push({userId:account.userId,name:account.name,phone:account.phone,commissionEarned:'0 FC',active:false});
+            lvl.users=lvl.membersList.length; sp.teamLevels[level]=lvl;
+            await setDoc(userDoc(spKey),{teamLevels:sp.teamLevels},{merge:true});
+            upstream=sp.sponsorPhone ? {phone:sp.sponsorPhone} : null;
+          }
+        }
+        document.getElementById('registerSuccess').textContent='✅ Compte créé avec succès. Votre compte commence à 0 FC, sans historique ni produit.';
+        document.getElementById('registerSuccess').classList.add('show');
+        userData=account; currentAccountPhone=phone;
+        setTimeout(()=>loginSuccess(account,phone),500);
+      }catch(e){ console.error(e); err.textContent='Erreur Firebase : '+e.message; err.classList.add('show'); }
+    });
+}
+function logoutUser(){
+    saveCurrentAccount(); sessionStorage.removeItem('vigoraPhone'); userData=null; currentAccountPhone=null;
+    document.getElementById('mainAppContainer').classList.add('auth-hidden');
+    document.getElementById('authGate').style.display='flex';
+    document.getElementById('loginPhone').value='';
+    document.getElementById('loginPassword').value='';
+    showLoginScreen();
+}
+function navigateWithoutLoader(targetPageId){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    const target=document.getElementById(targetPageId); if(target) target.classList.add('active');
+    document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.page===targetPageId));
+    window.scrollTo({top:0,behavior:'auto'});
+}
+
+
+let currentDeposit = { amount: 0, fullName: '', phone: '', operator: '' };
+let selectedProductTemp = null;
+let currentWithdrawAccountInput = { phone: '', name: '', pin: '', operator: '' };
+
+initAuth();
+restoreFirebaseSession();
+
+async function restoreFirebaseSession(){
+    const p=sessionStorage.getItem('vigoraPhone');
+    if(!p) return;
+    try{
+        const snap=await getDoc(userDoc(p));
+        if(snap.exists()){
+            const restored=snap.data();
+            if(restored.deleted === true || restored.status === 'blocked' || restored.status === 'deleted'){ sessionStorage.removeItem('vigoraPhone'); return; }
+            userData=restored; currentAccountPhone=normalizePhone(p);
+            accountCache[String(p).replace(/\D/g,'')]=userData;
+            loginSuccess(userData,currentAccountPhone);
+        }else sessionStorage.removeItem('vigoraPhone');
+    }catch(e){ console.error('Session Firebase',e); }
+}
+
+function initAuth() {
+    document.getElementById('authGate').style.display='flex';
+    document.getElementById('mainAppContainer').classList.add('auth-hidden');
+    showLoginScreen();
+}
+
+function updateUI() {
+    if(!userData) return;
+
+    userData.teamLevels = userData.teamLevels || {};
+    for(let lvl=1; lvl<=3; lvl++){
+        userData.teamLevels[lvl] = userData.teamLevels[lvl] || {
+            commission: lvl===1 ? '20%' : (lvl===2 ? '3%' : '2%'),
+            users: 0, rewards: '0 FC', membersList: []
+        };
+        userData.teamLevels[lvl].membersList =
+            Array.isArray(userData.teamLevels[lvl].membersList)
+            ? userData.teamLevels[lvl].membersList : [];
+        userData.teamLevels[lvl].users =
+            userData.teamLevels[lvl].membersList.length;
+    }
+
+    document.getElementById('userPhoneDisplay').textContent = userData.phone || '+243';
+    document.getElementById('userBalanceDisplay').textContent = Number(userData.balance||0).toLocaleString() + ' FC';
+    document.getElementById('profileBalanceDisplay').textContent = Number(userData.balance||0).toLocaleString() + ' FC';
+    document.getElementById('profileRechargeDisplay').textContent = Number(userData.rechargeBalance||0).toLocaleString() + ' FC';
+    document.getElementById('userRevenueDisplay').textContent = Number(userData.totalReturn||0).toLocaleString() + ' FC';
+    document.getElementById('totalRechargeDisplay').textContent = Number(userData.totalRecharge||0).toLocaleString() + ' FC';
+    document.getElementById('totalWithdrawDisplay').textContent = Number(userData.totalWithdraw||0).toLocaleString() + ' FC';
+    document.getElementById('totalReturnDisplay').textContent = Number(userData.totalReturn||0).toLocaleString() + ' FC';
+    document.getElementById('teamInviteCodeDisp').textContent = userData.inviteCode || '';
+    document.getElementById('shareCodeField').value = userData.inviteCode || '';
+    document.getElementById('shareLinkField').value = userData.referralLink || '';
+
+    const levels = userData.teamLevels;
+    const lv1 = levels[1].membersList;
+    const lv2 = levels[2].membersList;
+    const lv3 = levels[3].membersList;
+    const allMembers = [...lv1, ...lv2, ...lv3];
+    const activeCount = allMembers.filter(m => m.active === true).length;
+
+    const rewardValue = v => {
+        const n = parseInt(String(v || '0').replace(/[^0-9-]/g,''),10);
+        return isNaN(n) ? 0 : n;
+    };
+    const commissionTotal =
+        rewardValue(levels[1].rewards) +
+        rewardValue(levels[2].rewards) +
+        rewardValue(levels[3].rewards);
+
+    document.getElementById('teamMembersCount').textContent = allMembers.length;
+    document.getElementById('teamCommissionTotal').textContent = commissionTotal.toLocaleString() + ' FC';
+    document.getElementById('teamActiveCount').textContent = activeCount;
+
+    document.getElementById('teamLv1Users').textContent = lv1.length;
+    document.getElementById('teamLv1Rewards').textContent = levels[1].rewards || '0 FC';
+    document.getElementById('teamLv2Users').textContent = lv2.length;
+    document.getElementById('teamLv2Rewards').textContent = levels[2].rewards || '0 FC';
+    document.getElementById('teamLv3Users').textContent = lv3.length;
+    document.getElementById('teamLv3Rewards').textContent = levels[3].rewards || '0 FC';
+    if(userData && currentAccountPhone && !notificationUnsub) startNotificationListener();
+}
+
+let isNavigating = false;
+
+function navigateWithLoader(targetPageId) {
+    if (isNavigating) return;
+    isNavigating = true;
+
+    let msg = "Chargement en cours...";
+    if (targetPageId.includes('deposit')) msg = "💰 Chargement du dépôt...";
+    else if (targetPageId === 'withdraw-security-setup') msg = "🔐 Sécurisation du retrait...";
+    else if (targetPageId === 'withdraw-security-check') msg = "🔐 Vérification du retrait...";
+    else if (targetPageId.includes('withdraw')) msg = "💳 Chargement du retrait...";
+    else if (targetPageId === 'page-share') msg = "🔗 Ouverture du lien de parrainage...";
+    else if (targetPageId === 'page-team-details') msg = "👥 Chargement des niveaux...";
+    else if (targetPageId === 'page-product-details') msg = "📋 Chargement des détails...";
+    else if (targetPageId === 'page-product-confirm') msg = "🛒 Chargement de la confirmation...";
+    else if (targetPageId === 'page-my-products') msg = "📦 Ouverture de Mes produits...";
+    else if (targetPageId === 'page-earnings-history') msg = "📊 Chargement des gains...";
+    else if (targetPageId === 'page-transactions') msg = "💳 Chargement des transactions...";
+    else if (targetPageId === 'page-promo') msg = "🎟️ Chargement du code promo...";
+    else if (targetPageId === 'page-password') msg = "🔐 Ouverture de la sécurité...";
+    else if (targetPageId === 'page-support') msg = "🎧 Connexion au service client...";
+    else if (targetPageId === 'products') msg = "🛍️ Chargement du catalogue...";
+    else if (targetPageId === 'team') msg = "👥 Chargement de l'équipe...";
+    else if (targetPageId === 'profile') msg = "👤 Chargement de votre profil...";
+    else if (targetPageId === 'home') msg = "🏠 Chargement de l'accueil...";
+
+    const loader = document.getElementById('globalLoader');
+    const container = document.getElementById('mainAppContainer');
+    document.getElementById('loaderMessageText').textContent = msg;
+
+    loader.classList.add('show');
+    container.classList.add('is-loading');
+
+    if (targetPageId === 'page-my-products') renderMyProducts();
+    if (targetPageId === 'page-earnings-history') renderEarningsHistory();
+    if (targetPageId === 'page-transactions') renderTransactionsTabs();
+    if (targetPageId === 'page-team-details') renderTeamLevel(1);
+    if (targetPageId === 'withdraw-step-2') renderSavedWithdrawAccounts();
+    if (targetPageId === 'withdraw-step-3') checkWithdrawTimeAndRender();
+
+    setTimeout(() => {
+        loader.classList.remove('show');
+        container.classList.remove('is-loading');
+
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(targetPageId);
+        if (target) target.classList.add('active');
+
+        document.querySelectorAll('.nav').forEach(n => {
+            n.classList.toggle('active', n.dataset.page === targetPageId);
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        isNavigating = false;
+    }, 2000);
+}
+
+// --- LOGIQUE SPÉCIFIQUE DU RETRAIT ---
+
+function startWithdrawFlow() {
+    if (!userData) return;
+    // Premier retrait : créer d'abord le code de sécurité à 6 chiffres.
+    if (!userData.withdrawPassword6) {
+        navigateWithLoader('withdraw-security-setup');
+        return;
+    }
+    // Code déjà enregistré : il est demandé AVANT toute étape de retrait.
+    document.getElementById('withdrawSecurityCheck').value = '';
+    document.getElementById('withdrawSecurityError').classList.remove('show');
+    navigateWithLoader('withdraw-security-check');
+}
+
+function saveWithdrawSecurityCode() {
+    if (!userData || isNavigating) return;
+    const code = document.getElementById('withdrawSecurityNew').value.trim();
+    const confirm = document.getElementById('withdrawSecurityConfirm').value.trim();
+    if (!/^\d{6}$/.test(code)) { showToast('Le code de retrait doit contenir exactement 6 chiffres'); return; }
+    if (code !== confirm) { showToast('Les deux codes ne correspondent pas'); return; }
+
+    isNavigating = true;
+    const loader = document.getElementById('globalLoader');
+    const container = document.getElementById('mainAppContainer');
+    document.getElementById('loaderMessageText').textContent = '🔐 Enregistrement du code de retrait...';
+    loader.classList.add('show');
+    container.classList.add('is-loading');
+    setTimeout(() => {
+        userData.withdrawPassword6 = code;
+        saveCurrentAccount();
+        loader.classList.remove('show');
+        container.classList.remove('is-loading');
+        isNavigating = false;
+        showToast('Code de retrait enregistré avec succès');
+        if (userData.withdrawAccounts.length === 0) navigateWithLoader('withdraw-step-1');
+        else navigateWithLoader('withdraw-step-2');
+    }, 2000);
+}
+
+function verifyWithdrawSecurityCode() {
+    if (!userData || isNavigating) return;
+    const code = document.getElementById('withdrawSecurityCheck').value.trim();
+    const err = document.getElementById('withdrawSecurityError');
+    err.classList.remove('show');
+    if (!/^\d{6}$/.test(code)) { err.textContent = 'Veuillez entrer exactement 6 chiffres.'; err.classList.add('show'); return; }
+    if (code !== userData.withdrawPassword6) { err.textContent = 'Code de retrait incorrect.'; err.classList.add('show'); return; }
+
+    showAuthLoader('🔐 Vérification du code de retrait...', () => {
+        if (userData.withdrawAccounts.length === 0) navigateWithLoader('withdraw-step-1');
+        else navigateWithLoader('withdraw-step-2');
+    });
+}
+
+// Association automatique du nom sans l'inventer (si disponible dans le profil/contacts simulés)
+function autoDetectAccountName(phoneVal) {
+    const nameField = document.getElementById('withdrawHolderInput');
+    const cleanPhone = normalizePhone(phoneVal);
+    // Le nom réel doit provenir d'une API de paiement autorisée.
+    if (userData && cleanPhone === userData.phone) {
+        nameField.value = userData.name || '';
+    } else {
+        nameField.value = '';
+    }
+}
+
+function selectWithdrawOperator(opName) {
+    currentWithdrawAccountInput.operator = opName;
+    document.querySelectorAll('#withdraw-step-1 .operator-card').forEach(card => card.classList.remove('selected'));
+    if (opName === 'Orange Money') document.getElementById('w-op-orange').classList.add('selected');
+    if (opName === 'Vodafone / M-Pesa') document.getElementById('w-op-vodafone').classList.add('selected');
+    if (opName === 'MTN Mobile Money') document.getElementById('w-op-mtn').classList.add('selected');
+}
+
+function saveWithdrawAccount() {
+    if (!userData) return;
+    const phone = normalizePhone(document.getElementById('withdrawPhoneInput').value);
+    const name = document.getElementById('withdrawHolderInput').value.trim();
+
+    if (!/^\+243\d{9}$/.test(phone)) { showToast('Veuillez entrer un numéro RDC valide (+243 suivi de 9 chiffres)'); return; }
+    if (!name) { showToast('Nom du titulaire introuvable ou non associé'); return; }
+    if (!currentWithdrawAccountInput.operator) { showToast('Veuillez sélectionner un opérateur'); return; }
+
+    const newAccount = {
+        id: Date.now(),
+        userId: userData.userId,
+        operator: currentWithdrawAccountInput.operator,
+        phone: phone,
+        name: name
+    };
+
+    userData.withdrawAccounts.push(newAccount);
+    saveCurrentAccount();
+    showToast('Compte de retrait enregistré avec succès !');
+    navigateWithLoader('withdraw-step-2');
+}
+
+function renderSavedWithdrawAccounts() {
+    const container = document.getElementById('savedAccountsContainer');
+    container.innerHTML = '';
+
+    // Filtrer par utilisateur actuel
+    const userAccounts = userData.withdrawAccounts.filter(acc => acc.userId === userData.userId);
+
+    if (userAccounts.length === 0) {
+        container.innerHTML = `<div style="font-size:10px; color:var(--muted); text-align:center; padding:15px;">Aucun compte enregistré pour cet utilisateur. Veuillez en ajouter un.</div>`;
+        return;
+    }
+
+    userAccounts.forEach(acc => {
+        container.innerHTML += `
+            <div class="tx-item" style="margin-bottom:10px; background:white; border:1px solid var(--line);">
+                <div>
+                    <strong style="color:var(--green)">${acc.operator}</strong>
+                    <div style="font-size:11px; font-weight:700; margin-top:2px;">📱 ${acc.phone}</div>
+                    <div style="font-size:9px; color:var(--muted); margin-top:2px;">👤 ${acc.name}</div>
+                </div>
+                <div>
+                    <button class="btn btn-light" style="padding:6px 10px; color:var(--red); background:#fdeeee;" onclick="deleteWithdrawAccount(${acc.id})">
+                        <i class="fa-solid fa-trash"></i> Supprimer
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function deleteWithdrawAccount(accId) {
+    userData.withdrawAccounts = userData.withdrawAccounts.filter(acc => acc.id !== accId);
+    showToast('Compte supprimé');
+    renderSavedWithdrawAccounts();
+}
+
+function proceedToWithdrawConditions() {
+    const userAccounts = userData.withdrawAccounts.filter(acc => acc.userId === userData.userId);
+    if (userAccounts.length === 0) {
+        showToast('Veuillez d\'abord enregistrer un compte de retrait');
+        navigateWithLoader('withdraw-step-1');
+        return;
+    }
+    navigateWithLoader('withdraw-step-3');
+}
+
+// Vérification des horaires (09h00 à 18h00) côté interface et simulation sécurisée serveur/Firebase
+function checkWithdrawTimeAndRender() {
+    const statusContainer = document.getElementById('withdrawStatusContainer');
+    
+    // Heure actuelle (simulation ou heure réelle locale)
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinutes = now.getMinutes();
+    
+    // Vérification stricte serveur/Firebase (09:00 <= heure < 18:00)
+    const isOpen = (currentHour >= 9 && currentHour < 18);
+
+    if (!isOpen) {
+        // Bloqué en dehors des heures
+        statusContainer.innerHTML = `
+            <div style="background:#fdeeee; border:1px solid #f9b8b8; border-radius:14px; padding:16px; text-align:center; color:#8c1313;">
+                <div style="font-size:14px; font-weight:800; margin-bottom:6px;"><i class="fa-solid fa-lock"></i> Retraits fermés</div>
+                <p style="font-size:11px; line-height:1.5;">« Les retraits sont disponibles de 09h00 à 18h00. Veuillez revenir pendant les heures d'ouverture. »</p>
+            </div>
+            <button class="btn btn-light" style="width:100%; padding:13px; margin-top:14px; opacity:0.6; cursor:not-allowed;" disabled>
+                🔒 Retirer (Indisponible)
+            </button>
+        `;
+    } else {
+        // Ouvert de 09h00 à 18h00
+        statusContainer.innerHTML = `
+            <div class="instruction-box" style="background:#e9f8f1; border-color:#b8e7d0; color:#065232; margin-bottom:14px;">
+                <strong>🟢 Retraits ouverts :</strong>
+                <p style="margin-top:2px; font-size:10px;">Les services de retrait sont actuellement actifs (09h00 à 18h00).</p>
+            </div>
+            <button class="btn btn-primary" style="width:100%; padding:13px;" onclick="executeWithdrawRequest()">
+                💸 Retirer maintenant
+            </button>
+        `;
+    }
+}
+
+async function executeWithdrawRequest(){
+    if(isNavigating || !userData || !currentAccountPhone) return;
+    const amtInput=parseInt(document.getElementById('withdrawFinalAmountInput').value,10), now=new Date();
+    if(now.getHours()<9 || now.getHours()>=18){ showToast('Retraits fermés (09h00 - 18h00)'); checkWithdrawTimeAndRender(); return; }
+    if(!amtInput || amtInput<6000){ showToast('Le montant minimum de retrait est de 6 000 FC'); return; }
+    if(amtInput>Number(userData.balance||0)){ showToast('Solde insuffisant pour ce retrait'); return; }
+    const account=(userData.withdrawAccounts||[])[0];
+    if(!account){ showToast('Veuillez d’abord enregistrer un compte de retrait'); navigateWithLoader('withdraw-step-1'); return; }
+    const fee=Math.round(amtInput*0.12), net=amtInput-fee;
+    isNavigating=true;
+    const loader=document.getElementById('globalLoader'), container=document.getElementById('mainAppContainer');
+    document.getElementById('loaderMessageText').textContent='💸 Enregistrement du retrait...'; loader.classList.add('show'); container.classList.add('is-loading');
+    try{
+      const requestRef=doc(collection(db,'withdrawals')), accountRef=userDoc(currentAccountPhone);
+      const request={requestId:requestRef.id,userId:userData.userId||accountRef.id,phone:currentAccountPhone,name:userData.name||'',amount:amtInput,fee,net,operator:account.operator||'',payoutPhone:account.phone||'',payoutName:account.name||'',status:'pending',createdAt:serverTimestamp(),createdAtClient:new Date().toISOString()};
+      await runTransaction(db,async(tx)=>{
+        const snap=await tx.get(accountRef); if(!snap.exists()) throw new Error('Compte utilisateur introuvable');
+        const acc=snap.data(), balance=Number(acc.balance||0); if(balance<amtInput) throw new Error('Solde insuffisant pour ce retrait');
+        acc.transactions=acc.transactions||{other:[],recharge:[],withdraw:[]}; acc.transactions.withdraw=acc.transactions.withdraw||[];
+        acc.balance=balance-amtInput; acc.totalWithdraw=Number(acc.totalWithdraw||0)+amtInput;
+        acc.transactions.withdraw.unshift({requestId:requestRef.id,date:new Date().toLocaleString('fr-FR'),amount:amtInput.toLocaleString()+' FC',fee:fee.toLocaleString()+' FC',net:net.toLocaleString()+' FC',method:account.operator||'Mobile Money',operator:account.operator||'',phone:account.phone||'',account:account.phone||'',payoutName:account.name||'',status:'En cours (5m - 1h)'});
+        tx.set(requestRef,request); tx.update(accountRef,{balance:acc.balance,totalWithdraw:acc.totalWithdraw,transactions:acc.transactions});
+      });
+      const fresh=await getDoc(accountRef); if(fresh.exists()) userData=fresh.data();
+      document.getElementById('withdrawFinalAmountInput').value=''; updateUI(); navigateWithoutLoader('withdraw-step-4'); showToast('Demande de retrait envoyée : En cours');
+    }catch(e){ console.error(e); showToast('Impossible d’enregistrer le retrait : '+(e.message||'')); }
+    finally{ loader.classList.remove('show'); container.classList.remove('is-loading'); isNavigating=false; }
+}
+
+// --- DÉPÔT & AUTRES FONCTIONS ---
+function startDepositFlow() {
+    currentDeposit = { amount: 0, fullName: '', phone: '', operator: '' };
+    document.getElementById('customDepositInput').value = '';
+    const saveKey = currentAccountPhone || 'guest';
+    const savedPhone = localStorage.getItem('vigora_saved_deposit_phone_' + saveKey);
+    const savedOperator = localStorage.getItem('vigora_saved_deposit_operator_' + saveKey);
+    if (savedPhone) {
+        const digits = savedPhone.replace(/^\+243/, '');
+        const phoneInput = document.getElementById('depositUserPhone');
+        if (phoneInput) phoneInput.value = digits;
+    }
+    if (savedOperator) {
+        setTimeout(() => selectOperator(savedOperator), 0);
+    }
+    const saveBox = document.getElementById('saveDepositOperation');
+    if (saveBox) saveBox.checked = !!savedOperator;
+    navigateWithLoader('deposit-step-1');
+}
+
+function selectDepositAmount(amount) {
+    if (isNavigating) return;
+    currentDeposit.amount = amount;
+    navigateWithLoader('deposit-step-2');
+}
+
+function submitCustomDepositAmount() {
+    if (isNavigating) return;
+    const customVal = parseInt(document.getElementById('customDepositInput').value);
+    if (!customVal || customVal <= 0) {
+        showToast('Veuillez sélectionner ou entrer un montant valide');
+        return;
+    }
+    currentDeposit.amount = customVal;
+    navigateWithLoader('deposit-step-2');
+}
+
+function selectOperator(opName) {
+    currentDeposit.operator = opName;
+    document.querySelectorAll('#deposit-step-2 .operator-card').forEach(card => card.classList.remove('selected'));
+    if (opName === 'Airtel Money') document.getElementById('op-airtel').classList.add('selected');
+    if (opName === 'Orange Money') document.getElementById('op-orange').classList.add('selected');
+    if (opName === 'M-Pesa') document.getElementById('op-mpesa').classList.add('selected');
+}
+
+function submitDepositStep2() {
+    if (isNavigating) return;
+    const nameInput = document.getElementById('depositFullName').value.trim();
+    const phoneInput = normalizePhone(document.getElementById('depositUserPhone').value);
+    
+    if (!nameInput) { showToast('Veuillez entrer votre nom complet'); return; }
+    if (!/^\+243\d{9}$/.test(phoneInput)) { showToast('Veuillez entrer un numéro RDC valide (+243 suivi de 9 chiffres)'); return; }
+    if (!currentDeposit.operator) { showToast('Veuillez sélectionner un opérateur'); return; }
+
+    currentDeposit.fullName = nameInput;
+    currentDeposit.phone = phoneInput;
+
+    document.getElementById('summaryName').textContent = currentDeposit.fullName;
+    document.getElementById('summaryAmount').textContent = currentDeposit.amount.toLocaleString() + ' FC';
+    document.getElementById('summaryOperator').textContent = currentDeposit.operator;
+
+    const paymentAccounts = {
+        'Airtel Money': { number: '+243 973 087 965', holder: 'YVETTE (transfert)' },
+        'Orange Money': { number: '+243 899 532 643', holder: 'JEANCQUELINE' },
+        'M-Pesa': { number: '+243 861 823 718', holder: 'REGINA' }
+    };
+    const payment = paymentAccounts[currentDeposit.operator];
+    const destNum = payment ? `${payment.number} · ${payment.holder}` : '-';
+
+    document.getElementById('summaryDestinationNum').textContent = destNum;
+    document.getElementById('summaryInstructions').textContent = payment
+        ? `Effectuez un transfert de ${currentDeposit.amount.toLocaleString()} FC via ${currentDeposit.operator} vers ${payment.number} au nom de ${payment.holder}. Conservez ensuite l'ID ou la référence du message reçu.`
+        : 'Sélectionnez un mode de paiement valide.';
+
+    if (document.getElementById('saveDepositOperation')?.checked) {
+        const saveKey = currentAccountPhone || 'guest';
+        localStorage.setItem('vigora_saved_deposit_operator_' + saveKey, currentDeposit.operator);
+        localStorage.setItem('vigora_saved_deposit_phone_' + saveKey, currentDeposit.phone);
+        showToast('Opération sauvegardée');
+    }
+
+    navigateWithLoader('deposit-step-3');
+}
+
+function copyDestinationNumber() {
+    const numText = document.getElementById('summaryDestinationNum').textContent;
+    navigator.clipboard?.writeText(numText).then(() => showToast('Numéro copié !')).catch(() => showToast('Numéro : ' + numText));
+}
+
+function submitDepositStep3() {
+    if (isNavigating) return;
+    navigateWithLoader('deposit-step-4');
+}
+
+async function finalizeDepositRequest(){
+    if(isNavigating || !userData || !currentAccountPhone) return;
+    const txId=document.getElementById('depositTxIdInput').value.trim(); if(!txId){ showToast("Veuillez entrer l'ID / référence de transaction"); return; }
+    if(!currentDeposit.amount || !currentDeposit.operator){ showToast('Informations de dépôt incomplètes'); return; }
+    isNavigating=true; const loader=document.getElementById('globalLoader'), container=document.getElementById('mainAppContainer');
+    document.getElementById('loaderMessageText').textContent='💰 Enregistrement du dépôt...'; loader.classList.add('show'); container.classList.add('is-loading');
+    try{
+      const requestRef=doc(collection(db,'deposits')), accountRef=userDoc(currentAccountPhone);
+      const paymentAccounts={'Airtel Money':{number:'+243 973 087 965',holder:'YVETTE (transfert)'},'Orange Money':{number:'+243 899 532 643',holder:'JEANCQUELINE'},'M-Pesa':{number:'+243 861 823 718',holder:'REGINA'}};
+      const payment=paymentAccounts[currentDeposit.operator]||{};
+      const request={requestId:requestRef.id,userId:userData.userId||accountRef.id,phone:currentAccountPhone,name:currentDeposit.fullName||userData.name||'',amount:Number(currentDeposit.amount),operator:currentDeposit.operator,paymentNumber:payment.number||'',paymentHolder:payment.holder||'',transactionId:txId,reference:txId,status:'pending',createdAt:serverTimestamp(),createdAtClient:new Date().toISOString()};
+      await runTransaction(db,async(tx)=>{
+        const snap=await tx.get(accountRef); if(!snap.exists()) throw new Error('Compte utilisateur introuvable');
+        const acc=snap.data(); acc.transactions=acc.transactions||{other:[],recharge:[],withdraw:[]}; acc.transactions.recharge=acc.transactions.recharge||[];
+        if(acc.transactions.recharge.some(t=>t.ref===txId && /^En cours/i.test(String(t.status||'')))) throw new Error('Cette référence de dépôt est déjà enregistrée.');
+        acc.transactions.recharge.unshift({requestId:requestRef.id,date:new Date().toLocaleString('fr-FR'),amount:Number(currentDeposit.amount).toLocaleString()+' FC',ref:txId,method:currentDeposit.operator+' ('+currentDeposit.fullName+')',operator:currentDeposit.operator,phone:currentDeposit.phone,status:'En cours'});
+        tx.set(requestRef,request); tx.update(accountRef,{transactions:acc.transactions});
+      });
+      document.getElementById('depositTxIdInput').value=''; showToast('Demande de dépôt envoyée : En cours'); navigateWithoutLoader('profile'); updateUI();
+    }catch(e){ console.error(e); showToast("Impossible d'enregistrer le dépôt : "+(e.message||'')); }
+    finally{ loader.classList.remove('show'); container.classList.remove('is-loading'); isNavigating=false; }
+}
+
+function copyShareLink() {
+    navigator.clipboard?.writeText(userData.referralLink).then(() => showToast('Lien de parrainage copié !')).catch(() => showToast('Lien copié'));
+}
+
+function shareVia(platform) {
+    const msg = encodeURIComponent(`🚀 Découvrez notre nouvelle plateforme !\nRejoignez-nous et découvrez nos programmes disponibles.\nInscrivez-vous avec mon lien : ${userData.referralLink}`);
+    let url = '#';
+    if (platform === 'whatsapp') url = `https://api.whatsapp.com/send?text=${msg}`;
+    else if (platform === 'facebook') url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(userData.referralLink)}`;
+    else if (platform === 'telegram') url = `https://t.me/share/url?url=${encodeURIComponent(userData.referralLink)}&text=${msg}`;
+    window.open(url, '_blank');
+}
+
+function openTeamLevel(levelNum) {
+    navigateWithLoader('page-team-details');
+    setTimeout(() => { switchTeamLevelTab(levelNum, document.getElementById(`lvTab${levelNum}Btn`)); }, 2100);
+}
+
+function switchTeamLevelTab(lvl, btnElem) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btnElem.classList.add('active');
+    document.getElementById('teamDetailsTitle').textContent = `Équipe : Niveau ${lvl}`;
+    renderTeamLevel(lvl);
+}
+
+function renderTeamLevel(lvl) {
+    const container = document.getElementById('teamLevelContentContainer');
+    container.innerHTML = '';
+    let commRate = (lvl === 1 ? "20%" : (lvl === 2 ? "3%" : "2%"));
+    const data = (userData.teamLevels && userData.teamLevels[lvl]) || {membersList:[], rewards:'0 FC'};
+    data.membersList = Array.isArray(data.membersList) ? data.membersList : [];
+
+    if (data.membersList.length === 0) {
+        container.innerHTML = `
+            <div style="background:#f7faf8; border:1px solid #edf2ef; border-radius:12px; padding:20px; text-align:center;">
+                <div style="font-size:12px; font-weight:800; color:var(--ink); margin-bottom:4px;">Niveau ${lvl} (${commRate} de commission)</div>
+                <div style="font-size:10px; color:var(--muted); margin-bottom:12px;">Aucun utilisateur enregistré dans ce niveau pour le moment.</div>
+                <div style="font-size:10px; font-weight:700; color:var(--green);">Partagez votre lien pour inviter des membres !</div>
+            </div>
+        `;
+        return;
+    }
+
+    data.membersList.forEach(m => {
+        container.innerHTML += `
+            <div class="tx-item">
+                <div>
+                    <strong>${m.name}</strong>
+                    <div style="font-size:8px;color:var(--muted);margin-top:2px">Téléphone : ${m.phone}</div>
+                </div>
+                <div style="text-align:right">
+                    <strong style="color:var(--green)">${m.commissionEarned}</strong>
+                    <div style="margin-top:3px"><span class="tx-badge success">Actif</span></div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function openProductDetails(name, price, daily, duration, totalReturnAmt) {
+    selectedProductTemp = { name, price, daily, duration, totalReturnAmt };
+    document.getElementById('detProdNameTitle').textContent = name;
+    document.getElementById('detProdPrice').textContent = price.toLocaleString() + ' FC';
+    document.getElementById('detProdDuration').textContent = duration + ' jours';
+    document.getElementById('detProdDaily').textContent = daily.toLocaleString() + ' FC';
+    document.getElementById('detProdTotal').textContent = totalReturnAmt.toLocaleString() + ' FC';
+    document.getElementById('detProdCycles').textContent = duration + ' cycles journaliers';
+    navigateWithLoader('page-product-details');
+}
+
+function proceedToBuyFromDetails() {
+    if (!selectedProductTemp) return;
+    openProductConfirm(selectedProductTemp.name, selectedProductTemp.price, selectedProductTemp.daily, selectedProductTemp.duration, selectedProductTemp.totalReturnAmt);
+}
+
+function openProductConfirm(name, price, daily, duration, totalReturnAmt) {
+    selectedProductTemp = { name, price, daily, duration, totalReturnAmt };
+    document.getElementById('confProdName').textContent = name;
+    document.getElementById('confProdPrice').textContent = price.toLocaleString() + ' FC';
+    document.getElementById('confProdDaily').textContent = daily.toLocaleString() + ' FC';
+    document.getElementById('confProdDuration').textContent = duration + ' jours';
+    document.getElementById('confProdTotal').textContent = totalReturnAmt.toLocaleString() + ' FC';
+    navigateWithLoader('page-product-confirm');
+}
+
+function executeProductActivation() {
+    if (!selectedProductTemp || isNavigating) return;
+    if (userData.balance < selectedProductTemp.price) {
+        showToast('Solde insuffisant pour activer ce programme !');
+        navigateWithLoader('products');
+        return;
+    }
+
+    userData.balance -= selectedProductTemp.price;
+    userData.purchasedProducts.push({
+        id: Date.now(),
+        name: selectedProductTemp.name,
+        price: selectedProductTemp.price,
+        daily: selectedProductTemp.daily,
+        duration: selectedProductTemp.duration,
+        claimedDays: 0,
+        totalReceived: 0,
+        totalReturn: selectedProductTemp.totalReturnAmt,
+        lastClaimDate: ""
+    });
+    userData.totalReturn += selectedProductTemp.totalReturnAmt;
+    distributeReferralCommissions(userData, selectedProductTemp.price).catch(e=>console.error('Referral Firebase',e));
+    saveCurrentAccount();
+    updateUI();
+
+    showToast(selectedProductTemp.name + ' activé avec succès !');
+    navigateWithLoader('page-my-products');
+}
+
+async function distributeReferralCommissions(investor, investmentAmount){
+    let sponsorPhone=investor.sponsorPhone||'';
+    const rates=[0.20,0.03,0.02];
+    for(let level=0; level<3 && sponsorPhone; level++){
+        const sponsorSnap=await getDoc(userDoc(sponsorPhone));
+        if(!sponsorSnap.exists()) break;
+        const sponsor=sponsorSnap.data();
+        const commission=Math.round(Number(investmentAmount)*rates[level]);
+        sponsor.balance=Number(sponsor.balance||0)+commission;
+        sponsor.totalReturn=Number(sponsor.totalReturn||0)+commission;
+        sponsor.transactions=sponsor.transactions||{other:[],recharge:[],withdraw:[]};
+        sponsor.transactions.other=sponsor.transactions.other||[];
+        sponsor.transactions.other.unshift({date:new Date().toLocaleString('fr-FR'),desc:`Commission parrainage LV${level+1} - ${investor.name}`,amount:`+${commission.toLocaleString()} FC`,status:'Réussi'});
+        sponsor.teamLevels=sponsor.teamLevels||{};
+        sponsor.teamLevels[level+1]=sponsor.teamLevels[level+1]||{commission:level===0?'20%':level===1?'3%':'2%',users:0,rewards:'0 FC',membersList:[]};
+        const team=sponsor.teamLevels[level+1];
+        team.membersList=team.membersList||[];
+        const member=team.membersList.find(m=>m.userId===investor.userId);
+        if(member){
+            const prev=parseInt(String(member.commissionEarned||'0').replace(/\D/g,''))||0;
+            member.commissionEarned=(prev+commission).toLocaleString()+' FC';
+            member.active=true;
+        }
+        const prevRewards=parseInt(String(team.rewards||'0').replace(/\D/g,''))||0;
+        team.rewards=(prevRewards+commission).toLocaleString()+' FC';
+        team.users=team.membersList.length;
+        const sponsorKey=String(sponsor.phone||sponsorPhone).replace(/\D/g,'');
+        await setDoc(userDoc(sponsorKey),sponsor,{merge:true});
+        sponsorPhone=sponsor.sponsorPhone||'';
+    }
+}
+
+function renderMyProducts() {
+    const container = document.getElementById('myProductsListContainer');
+    container.innerHTML = '';
+
+    if (userData.purchasedProducts.length === 0) {
+        container.innerHTML = '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucun produit actif pour le moment.</div>';
+        return;
+    }
+
+    const todayStr = new Date().toDateString();
+    userData.purchasedProducts.forEach(prod => {
+        const remainingDays = prod.duration - prod.claimedDays;
+        const remainingRevenue = remainingDays * prod.daily;
+        const alreadyClaimedToday = (prod.lastClaimDate === todayStr);
+
+        container.innerHTML += `
+            <div class="my-product-card">
+                <div class="my-product-header">
+                    <span class="my-product-title"><i class="fa-solid fa-leaf" style="color:var(--green)"></i> ${prod.name}</span>
+                    <span class="my-product-badge">${prod.duration} Jours</span>
+                </div>
+                <div class="my-product-details">
+                    <div>Investi : <strong>${prod.price.toLocaleString()} FC</strong></div>
+                    <div>Revenu/jour : <strong>${prod.daily.toLocaleString()} FC</strong></div>
+                    <div>Jours réclamés : <strong>${prod.claimedDays} / ${prod.duration}</strong></div>
+                    <div>Jours restants : <strong>${remainingDays}</strong></div>
+                    <div>Reçu : <strong style="color:var(--green)">${prod.totalReceived.toLocaleString()} FC</strong></div>
+                    <div>Restant : <strong>${remainingRevenue.toLocaleString()} FC</strong></div>
+                </div>
+                <button class="claim-btn" onclick="claimDailyProfit(${prod.id})" ${alreadyClaimedToday ? 'disabled' : ''}>
+                    ${alreadyClaimedToday ? 'Déjà réclamé aujourd\'hui' : 'Réclamer ' + prod.daily.toLocaleString() + ' FC'}
+                </button>
+            </div>
+        `;
+    });
+}
+
+function claimDailyProfit(prodId) {
+    const prod = userData.purchasedProducts.find(p => p.id === prodId);
+    if (!prod) return;
+
+    const todayStr = new Date().toDateString();
+    if (prod.lastClaimDate === todayStr) {
+        showToast('Déjà réclamé aujourd\'hui pour ce produit !');
+        return;
+    }
+
+    if (prod.claimedDays >= prod.duration) {
+        showToast('Ce programme est arrivé à expiration.');
+        return;
+    }
+
+    prod.claimedDays += 1;
+    prod.totalReceived += prod.daily;
+    prod.lastClaimDate = todayStr;
+    userData.balance += prod.daily;
+    updateUI();
+
+    userData.earningsHistory.unshift({
+        date: new Date().toLocaleString('fr-FR'),
+        product: prod.name,
+        amount: prod.daily.toLocaleString() + ' FC',
+        status: 'Réussi'
+    });
+
+    showToast('+' + prod.daily.toLocaleString() + ' FC ajoutés à votre solde !');
+    renderMyProducts();
+}
+
+function renderEarningsHistory() {
+    const container = document.getElementById('earningsHistoryListContainer');
+    container.innerHTML = '';
+    if (userData.earningsHistory.length === 0) {
+        container.innerHTML = '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucun gain réclamé pour l\'instant.</div>';
+        return;
+    }
+    userData.earningsHistory.forEach(item => {
+        container.innerHTML += `
+            <div class="tx-item">
+                <div><strong>${item.product}</strong><div style="font-size:8px;color:var(--muted);margin-top:2px">${item.date}</div></div>
+                <div style="text-align:right"><strong style="color:var(--green)">+${item.amount}</strong><div style="margin-top:3px"><span class="tx-badge success">${item.status}</span></div></div>
+            </div>
+        `;
+    });
+}
+
+function switchTxTab(tabName, btnElem) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btnElem.classList.add('active');
+    document.getElementById('txTabOther').style.display = (tabName === 'other') ? 'flex' : 'none';
+    document.getElementById('txTabRecharge').style.display = (tabName === 'recharge') ? 'flex' : 'none';
+    document.getElementById('txTabWithdraw').style.display = (tabName === 'withdraw') ? 'flex' : 'none';
+}
+
+function renderTransactionsTabs() {
+    const otherCont = document.getElementById('txTabOther');
+    otherCont.innerHTML = userData.transactions.other.length === 0 ? '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucune transaction diverse.</div>' : '';
+    userData.transactions.other.forEach(t => {
+        otherCont.innerHTML += `<div class="tx-item"><div><strong>${t.desc}</strong><div style="font-size:8px;color:var(--muted);margin-top:2px">${t.date}</div></div><div style="text-align:right"><strong style="color:var(--green)">${t.amount}</strong><div style="margin-top:3px"><span class="tx-badge success">${t.status}</span></div></div></div>`;
+    });
+
+    const rechargeCont = document.getElementById('txTabRecharge');
+    rechargeCont.innerHTML = userData.transactions.recharge.length === 0 ? '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucune recharge enregistrée.</div>' : '';
+    userData.transactions.recharge.forEach(t => {
+        let badgeClass = (t.status === 'En cours' ? 'pending' : (t.status === 'Rejeté' ? 'rejected' : 'success'));
+        rechargeCont.innerHTML += `<div class="tx-item"><div><strong>${t.method}</strong> <span style="font-size:8px;color:var(--muted)">(${t.ref})</span><div style="font-size:8px;color:var(--muted);margin-top:2px">${t.date}</div></div><div style="text-align:right"><strong style="color:var(--green)">+${t.amount}</strong><div style="margin-top:3px"><span class="tx-badge ${badgeClass}">${t.status}</span></div></div></div>`;
+    });
+
+    const withdrawCont = document.getElementById('txTabWithdraw');
+    withdrawCont.innerHTML = userData.transactions.withdraw.length === 0 ? '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucun retrait enregistré.</div>' : '';
+    userData.transactions.withdraw.forEach(t => {
+        withdrawCont.innerHTML += `<div class="tx-item"><div><strong>${t.method}</strong><div style="font-size:8px;color:var(--muted);margin-top:2px">Reçu: ${t.net} (Frais: ${t.fee})</div><div style="font-size:8px;color:var(--muted);">${t.date}</div></div><div style="text-align:right"><strong style="color:var(--orange)">-${t.amount}</strong><div style="margin-top:3px"><span class="tx-badge success">${t.status}</span></div></div></div>`;
+    });
+}
+
+function submitPasswordChange() {
+    const oldPass = document.getElementById('oldPasswordInput').value;
+    const newPass = document.getElementById('newPasswordInput').value;
+    const confirmPass = document.getElementById('confirmPasswordInput').value;
+
+    if (!oldPass || !newPass || !confirmPass) { showToast('Veuillez remplir tous les champs'); return; }
+    if (oldPass !== userData.password) { showToast('Ancien mot de passe incorrect'); return; }
+    if (newPass.length < 6) { showToast('Le nouveau mot de passe doit contenir au moins 6 caractères'); return; }
+    if (newPass !== confirmPass) { showToast('Les mots de passe ne correspondent pas'); return; }
+
+    userData.password = newPass;
+    showToast('Mot de passe modifié avec succès !');
+    navigateWithLoader('profile');
+}
+
+async function verifyAndApplyPromo() {
+    const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+    if (!code || !userData || !currentAccountPhone) { showToast('Veuillez entrer un code valide'); return; }
+    if (Array.isArray(userData.usedPromoCodes) && userData.usedPromoCodes.includes(code)) { showToast('Ce code a déjà été utilisé sur votre compte'); return; }
+    try {
+        const promoRef = doc(db, 'promoCodes', code);
+        await runTransaction(db, async (tx) => {
+            const promoSnap = await tx.get(promoRef);
+            if (!promoSnap.exists()) throw new Error('Code promo invalide ou supprimé');
+            const promo = promoSnap.data();
+            if (promo.active === false) throw new Error('Ce code promo est désactivé');
+            const used = Number(promo.usedCount || 0);
+            const max = Number(promo.maxUses || 0);
+            if (max > 0 && used >= max) throw new Error('La limite d’utilisation de ce code est atteinte');
+            const accountRef = userDoc(currentAccountPhone);
+            const accountSnap = await tx.get(accountRef);
+            if (!accountSnap.exists()) throw new Error('Compte utilisateur introuvable');
+            const acc = accountSnap.data();
+            const usedCodes = Array.isArray(acc.usedPromoCodes) ? acc.usedPromoCodes : [];
+            if (usedCodes.includes(code)) throw new Error('Ce code a déjà été utilisé sur votre compte');
+            const amount = Number(promo.amount || 0);
+            if (amount <= 0) throw new Error('Montant du code invalide');
+            acc.balance = Number(acc.balance || 0) + amount;
+            usedCodes.push(code);
+            acc.usedPromoCodes = usedCodes;
+            acc.transactions = acc.transactions || {other:[],recharge:[],withdraw:[]};
+            acc.transactions.other = acc.transactions.other || [];
+            acc.transactions.other.unshift({date:new Date().toLocaleString('fr-FR'),desc:'Code promo: '+code,amount:'+'+amount.toLocaleString('fr-FR')+' FC',status:'Réussi'});
+            tx.update(accountRef, {balance:acc.balance, usedPromoCodes:usedCodes, transactions:acc.transactions});
+            tx.update(promoRef, {usedCount:used + 1});
+        });
+        const fresh = await getDoc(userDoc(currentAccountPhone));
+        if (fresh.exists()) { userData = fresh.data(); accountCache[String(currentAccountPhone).replace(/\D/g,'')] = userData; }
+        updateUI(); showToast('Code valide ! Le bonus a été ajouté'); navigateWithLoader('profile');
+    } catch(e) { console.error(e); showToast(e.message || 'Code promo invalide'); }
+}
+
+function showToast(text) {
+    const t = document.getElementById('toast');
+    t.textContent = text;
+    t.classList.add('show');
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function copyCode() {
+    navigator.clipboard?.writeText(userData.inviteCode).then(() => showToast('Code copié')).catch(() => showToast('Code : ' + userData.inviteCode));
+}
+
+// ===================== NOTIFICATIONS / MESSAGERIE =====================
+let notificationUnsub = null;
+let notificationMessages = [];
+let unreadNotifications = 0;
+
+function threadDocId(){
+    return String(currentAccountPhone || '').replace(/\D/g,'');
+}
+function formatMsgDate(ts){
+    try{
+        const d = ts?.toDate ? ts.toDate() : new Date(ts || Date.now());
+        return d.toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    }catch(e){ return ''; }
+}
+function renderNotifications(){
+    const box=document.getElementById('notificationsList');
+    if(!box) return;
+    if(!notificationMessages.length){
+        box.innerHTML='<div class="empty-state"><i class="fa-regular fa-bell"></i><p>Aucun message de l’administration.</p></div>';
+        return;
+    }
+    box.innerHTML=notificationMessages.map(m=>{
+        const isUser=m.sender==='user';
+        return `<div class="msg ${isUser?'user':'admin'}">
+            ${m.title && !isUser ? `<div class="msg-title">${escapeHtml(m.title)}</div>`:''}
+            <div>${escapeHtml(m.text || '')}</div>
+            <div class="msg-meta">${isUser?'Vous':'Administration'} · ${formatMsgDate(m.createdAt)}</div>
+        </div>`;
+    }).join('');
+    box.scrollTop=box.scrollHeight;
+}
+function escapeHtml(value){
+    return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+async function openNotifications(){
+    if(!userData || !currentAccountPhone){ showToast('Veuillez vous connecter'); return; }
+    navigateWithLoader('notifications','Chargement des notifications...');
+    markNotificationsRead();
+    setTimeout(()=>startNotificationListener(),250);
+}
+function startNotificationListener(){
+    if(notificationUnsub) notificationUnsub();
+    const phoneId=threadDocId();
+    if(!phoneId) return;
+    const privateRef=collection(db,'supportThreads',phoneId,'messages');
+    const broadcastRef=collection(db,'broadcastMessages');
+    let privateMsgs=[], broadcastMsgs=[];
+    let privateReady=false, broadcastReady=false;
+    const merge=()=>{
+        if(!privateReady || !broadcastReady) return;
+        notificationMessages=[...broadcastMsgs,...privateMsgs].sort((a,b)=>{
+            const ad=a.createdAt?.toMillis ? a.createdAt.toMillis() : new Date(a.createdAt||0).getTime();
+            const bd=b.createdAt?.toMillis ? b.createdAt.toMillis() : new Date(b.createdAt||0).getTime();
+            return ad-bd;
+        });
+        const lastSeen=Number(localStorage.getItem('vigora_notifications_seen_'+phoneId)||0);
+        unreadNotifications=notificationMessages.filter(m=>m.sender==='admin' && (m.createdAt?.toMillis ? m.createdAt.toMillis() : new Date(m.createdAt||0).getTime())>lastSeen).length;
+        const badge=document.getElementById('notificationBadge');
+        if(badge){ badge.textContent=unreadNotifications>99?'99+':String(unreadNotifications); badge.style.display=unreadNotifications?'flex':'none'; }
+        renderNotifications();
+    };
+    const u1=onSnapshot(query(privateRef,orderBy('createdAt','asc'),limit(100)),snap=>{privateMsgs=snap.docs.map(d=>({id:d.id,...d.data()}));privateReady=true;merge();},()=>{privateReady=true;merge();});
+    const u2=onSnapshot(query(broadcastRef,where('target','==','all'),orderBy('createdAt','asc'),limit(100)),snap=>{broadcastMsgs=snap.docs.map(d=>({id:d.id,...d.data()}));broadcastReady=true;merge();},()=>{broadcastReady=true;merge();});
+    notificationUnsub=()=>{u1();u2();};
+}
+async function sendUserReply(){
+    if(!userData || !currentAccountPhone) return;
+    const input=document.getElementById('userReplyInput');
+    const text=input.value.trim();
+    if(!text){ showToast('Écrivez votre message'); return; }
+    const btn=document.getElementById('userReplyBtn');
+    if(btn.disabled) return;
+    btn.disabled=true;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Envoi...';
+    try{
+        const phoneId=threadDocId();
+        await addDoc(collection(db,'supportThreads',phoneId,'messages'),{
+            sender:'user', senderPhone:currentAccountPhone, senderName:userData.name||'', text,
+            createdAt:serverTimestamp(), readByAdmin:false
+        });
+        await setDoc(doc(db,'supportThreads',phoneId),{
+            phone:currentAccountPhone, name:userData.name||'', lastMessage:text,
+            lastSender:'user', updatedAt:serverTimestamp(), unreadForAdmin:true
+        },{merge:true});
+        input.value='';
+        showToast('Message envoyé à l’administration');
+    }catch(e){ console.error(e); showToast('Impossible d’envoyer le message'); }
+    finally{ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Répondre'; }
+}
+
+function markNotificationsRead(){
+    if(!currentAccountPhone || !notificationMessages.length) return;
+    localStorage.setItem('vigora_notifications_seen_'+threadDocId(),String(Date.now()));
+    unreadNotifications=0;
+    const badge=document.getElementById('notificationBadge');
+    if(badge) badge.style.display='none';
+}
+
+// IMPORTANT : ce fichier utilise <script type="module">. Les fonctions
+// déclarées dans un module ne sont pas automatiquement accessibles aux
+// attributs HTML onclick="...". On les expose donc explicitement.
+const __vigoraHandlers = [];
+for (const __name of __vigoraHandlers) {
+    if (typeof globalThis[__name] === 'function') continue;
+    // Les déclarations de fonctions du module sont accessibles par leur nom
+    // lexical ici ; cette table est remplacée ci-dessous par des références.
+}
+Object.assign(window, {
+    claimDailyProfit: claimDailyProfit,
+    copyCode: copyCode,
+    copyDestinationNumber: copyDestinationNumber,
+    copyShareLink: copyShareLink,
+    deleteWithdrawAccount: deleteWithdrawAccount,
+    executeProductActivation: executeProductActivation,
+    executeWithdrawRequest: executeWithdrawRequest,
+    finalizeDepositRequest: finalizeDepositRequest,
+    handleLogin: handleLogin,
+    handleRegister: handleRegister,
+    logoutUser: logoutUser,
+    navigateWithLoader: navigateWithLoader,
+    openNotifications: openNotifications,
+    sendUserReply: sendUserReply,
+    openProductConfirm: openProductConfirm,
+    openProductDetails: openProductDetails,
+    openTeamLevel: openTeamLevel,
+    proceedToBuyFromDetails: proceedToBuyFromDetails,
+    proceedToWithdrawConditions: proceedToWithdrawConditions,
+    saveWithdrawAccount: saveWithdrawAccount,
+    saveWithdrawSecurityCode: saveWithdrawSecurityCode,
+    selectDepositAmount: selectDepositAmount,
+    selectOperator: selectOperator,
+    selectWithdrawOperator: selectWithdrawOperator,
+    shareVia: shareVia,
+    showLoginScreen: showLoginScreen,
+    showRegisterScreen: showRegisterScreen,
+    showToast: showToast,
+    startDepositFlow: startDepositFlow,
+    startWithdrawFlow: startWithdrawFlow,
+    submitCustomDepositAmount: submitCustomDepositAmount,
+    submitDepositStep2: submitDepositStep2,
+    submitDepositStep3: submitDepositStep3,
+    submitPasswordChange: submitPasswordChange,
+    switchTeamLevelTab: switchTeamLevelTab,
+    switchTxTab: switchTxTab,
+    verifyAndApplyPromo: verifyAndApplyPromo,
+    verifyWithdrawSecurityCode: verifyWithdrawSecurityCode
+});
+</script>
+</body>
+</html>
