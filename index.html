@@ -241,6 +241,22 @@ button{cursor:pointer}
 .team-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 .team-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 7px;text-align:center}
 .team-stat strong{display:block;font-size:16px}.team-stat small{font-size:8px;color:#8da99c}
+/* Tableau des commissions de parrainage - ajouté sous les niveaux d'équipe */
+.commission-table-card{margin:18px 0 28px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:13px;overflow:hidden}
+.commission-table-title{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.commission-table-title>i{width:38px;height:38px;border-radius:12px;background:#0ba76a;color:#fff;display:grid;place-items:center;font-size:17px}
+.commission-table-title strong{display:block;color:#fff;font-size:15px}
+.commission-table-title small{display:block;color:#93b5a6;font-size:9px;margin-top:3px}
+.commission-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px}
+.commission-table{width:100%;min-width:500px;border-collapse:separate;border-spacing:0;font-size:9px;color:#fff}
+.commission-table th{background:#0b6f4d;color:#fff;font-size:9px;padding:10px 6px;text-align:center;border-right:1px solid rgba(255,255,255,.12)}
+.commission-table th:first-child{text-align:left;border-radius:10px 0 0 0}
+.commission-table th:last-child{border-radius:0 10px 0 0;border-right:0}
+.commission-table td{padding:9px 6px;text-align:center;background:rgba(255,255,255,.045);border-top:1px solid rgba(255,255,255,.07);border-right:1px solid rgba(255,255,255,.07);font-weight:800;white-space:nowrap}
+.commission-table td:first-child{text-align:left;color:#b9f1d7}
+.commission-table td:last-child{border-right:0}
+.commission-table tbody tr:last-child td:first-child{border-radius:0 0 0 10px}
+.commission-table tbody tr:last-child td:last-child{border-radius:0 0 10px 0}
 .levels{padding:0 16px}
 .level{
     background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);
@@ -673,6 +689,17 @@ button{cursor:pointer}
 .app.deposit-mode .topbar, .app.withdraw-mode .topbar{background:#fff;}
 .app.deposit-mode .btn-primary, .app.withdraw-mode .btn-primary{background:linear-gradient(135deg,#39c910,#1aa51a);}
 .app.deposit-mode .btn-light, .app.withdraw-mode .btn-light{background:#effbea;color:#148d16;border-color:#dcebd9;}
+
+/* Guide de fonctionnement : 11 images + explications */
+.platform-guide{display:grid;gap:16px;margin-top:4px;padding-bottom:10px}
+.guide-card{background:#fff;border:1px solid rgba(20,110,70,.12);border-radius:20px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.07)}
+.guide-card img{display:block;width:100%;height:190px;object-fit:cover;background:#edf5ef}
+.guide-body{position:relative;padding:16px 16px 18px}
+.guide-number{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#0b7d43;color:#fff;font-size:12px;font-weight:900;margin-bottom:8px}
+.guide-body h4{margin:0 0 8px;font-size:17px;color:#123d2b}
+.guide-body p{margin:0;color:#5d6b65;font-size:13px;line-height:1.65}
+.info-fonctionnement-head{margin-top:22px}
+@media(max-width:420px){.guide-card img{height:175px}.guide-body{padding:14px}.guide-body h4{font-size:16px}.guide-body p{font-size:12.5px}}
 </style>
 </head>
 
@@ -758,6 +785,54 @@ button{cursor:pointer}
             <div class="notice">
                 <div class="notice-top"><i class="fa-solid fa-bullhorn"></i> Actualité de la plateforme</div>
                 <p>Bienvenue sur LDCI LONG TERME. Consultez les programmes disponibles, vos opérations et votre espace personnel depuis la navigation ci-dessous.</p>
+            </div>
+
+            <div class="section-head info-fonctionnement-head"><h3>📘 Fonctionnement de la plateforme</h3><span>11 étapes</span></div>
+            <div class="platform-guide" id="platformGuide">
+                <article class="guide-card">
+                    <img src="https://cedirates.com/_next/image/?q=75&url=https%3A%2F%2Focdn.eu%2Fpulscms%2FMDA_%2F44e9b4e4767b0d97cb3207be24d729f5.jpg&w=1920" alt="Présentation de LDCI LONG TERME" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">01</span><h4>Créer votre compte</h4><p>La première étape consiste à créer votre espace personnel avec les informations demandées par la plateforme. Après validation du formulaire, votre compte est créé et vous pouvez accéder à votre espace. Gardez toujours vos informations de connexion confidentielles et vérifiez attentivement les données saisies avant de continuer.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://static.wixstatic.com/media/b4b98d_b1537cf35a614c89b95f95299db53e57~mv2.jpg/v1/fill/w_824%2Ch_626%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/b4b98d_b1537cf35a614c89b95f95299db53e57~mv2.jpg" alt="Connexion à la plateforme" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">02</span><h4>Se connecter à son espace</h4><p>Une fois inscrit, utilisez votre numéro et votre mot de passe pour ouvrir votre compte. L’espace personnel regroupe les principales fonctions de la plateforme : consultation du solde, accès aux produits, dépôt, retrait, équipe, notifications et assistance. Après chaque utilisation, pensez à vous déconnecter sur un appareil partagé.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://media-files.abidjan.net/photo/610x%285%29%281%29.jpg" alt="Espace personnel et tableau de bord" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">03</span><h4>Comprendre le tableau de bord</h4><p>Le tableau de bord présente les informations essentielles de votre compte. Vous pouvez y suivre votre solde, vos revenus enregistrés, vos opérations et les accès rapides. Prenez le temps de vérifier les informations affichées avant d’effectuer une opération financière.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://imageio.forbes.com/specials-images/imageserve/68419642d75a8dff53aabf31/0x0.jpg?width=960" alt="Choix d'un programme" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">04</span><h4>Choisir un programme</h4><p>Dans la rubrique Produits, les programmes disponibles sont présentés avec leur montant, leur durée et les informations associées. Avant de choisir, lisez attentivement toutes les conditions affichées et assurez-vous de comprendre le fonctionnement du programme sélectionné. Ne choisissez jamais un montant que vous ne pouvez pas vous permettre de perdre.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://miro.medium.com/v2/resize%3Afit%3A1200/1%2AP5RjozTqNhG7CYLR_bwR7g.jpeg" alt="Dépôt et paiement" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">05</span><h4>Effectuer un dépôt</h4><p>Pour alimenter votre compte, ouvrez la rubrique Dépôt et choisissez le moyen de paiement proposé. Vérifiez toujours le numéro destinataire et le nom du bénéficiaire avant d’envoyer de l’argent. Saisissez ensuite les informations de transaction demandées afin que l’opération puisse être identifiée et traitée.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://staticw.s3.amazonaws.com/inmuebles/gr536941520210430050803.jpeg" alt="Vérification d'une opération" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">06</span><h4>Attendre la validation de l’opération</h4><p>Après l’envoi d’un dépôt, l’opération peut rester en attente pendant son traitement. Consultez son statut dans votre historique et conservez la preuve de paiement. Une opération ne doit être considérée comme validée que lorsque son statut dans votre espace confirme effectivement la validation.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://www.coffee-partners.org/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fbqmgl73f%2Fproduction%2F12280502f237ac9b35c68144eae82990e94eb093-2000x1333.jpg&w=3840" alt="Suivi des revenus" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">07</span><h4>Suivre son programme et ses revenus</h4><p>Lorsqu’un programme est activé, utilisez la rubrique Mes produits pour suivre les informations associées. Les montants affichés dans l’application correspondent aux données enregistrées par le système. Consultez régulièrement votre historique afin de vérifier les mouvements et de signaler rapidement toute anomalie au support.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://kenya.asa-international.com/media/1076/homepage.jpg" alt="Parrainage et équipe" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">08</span><h4>Développer son équipe</h4><p>La rubrique Équipe permet de partager votre lien personnel avec les personnes que vous souhaitez inviter. Le système présente les différents niveaux de l’équipe et les commissions prévues par les conditions de la plateforme. Les commissions éventuelles dépendent des règles applicables et des opérations effectivement validées.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://farmlovers.org/blobs/stickies/b571ec1d-d9be-4856-be45-b51eaf6edb47.jpg" alt="Historique et sécurité" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">09</span><h4>Contrôler son historique</h4><p>L’historique vous aide à suivre les dépôts, retraits et autres mouvements enregistrés sur votre compte. Avant de contester une opération, comparez la date, le montant et le statut affichés avec votre preuve de transaction. Cette vérification facilite le traitement d’un éventuel problème par l’équipe d’assistance.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://www.culturalsurvival.org/sites/default/files/inline-images/P1060914.jpeg" alt="Demande de retrait" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">10</span><h4>Demander un retrait</h4><p>Lorsque votre solde disponible permet une demande de retrait, ouvrez la rubrique Retrait et renseignez les informations demandées. Vérifiez le montant, le réseau et le numéro de réception avant de confirmer. La demande est ensuite enregistrée avec un statut permettant de suivre son traitement.</p></div>
+                </article>
+                <article class="guide-card">
+                    <img src="https://www.courrierafricain.com/images/economie_verte.jpg" alt="Assistance et notifications" loading="lazy">
+                    <div class="guide-body"><span class="guide-number">11</span><h4>Utiliser l’assistance et les notifications</h4><p>En cas de question, utilisez la rubrique Assistance en ligne pour échanger directement avec l’administrateur ou l’équipe de support. Les notifications permettent également de consulter les informations importantes liées à votre compte. Décrivez clairement votre problème et joignez les références utiles afin de faciliter une réponse rapide.</p></div>
+                </article>
             </div>
         </div>
     </section>
@@ -939,8 +1014,8 @@ button{cursor:pointer}
             <h2>Développez votre équipe</h2>
             <p>Invitez des membres et suivez les statistiques de votre équipe.</p>
             <div class="invite">
-                <div class="invite-label">Code d'invitation</div>
-                <div class="invite-code"><strong id="teamInviteCodeDisp">LDCI20K</strong><button class="copy" onclick="copyCode()">Copier <i class="fa-regular fa-copy"></i></button></div>
+                <div class="invite-label">Lien de parrainage</div>
+                <div class="invite-code"><strong id="teamInviteLinkDisp" style="font-size:12px;word-break:break-all;line-height:1.25">https://...</strong><button class="copy" onclick="copyShareLink()">Copier <i class="fa-regular fa-copy"></i></button></div>
             </div>
             <div class="team-stats">
                 <div class="team-stat"><strong id="teamMembersCount">0</strong><small>Membres</small></div>
@@ -967,6 +1042,36 @@ button{cursor:pointer}
                 <div><strong>1%</strong><small>Commission</small></div>
                 <div><strong id="teamLv3Users">0</strong><small>Utilisateurs</small></div>
                 <div><strong id="teamLv3Rewards">0 FC</strong><small>Récompenses</small></div>
+            </div>
+
+            <!-- TABLEAU DES COMMISSIONS : montants reçus selon l'investissement du filleul -->
+            <div class="commission-table-card">
+                <div class="commission-table-title">
+                    <i class="fa-solid fa-coins"></i>
+                    <div><strong>Commissions de parrainage</strong><small>Montant reçu si votre filleul investit</small></div>
+                </div>
+                <div class="commission-table-wrap">
+                    <table class="commission-table">
+                        <thead>
+                            <tr>
+                                <th>Investissement<br>du filleul</th>
+                                <th>Niveau 1</th>
+                                <th>Niveau 2</th>
+                                <th>Niveau 3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>20 000 FC</td><td>2 400 FC</td><td>600 FC</td><td>200 FC</td></tr>
+                            <tr><td>50 000 FC</td><td>6 000 FC</td><td>1 500 FC</td><td>500 FC</td></tr>
+                            <tr><td>100 000 FC</td><td>12 000 FC</td><td>3 000 FC</td><td>1 000 FC</td></tr>
+                            <tr><td>200 000 FC</td><td>24 000 FC</td><td>6 000 FC</td><td>2 000 FC</td></tr>
+                            <tr><td>500 000 FC</td><td>60 000 FC</td><td>15 000 FC</td><td>5 000 FC</td></tr>
+                            <tr><td>1 000 000 FC</td><td>120 000 FC</td><td>30 000 FC</td><td>10 000 FC</td></tr>
+                            <tr><td>1 500 000 FC</td><td>180 000 FC</td><td>45 000 FC</td><td>15 000 FC</td></tr>
+                            <tr><td>2 500 000 FC</td><td>300 000 FC</td><td>75 000 FC</td><td>25 000 FC</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -1552,18 +1657,18 @@ button{cursor:pointer}
             <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Contactez notre équipe de support officielle via les canaux ci-dessous :</p>
             
             <div style="margin-top: 10px;">
-                <a href="https://chat.whatsapp.com/DZQHUITaht9GnzSLbTJaIq?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="support-link-item">
+                <a href="https://chat.whatsapp.com/Cu0HCUlGsBsCyx1vHrE2T2" target="_blank" rel="noopener" class="support-link-item">
                     <div class="support-icon"><i class="fa-brands fa-whatsapp"></i></div>
                     <div><div>Groupe WhatsApp officiel</div><small style="color:var(--muted);font-weight:normal">Rejoindre le groupe LDCI LONG TERME</small></div>
                 </a>
-                <a href="https://t.me/+TGgAxvq5mA03NzM8" target="_blank" rel="noopener" class="support-link-item">
+                <a href="https://t.me/+k-qwl-IWiP5mOTk8" target="_blank" rel="noopener" class="support-link-item">
                     <div class="support-icon"><i class="fa-brands fa-telegram"></i></div>
                     <div><div>Groupe Telegram officiel</div><small style="color:var(--muted);font-weight:normal">Rejoindre le groupe LDCI LONG TERME</small></div>
                 </a>
-                <a href="https://t.me" target="_blank" class="support-link-item">
+                <button type="button" class="support-link-item" style="border:0;width:100%;text-align:left;cursor:pointer;" onclick="openNotifications()">
                     <div class="support-icon"><i class="fa-solid fa-headset"></i></div>
-                    <div><div>Assistance en ligne (Agent)</div><small style="color:var(--muted);font-weight:normal">Disponible dans l'application</small></div>
-                </a>
+                    <div><div>Assistance en ligne (Agent)</div><small style="color:var(--muted);font-weight:normal">Discuter directement avec l'administrateur</small></div>
+                </button>
             </div>
         </div>
     </section>
@@ -1972,9 +2077,12 @@ function updateUI() {
     document.getElementById('totalRechargeDisplay').textContent = Number(userData.totalRecharge||0).toLocaleString() + ' FC';
     document.getElementById('totalWithdrawDisplay').textContent = Number(userData.totalWithdraw||0).toLocaleString() + ' FC';
     document.getElementById('totalReturnDisplay').textContent = Number(userData.totalReturn||0).toLocaleString() + ' FC';
-    document.getElementById('teamInviteCodeDisp').textContent = userData.inviteCode || '';
+    const publicReferralLink = getPublicReferralLink(userData.inviteCode || '');
+    const teamLinkDisp = document.getElementById('teamInviteLinkDisp');
+    if(teamLinkDisp) teamLinkDisp.textContent = publicReferralLink;
+    document.getElementById('teamInviteCodeDisp')?.setAttribute('data-ref-code', userData.inviteCode || '');
     document.getElementById('shareCodeField').value = userData.inviteCode || '';
-    document.getElementById('shareLinkField').value = getPublicReferralLink(userData.inviteCode || '');
+    document.getElementById('shareLinkField').value = publicReferralLink;
 
     const levels = userData.teamLevels;
     const lv1 = levels[1].membersList;
