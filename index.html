@@ -128,6 +128,7 @@ button{cursor:pointer}
 .stat i{font-size:15px;color:var(--green);margin-bottom:7px}
 .stat strong{display:block;font-size:12px}
 .stat small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+.stat-dual{display:flex;flex-direction:column;gap:1px;align-items:center;margin:0 0 2px}.stat-dual span{font-size:7px;color:var(--muted);line-height:1.15}.stat-dual strong{font-size:10px;line-height:1.15}
 
 .quick{
     background:white;border:1px solid var(--line);border-radius:18px;padding:15px;
@@ -769,7 +770,7 @@ button{cursor:pointer}
         <div class="section">
             <div class="stats">
                 <div class="stat"><i class="fa-solid fa-wallet"></i><strong id="userBalanceDisplay">20 000 FC</strong><small>Solde</small></div>
-                <div class="stat"><i class="fa-solid fa-arrow-trend-up"></i><strong id="userRevenueDisplay">90 000 FC</strong><small>Revenus</small></div>
+                <div class="stat"><i class="fa-solid fa-arrow-trend-up"></i><div class="stat-dual"><span>Revenus produits</span><strong id="homeProductRevenueDisplay">0 FC</strong><span>Revenus d’équipe</span><strong id="homeTeamRevenueDisplay">0 FC</strong></div><small>Revenus</small></div>
                 <div class="stat"><i class="fa-solid fa-headset"></i><strong>Support</strong><small>Assistance</small></div>
             </div>
 
@@ -1093,8 +1094,9 @@ button{cursor:pointer}
             <div class="data-grid">
                 <div class="data"><i class="fa-solid fa-arrow-down"></i><label>Recharge totale</label><strong id="totalRechargeDisplay">0 FC</strong></div>
                 <div class="data"><i class="fa-solid fa-arrow-up"></i><label>Retrait total</label><strong id="totalWithdrawDisplay">0 FC</strong></div>
-                <div class="data"><i class="fa-solid fa-chart-line"></i><label>Retour total</label><strong id="totalReturnDisplay">90 000 FC</strong></div>
-                <div class="data"><i class="fa-solid fa-users"></i><label>Revenu d'équipe</label><strong>0 FC</strong></div>
+                <div class="data"><i class="fa-solid fa-chart-line"></i><label>Revenus produits</label><strong id="productRevenueDisplay">0 FC</strong></div>
+                <div class="data"><i class="fa-solid fa-users"></i><label>Revenu d'équipe</label><strong id="teamRevenueDisplay">0 FC</strong></div>
+                <div class="data"><i class="fa-solid fa-coins"></i><label>Revenu total</label><strong id="totalRevenueDisplay">0 FC</strong></div>
             </div>
         </div>
         <div class="menu">
@@ -1752,6 +1754,7 @@ const userDoc = phone => doc(db, 'users', canonicalPhoneKey(phone));
 // --- DONNÉES UTILISATEUR ET ÉTAT GLOBAL ---
 let userData = null;
 let currentAccountPhone = null;
+let currentUserDocUnsub = null;
 
 function normalizePhone(value){
     let digits = String(value || '').replace(/\D/g,'');
@@ -1903,12 +1906,21 @@ async function handleLogin(){
     });
 }
 function loginSuccess(account,phone){
+    if(currentUserDocUnsub){ try{ currentUserDocUnsub(); }catch(e){} currentUserDocUnsub=null; }
     userData=account; currentAccountPhone=phone;
     syncPublicReferralLink();
     sessionStorage.setItem('vigoraPhone', phone); accountCache[String(phone).replace(/\D/g,'')]=userData;
     document.getElementById('authGate').style.display='none';
     document.getElementById('mainAppContainer').classList.remove('auth-hidden');
     updateUI();
+    // Synchronise en temps réel le profil : commissions et membres d'équipe
+    // ajoutés par une autre session apparaissent automatiquement.
+    currentUserDocUnsub = onSnapshot(userDoc(phone), snap=>{
+        if(!snap.exists()) return;
+        userData = snap.data();
+        accountCache[canonicalPhoneKey(phone)] = userData;
+        updateUI();
+    }, err=>console.warn('Synchronisation du compte :',err));
     navigateWithoutLoader('home');
 }
 async function handleRegister(){
@@ -1945,18 +1957,30 @@ async function handleRegister(){
         accountCache[clean]=account;
 
         if(sponsor){
-          const spKey=canonicalPhoneKey(sponsor.phone);
-          const sponsorSnap=await getDoc(userDoc(spKey));
-          if(sponsorSnap.exists()){
-            const sp=sponsorSnap.data();
-            sp.teamLevels=sp.teamLevels||{};
-            sp.teamLevels[1]=sp.teamLevels[1]||{commission:'12%',users:0,rewards:'0 FC',membersList:[]};
-            sp.teamLevels[1].membersList=sp.teamLevels[1].membersList||[];
-            if(!sp.teamLevels[1].membersList.some(m=>m.userId===account.userId)){
-              sp.teamLevels[1].membersList.push({userId:account.userId,name:account.name,phone:account.phone,commissionEarned:'0 FC',active:false});
-              sp.teamLevels[1].users=sp.teamLevels[1].membersList.length;
+          // Enregistrer le nouveau membre chez son parrain direct (LV1),
+          // puis chez le parrain du parrain (LV2), puis au niveau suivant (LV3).
+          // Ainsi un filleul de niveau 2/3 apparaît bien dans l'équipe même
+          // avant sa première commission.
+          let ancestorPhone = sponsor.phone || '';
+          for(let teamLevel=1; teamLevel<=3 && ancestorPhone; teamLevel++){
+            const ancestorSnap = await getDoc(userDoc(ancestorPhone));
+            if(!ancestorSnap.exists()) break;
+            const ancestor = ancestorSnap.data();
+            ancestor.teamLevels = ancestor.teamLevels || {};
+            const rate = teamLevel===1 ? '12%' : (teamLevel===2 ? '3%' : '1%');
+            ancestor.teamLevels[teamLevel] = ancestor.teamLevels[teamLevel] || {commission:rate,users:0,rewards:'0 FC',membersList:[]};
+            const team = ancestor.teamLevels[teamLevel];
+            team.membersList = Array.isArray(team.membersList) ? team.membersList : [];
+            const existingMember = team.membersList.find(m=>m.userId===account.userId || canonicalPhoneKey(m.phone)===clean);
+            if(existingMember){
+              existingMember.name = account.name;
+              existingMember.phone = account.phone;
+            }else{
+              team.membersList.push({userId:account.userId,name:account.name,phone:account.phone,commissionEarned:'0 FC',active:false});
             }
-            await setDoc(userDoc(spKey),sp,{merge:true});
+            team.users = team.membersList.length;
+            await setDoc(userDoc(ancestorPhone),{teamLevels:ancestor.teamLevels},{merge:true});
+            ancestorPhone = ancestor.sponsorPhone || '';
           }
         }
 
@@ -2005,7 +2029,9 @@ function closeLaunchWelcomeModal(){
 }
 
 function logoutUser(){
-    saveCurrentAccount(); sessionStorage.removeItem('vigoraPhone'); userData=null; currentAccountPhone=null;
+    saveCurrentAccount();
+    if(currentUserDocUnsub){ try{ currentUserDocUnsub(); }catch(e){} currentUserDocUnsub=null; }
+    sessionStorage.removeItem('vigoraPhone'); userData=null; currentAccountPhone=null;
     document.getElementById('mainAppContainer').classList.add('auth-hidden');
     document.getElementById('authGate').style.display='flex';
     document.getElementById('loginPhone').value='';
@@ -2053,6 +2079,91 @@ function initAuth() {
     showLoginScreen();
 }
 
+function moneyValue(value){
+    const n = parseInt(String(value || '0').replace(/[^0-9-]/g,''),10);
+    return Number.isFinite(n) ? n : 0;
+}
+
+function getTeamRevenueTotal(){
+    if(!userData) return 0;
+    const levels = userData.teamLevels || {};
+    return [1,2,3].reduce((sum,lvl)=> sum + moneyValue(levels[lvl]?.rewards), 0);
+}
+
+function getProductRevenueTotal(){
+    if(!userData) return 0;
+    const products = Array.isArray(userData.purchasedProducts) ? userData.purchasedProducts : [];
+    // Seulement les revenus produits réellement reçus, pas le revenu théorique affiché dans le programme.
+    return products.reduce((sum,p) => sum + Number(p.totalReceived || 0), 0);
+}
+
+let teamRepairInProgress = false;
+let teamRepairDoneFor = '';
+
+async function repairCurrentTeamMemberships(){
+    if(!userData || !currentAccountPhone || teamRepairInProgress) return;
+    const myKey = canonicalPhoneKey(currentAccountPhone);
+    if(teamRepairDoneFor === myKey) return;
+    teamRepairInProgress = true;
+    try{
+        // Répare les anciennes équipes : si un membre a déjà investi mais
+        // n'avait pas été enregistré dans LV2/LV3, il est ajouté automatiquement.
+        const snap = await getDocs(collection(db,'users'));
+        const membersByLevel = {1:new Map(),2:new Map(),3:new Map()};
+        snap.forEach(docSnap=>{
+            const member = docSnap.data();
+            const memberKey = canonicalPhoneKey(member.phone || docSnap.id);
+            if(!memberKey || memberKey === myKey) return;
+            let ancestorPhone = member.sponsorPhone || '';
+            for(let level=1; level<=3 && ancestorPhone; level++){
+                if(canonicalPhoneKey(ancestorPhone) === myKey){
+                    membersByLevel[level].set(memberKey,{
+                        userId:member.userId || ('user_'+memberKey),
+                        name:member.name || member.phone || memberKey,
+                        phone:member.phone || ('+243'+memberKey)
+                    });
+                    break;
+                }
+                const parentSnap = snap.docs.find(d=>canonicalPhoneKey(d.data().phone || d.id) === canonicalPhoneKey(ancestorPhone));
+                if(!parentSnap) break;
+                ancestorPhone = parentSnap.data().sponsorPhone || '';
+            }
+        });
+
+        let changed=false;
+        userData.teamLevels = userData.teamLevels || {};
+        for(let level=1; level<=3; level++){
+            const rate=level===1?'12%':(level===2?'3%':'1%');
+            userData.teamLevels[level]=userData.teamLevels[level]||{commission:rate,users:0,rewards:'0 FC',membersList:[]};
+            const team=userData.teamLevels[level];
+            team.membersList=Array.isArray(team.membersList)?team.membersList:[];
+            const existingByKey=new Map(team.membersList.map(m=>[canonicalPhoneKey(m.phone),m]));
+            for(const [memberKey, info] of membersByLevel[level]){
+                let m=existingByKey.get(memberKey);
+                if(!m){
+                    team.membersList.push({userId:info.userId,name:info.name,phone:info.phone,commissionEarned:'0 FC',active:false});
+                    changed=true;
+                }else{
+                    if(m.name!==info.name || m.phone!==info.phone){m.name=info.name;m.phone=info.phone;changed=true;}
+                }
+            }
+            const before=team.users;
+            team.users=team.membersList.length;
+            if(before!==team.users) changed=true;
+        }
+        if(changed){
+            accountCache[myKey]=userData;
+            await setDoc(userDoc(myKey),{teamLevels:userData.teamLevels},{merge:true});
+            updateUI();
+        }
+        teamRepairDoneFor=myKey;
+    }catch(e){
+        console.warn('Réparation équipe non disponible :',e);
+    }finally{
+        teamRepairInProgress=false;
+    }
+}
+
 function updateUI() {
     if(!userData) return;
 
@@ -2073,10 +2184,25 @@ function updateUI() {
     document.getElementById('userBalanceDisplay').textContent = Number(userData.balance||0).toLocaleString() + ' FC';
     document.getElementById('profileBalanceDisplay').textContent = Number(userData.balance||0).toLocaleString() + ' FC';
     document.getElementById('profileRechargeDisplay').textContent = Number(userData.rechargeBalance||0).toLocaleString() + ' FC';
-    document.getElementById('userRevenueDisplay').textContent = Number(userData.totalReturn||0).toLocaleString() + ' FC';
+    const productRevenueTotal = getProductRevenueTotal();
+    const teamRevenueTotal = getTeamRevenueTotal();
+    const combinedRevenueTotal = productRevenueTotal + teamRevenueTotal;
+    const homeProductRevenueDisplay = document.getElementById('homeProductRevenueDisplay');
+    const homeTeamRevenueDisplay = document.getElementById('homeTeamRevenueDisplay');
+    if(homeProductRevenueDisplay) homeProductRevenueDisplay.textContent = productRevenueTotal.toLocaleString() + ' FC';
+    if(homeTeamRevenueDisplay) homeTeamRevenueDisplay.textContent = teamRevenueTotal.toLocaleString() + ' FC';
+    const legacyRevenueDisplay = document.getElementById('userRevenueDisplay');
+    if(legacyRevenueDisplay) legacyRevenueDisplay.textContent = combinedRevenueTotal.toLocaleString() + ' FC';
     document.getElementById('totalRechargeDisplay').textContent = Number(userData.totalRecharge||0).toLocaleString() + ' FC';
     document.getElementById('totalWithdrawDisplay').textContent = Number(userData.totalWithdraw||0).toLocaleString() + ' FC';
-    document.getElementById('totalReturnDisplay').textContent = Number(userData.totalReturn||0).toLocaleString() + ' FC';
+    const productRevenueDisplay = document.getElementById('productRevenueDisplay');
+    if(productRevenueDisplay) productRevenueDisplay.textContent = productRevenueTotal.toLocaleString() + ' FC';
+    const teamRevenueDisplay = document.getElementById('teamRevenueDisplay');
+    if(teamRevenueDisplay) teamRevenueDisplay.textContent = teamRevenueTotal.toLocaleString() + ' FC';
+    const totalRevenueDisplay = document.getElementById('totalRevenueDisplay');
+    if(totalRevenueDisplay) totalRevenueDisplay.textContent = combinedRevenueTotal.toLocaleString() + ' FC';
+    const legacyTotalReturnDisplay = document.getElementById('totalReturnDisplay');
+    if(legacyTotalReturnDisplay) legacyTotalReturnDisplay.textContent = combinedRevenueTotal.toLocaleString() + ' FC';
     const publicReferralLink = getPublicReferralLink(userData.inviteCode || '');
     const teamLinkDisp = document.getElementById('teamInviteLinkDisp');
     if(teamLinkDisp) teamLinkDisp.textContent = publicReferralLink;
@@ -2111,6 +2237,7 @@ function updateUI() {
     document.getElementById('teamLv3Users').textContent = lv3.length;
     document.getElementById('teamLv3Rewards').textContent = levels[3].rewards || '0 FC';
     if(userData && currentAccountPhone && !notificationUnsub) startNotificationListener();
+    repairCurrentTeamMemberships();
 }
 
 let isNavigating = false;
@@ -2386,7 +2513,10 @@ function executeWithdrawRequest() {
         showToast('Le montant minimum de retrait est de 2 500 FC');
         return;
     }
-    if (amtInput > userData.balance) {
+    // Le retrait utilise uniquement le solde du portefeuille, alimenté par
+    // les revenus réellement reçus des produits et les commissions d'équipe.
+    const withdrawableBalance = Number(userData.balance || 0);
+    if (amtInput > withdrawableBalance) {
         showToast('Solde insuffisant pour ce retrait');
         return;
     }
@@ -2575,6 +2705,9 @@ function shareVia(platform) {
 }
 
 function openTeamLevel(levelNum) {
+    // Refaire la synchronisation avant d'afficher le niveau demandé.
+    teamRepairDoneFor = '';
+    repairCurrentTeamMemberships();
     navigateWithLoader('page-team-details');
     setTimeout(() => { switchTeamLevelTab(levelNum, document.getElementById(`lvTab${levelNum}Btn`)); }, 2100);
 }
@@ -2691,13 +2824,17 @@ async function distributeReferralCommissions(investor, investmentAmount){
         sponsor.teamLevels=sponsor.teamLevels||{};
         sponsor.teamLevels[level+1]=sponsor.teamLevels[level+1]||{commission:level===0?'12%':level===1?'3%':'1%',users:0,rewards:'0 FC',membersList:[]};
         const team=sponsor.teamLevels[level+1];
-        team.membersList=team.membersList||[];
-        const member=team.membersList.find(m=>m.userId===investor.userId);
-        if(member){
-            const prev=parseInt(String(member.commissionEarned||'0').replace(/\D/g,''))||0;
-            member.commissionEarned=(prev+commission).toLocaleString()+' FC';
-            member.active=true;
+        team.membersList=Array.isArray(team.membersList) ? team.membersList : [];
+        let member=team.membersList.find(m=>m.userId===investor.userId || canonicalPhoneKey(m.phone)===canonicalPhoneKey(investor.phone));
+        if(!member){
+            // Réparation automatique : si le filleul n'avait pas encore été
+            // enregistré dans ce niveau, on l'ajoute au moment de l'investissement.
+            member={userId:investor.userId,name:investor.name,phone:investor.phone,commissionEarned:'0 FC',active:false};
+            team.membersList.push(member);
         }
+        const prev=parseInt(String(member.commissionEarned||'0').replace(/\D/g,''))||0;
+        member.commissionEarned=(prev+commission).toLocaleString()+' FC';
+        member.active=true;
         const prevRewards=parseInt(String(team.rewards||'0').replace(/\D/g,''))||0;
         team.rewards=(prevRewards+commission).toLocaleString()+' FC';
         team.users=team.membersList.length;
