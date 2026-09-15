@@ -128,7 +128,6 @@ button{cursor:pointer}
 .stat i{font-size:15px;color:var(--green);margin-bottom:7px}
 .stat strong{display:block;font-size:12px}
 .stat small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
-.stat-dual{display:flex;flex-direction:column;gap:1px;align-items:center;margin:0 0 2px}.stat-dual span{font-size:7px;color:var(--muted);line-height:1.15}.stat-dual strong{font-size:10px;line-height:1.15}
 
 .quick{
     background:white;border:1px solid var(--line);border-radius:18px;padding:15px;
@@ -770,7 +769,7 @@ button{cursor:pointer}
         <div class="section">
             <div class="stats">
                 <div class="stat"><i class="fa-solid fa-wallet"></i><strong id="userBalanceDisplay">20 000 FC</strong><small>Solde</small></div>
-                <div class="stat"><i class="fa-solid fa-arrow-trend-up"></i><div class="stat-dual"><span>Revenus produits</span><strong id="homeProductRevenueDisplay">0 FC</strong><span>Revenus d’équipe</span><strong id="homeTeamRevenueDisplay">0 FC</strong></div><small>Revenus</small></div>
+                <div class="stat"><i class="fa-solid fa-arrow-trend-up"></i><strong id="userRevenueDisplay">90 000 FC</strong><small>Revenus</small></div>
                 <div class="stat"><i class="fa-solid fa-headset"></i><strong>Support</strong><small>Assistance</small></div>
             </div>
 
@@ -1094,9 +1093,8 @@ button{cursor:pointer}
             <div class="data-grid">
                 <div class="data"><i class="fa-solid fa-arrow-down"></i><label>Recharge totale</label><strong id="totalRechargeDisplay">0 FC</strong></div>
                 <div class="data"><i class="fa-solid fa-arrow-up"></i><label>Retrait total</label><strong id="totalWithdrawDisplay">0 FC</strong></div>
-                <div class="data"><i class="fa-solid fa-chart-line"></i><label>Revenus produits</label><strong id="productRevenueDisplay">0 FC</strong></div>
+                <div class="data"><i class="fa-solid fa-chart-line"></i><label>Retour total</label><strong id="totalReturnDisplay">90 000 FC</strong></div>
                 <div class="data"><i class="fa-solid fa-users"></i><label>Revenu d'équipe</label><strong id="teamRevenueDisplay">0 FC</strong></div>
-                <div class="data"><i class="fa-solid fa-coins"></i><label>Revenu total</label><strong id="totalRevenueDisplay">0 FC</strong></div>
             </div>
         </div>
         <div class="menu">
@@ -1754,7 +1752,6 @@ const userDoc = phone => doc(db, 'users', canonicalPhoneKey(phone));
 // --- DONNÉES UTILISATEUR ET ÉTAT GLOBAL ---
 let userData = null;
 let currentAccountPhone = null;
-let currentUserDocUnsub = null;
 
 function normalizePhone(value){
     let digits = String(value || '').replace(/\D/g,'');
@@ -1906,21 +1903,12 @@ async function handleLogin(){
     });
 }
 function loginSuccess(account,phone){
-    if(currentUserDocUnsub){ try{ currentUserDocUnsub(); }catch(e){} currentUserDocUnsub=null; }
     userData=account; currentAccountPhone=phone;
     syncPublicReferralLink();
     sessionStorage.setItem('vigoraPhone', phone); accountCache[String(phone).replace(/\D/g,'')]=userData;
     document.getElementById('authGate').style.display='none';
     document.getElementById('mainAppContainer').classList.remove('auth-hidden');
     updateUI();
-    // Synchronise en temps réel le profil : commissions et membres d'équipe
-    // ajoutés par une autre session apparaissent automatiquement.
-    currentUserDocUnsub = onSnapshot(userDoc(phone), snap=>{
-        if(!snap.exists()) return;
-        userData = snap.data();
-        accountCache[canonicalPhoneKey(phone)] = userData;
-        updateUI();
-    }, err=>console.warn('Synchronisation du compte :',err));
     navigateWithoutLoader('home');
 }
 async function handleRegister(){
@@ -2029,9 +2017,7 @@ function closeLaunchWelcomeModal(){
 }
 
 function logoutUser(){
-    saveCurrentAccount();
-    if(currentUserDocUnsub){ try{ currentUserDocUnsub(); }catch(e){} currentUserDocUnsub=null; }
-    sessionStorage.removeItem('vigoraPhone'); userData=null; currentAccountPhone=null;
+    saveCurrentAccount(); sessionStorage.removeItem('vigoraPhone'); userData=null; currentAccountPhone=null;
     document.getElementById('mainAppContainer').classList.add('auth-hidden');
     document.getElementById('authGate').style.display='flex';
     document.getElementById('loginPhone').value='';
@@ -2093,8 +2079,7 @@ function getTeamRevenueTotal(){
 function getProductRevenueTotal(){
     if(!userData) return 0;
     const products = Array.isArray(userData.purchasedProducts) ? userData.purchasedProducts : [];
-    // Seulement les revenus produits réellement reçus, pas le revenu théorique affiché dans le programme.
-    return products.reduce((sum,p) => sum + Number(p.totalReceived || 0), 0);
+    return products.reduce((sum,p)=> sum + Number(p.totalReturn || 0), 0);
 }
 
 let teamRepairInProgress = false;
@@ -2187,22 +2172,12 @@ function updateUI() {
     const productRevenueTotal = getProductRevenueTotal();
     const teamRevenueTotal = getTeamRevenueTotal();
     const combinedRevenueTotal = productRevenueTotal + teamRevenueTotal;
-    const homeProductRevenueDisplay = document.getElementById('homeProductRevenueDisplay');
-    const homeTeamRevenueDisplay = document.getElementById('homeTeamRevenueDisplay');
-    if(homeProductRevenueDisplay) homeProductRevenueDisplay.textContent = productRevenueTotal.toLocaleString() + ' FC';
-    if(homeTeamRevenueDisplay) homeTeamRevenueDisplay.textContent = teamRevenueTotal.toLocaleString() + ' FC';
-    const legacyRevenueDisplay = document.getElementById('userRevenueDisplay');
-    if(legacyRevenueDisplay) legacyRevenueDisplay.textContent = combinedRevenueTotal.toLocaleString() + ' FC';
+    document.getElementById('userRevenueDisplay').textContent = combinedRevenueTotal.toLocaleString() + ' FC';
     document.getElementById('totalRechargeDisplay').textContent = Number(userData.totalRecharge||0).toLocaleString() + ' FC';
     document.getElementById('totalWithdrawDisplay').textContent = Number(userData.totalWithdraw||0).toLocaleString() + ' FC';
-    const productRevenueDisplay = document.getElementById('productRevenueDisplay');
-    if(productRevenueDisplay) productRevenueDisplay.textContent = productRevenueTotal.toLocaleString() + ' FC';
+    document.getElementById('totalReturnDisplay').textContent = productRevenueTotal.toLocaleString() + ' FC';
     const teamRevenueDisplay = document.getElementById('teamRevenueDisplay');
     if(teamRevenueDisplay) teamRevenueDisplay.textContent = teamRevenueTotal.toLocaleString() + ' FC';
-    const totalRevenueDisplay = document.getElementById('totalRevenueDisplay');
-    if(totalRevenueDisplay) totalRevenueDisplay.textContent = combinedRevenueTotal.toLocaleString() + ' FC';
-    const legacyTotalReturnDisplay = document.getElementById('totalReturnDisplay');
-    if(legacyTotalReturnDisplay) legacyTotalReturnDisplay.textContent = combinedRevenueTotal.toLocaleString() + ' FC';
     const publicReferralLink = getPublicReferralLink(userData.inviteCode || '');
     const teamLinkDisp = document.getElementById('teamInviteLinkDisp');
     if(teamLinkDisp) teamLinkDisp.textContent = publicReferralLink;
@@ -2513,10 +2488,7 @@ function executeWithdrawRequest() {
         showToast('Le montant minimum de retrait est de 2 500 FC');
         return;
     }
-    // Le retrait utilise uniquement le solde du portefeuille, alimenté par
-    // les revenus réellement reçus des produits et les commissions d'équipe.
-    const withdrawableBalance = Number(userData.balance || 0);
-    if (amtInput > withdrawableBalance) {
+    if (amtInput > userData.balance) {
         showToast('Solde insuffisant pour ce retrait');
         return;
     }
@@ -2705,9 +2677,6 @@ function shareVia(platform) {
 }
 
 function openTeamLevel(levelNum) {
-    // Refaire la synchronisation avant d'afficher le niveau demandé.
-    teamRepairDoneFor = '';
-    repairCurrentTeamMemberships();
     navigateWithLoader('page-team-details');
     setTimeout(() => { switchTeamLevelTab(levelNum, document.getElementById(`lvTab${levelNum}Btn`)); }, 2100);
 }
@@ -2797,7 +2766,8 @@ function executeProductActivation() {
         claimedDays: 0,
         totalReceived: 0,
         totalReturn: selectedProductTemp.totalReturnAmt,
-        lastClaimDate: ""
+        lastClaimDate: "",
+        lastClaimAt: null
     });
     userData.totalReturn += selectedProductTemp.totalReturnAmt;
     distributeReferralCommissions(userData, selectedProductTemp.price).catch(e=>console.error('Referral Firebase',e));
@@ -2844,73 +2814,187 @@ async function distributeReferralCommissions(investor, investmentAmount){
     }
 }
 
+function getProductClaimTime(prod){
+    // Nouvelle référence : horodatage exact de la dernière réclamation.
+    if (prod && prod.lastClaimAt) {
+        const t = new Date(prod.lastClaimAt).getTime();
+        if (Number.isFinite(t)) return t;
+    }
+    // Compatibilité avec les anciennes données qui n'avaient qu'une date.
+    if (prod && prod.lastClaimDate) {
+        const t = new Date(prod.lastClaimDate).getTime();
+        if (Number.isFinite(t)) return t;
+    }
+    return 0;
+}
+
+function getClaimAvailability(prod){
+    const last = getProductClaimTime(prod);
+    if (!last) return {available:true, remaining:0};
+    const remaining = (24 * 60 * 60 * 1000) - (Date.now() - last);
+    return {available: remaining <= 0, remaining: Math.max(0, remaining)};
+}
+
+function formatRemaining24h(ms){
+    if (ms <= 0) return 'Disponible maintenant';
+    const totalMinutes = Math.ceil(ms / 60000);
+    const h = Math.floor(totalMinutes / 60);
+    const m = totalMinutes % 60;
+    return h > 0 ? `Disponible dans ${h}h ${String(m).padStart(2,'0')}min` : `Disponible dans ${m} min`;
+}
+
 function renderMyProducts() {
     const container = document.getElementById('myProductsListContainer');
     container.innerHTML = '';
 
-    if (userData.purchasedProducts.length === 0) {
+    if (!userData || !Array.isArray(userData.purchasedProducts) || userData.purchasedProducts.length === 0) {
         container.innerHTML = '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucun produit actif pour le moment.</div>';
         return;
     }
 
-    const todayStr = new Date().toDateString();
     userData.purchasedProducts.forEach(prod => {
-        const remainingDays = prod.duration - prod.claimedDays;
-        const remainingRevenue = remainingDays * prod.daily;
-        const alreadyClaimedToday = (prod.lastClaimDate === todayStr);
+        const claimedDays = Number(prod.claimedDays || 0);
+        const duration = Number(prod.duration || 0);
+        const daily = Number(prod.daily || 0);
+        const remainingDays = Math.max(0, duration - claimedDays);
+        const remainingRevenue = remainingDays * daily;
+        const availability = getClaimAvailability(prod);
+        const expired = claimedDays >= duration;
+        const canClaim = availability.available && !expired;
+
+        let buttonText = 'Réclamer ' + daily.toLocaleString() + ' FC';
+        if (expired) buttonText = 'Programme terminé';
+        else if (!availability.available) buttonText = '⏳ ' + formatRemaining24h(availability.remaining);
 
         container.innerHTML += `
             <div class="my-product-card">
                 <div class="my-product-header">
                     <span class="my-product-title"><i class="fa-solid fa-leaf" style="color:var(--green)"></i> ${prod.name}</span>
-                    <span class="my-product-badge">${prod.duration} Jours</span>
+                    <span class="my-product-badge">${duration} Jours</span>
                 </div>
                 <div class="my-product-details">
-                    <div>Investi : <strong>${prod.price.toLocaleString()} FC</strong></div>
-                    <div>Revenu/jour : <strong>${prod.daily.toLocaleString()} FC</strong></div>
-                    <div>Jours réclamés : <strong>${prod.claimedDays} / ${prod.duration}</strong></div>
+                    <div>Investi : <strong>${Number(prod.price || 0).toLocaleString()} FC</strong></div>
+                    <div>Revenu/jour : <strong>${daily.toLocaleString()} FC</strong></div>
+                    <div>Jours réclamés : <strong>${claimedDays} / ${duration}</strong></div>
                     <div>Jours restants : <strong>${remainingDays}</strong></div>
-                    <div>Reçu : <strong style="color:var(--green)">${prod.totalReceived.toLocaleString()} FC</strong></div>
+                    <div>Reçu : <strong style="color:var(--green)">${Number(prod.totalReceived || 0).toLocaleString()} FC</strong></div>
                     <div>Restant : <strong>${remainingRevenue.toLocaleString()} FC</strong></div>
                 </div>
-                <button class="claim-btn" onclick="claimDailyProfit(${prod.id})" ${alreadyClaimedToday ? 'disabled' : ''}>
-                    ${alreadyClaimedToday ? 'Déjà réclamé aujourd\'hui' : 'Réclamer ' + prod.daily.toLocaleString() + ' FC'}
+                <button class="claim-btn" data-claim-prod="${prod.id}" onclick="claimDailyProfit(${JSON.stringify(prod.id)})" ${canClaim ? '' : 'disabled'}>
+                    ${buttonText}
                 </button>
+                <div style="font-size:9px;color:var(--muted);text-align:center;margin-top:6px;">
+                    ${expired ? 'Ce produit a terminé ses réclamations.' : (canClaim ? 'Prochaine réclamation : après 24 heures.' : formatRemaining24h(availability.remaining))}
+                </div>
             </div>
         `;
     });
 }
 
-function claimDailyProfit(prodId) {
-    const prod = userData.purchasedProducts.find(p => p.id === prodId);
-    if (!prod) return;
+async function claimDailyProfit(prodId) {
+    if (!currentAccountPhone || !userData) return;
 
-    const todayStr = new Date().toDateString();
-    if (prod.lastClaimDate === todayStr) {
-        showToast('Déjà réclamé aujourd\'hui pour ce produit !');
+    const localProd = userData.purchasedProducts.find(p => String(p.id) === String(prodId));
+    if (!localProd) return;
+
+    const availability = getClaimAvailability(localProd);
+    if (!availability.available) {
+        showToast('⏳ ' + formatRemaining24h(availability.remaining));
         return;
     }
-
-    if (prod.claimedDays >= prod.duration) {
+    if (Number(localProd.claimedDays || 0) >= Number(localProd.duration || 0)) {
         showToast('Ce programme est arrivé à expiration.');
         return;
     }
 
-    prod.claimedDays += 1;
-    prod.totalReceived += prod.daily;
-    prod.lastClaimDate = todayStr;
-    userData.balance += prod.daily;
-    updateUI();
+    // Anti-double-clic immédiat dans l'interface.
+    const btn = document.querySelector(`[data-claim-prod="${CSS.escape(String(prodId))}"]`);
+    if (btn) {
+        btn.disabled = true;
+        btn.dataset.claiming = '1';
+        btn.textContent = '⏳ Enregistrement...';
+    }
 
-    userData.earningsHistory.unshift({
-        date: new Date().toLocaleString('fr-FR'),
-        product: prod.name,
-        amount: prod.daily.toLocaleString() + ' FC',
-        status: 'Réussi'
-    });
+    const userRef = userDoc(currentAccountPhone);
+    const claimAt = new Date().toISOString();
+    let credited = 0;
+    let productName = localProd.name;
 
-    showToast('+' + prod.daily.toLocaleString() + ' FC ajoutés à votre solde !');
-    renderMyProducts();
+    try {
+        // Transaction Firestore : une seule réclamation peut être validée,
+        // même si l'utilisateur clique plusieurs fois ou se connecte sur un autre appareil.
+        const result = await runTransaction(db, async tx => {
+            const snap = await tx.get(userRef);
+            if (!snap.exists()) throw new Error('Compte introuvable');
+
+            const fresh = snap.data();
+            const products = Array.isArray(fresh.purchasedProducts) ? fresh.purchasedProducts.map(p => ({...p})) : [];
+            const index = products.findIndex(p => String(p.id) === String(prodId));
+            if (index < 0) throw new Error('Produit introuvable');
+
+            const prod = products[index];
+            const now = Date.now();
+            const last = getProductClaimTime(prod);
+            if (last && (now - last) < 24 * 60 * 60 * 1000) {
+                const left = (24 * 60 * 60 * 1000) - (now - last);
+                const err = new Error('CLAIM_24H');
+                err.remaining = left;
+                throw err;
+            }
+
+            const claimedDays = Number(prod.claimedDays || 0);
+            const duration = Number(prod.duration || 0);
+            const daily = Number(prod.daily || 0);
+            if (claimedDays >= duration) throw new Error('EXPIRED');
+
+            prod.claimedDays = claimedDays + 1;
+            prod.totalReceived = Number(prod.totalReceived || 0) + daily;
+            prod.lastClaimAt = claimAt;
+            // On garde aussi lastClaimDate pour compatibilité avec les anciennes versions.
+            prod.lastClaimDate = new Date().toDateString();
+            products[index] = prod;
+
+            const history = Array.isArray(fresh.earningsHistory) ? [...fresh.earningsHistory] : [];
+            history.unshift({
+                date: new Date().toLocaleString('fr-FR'),
+                product: prod.name,
+                amount: daily.toLocaleString() + ' FC',
+                status: 'Réussi',
+                claimAt: claimAt,
+                productId: prod.id
+            });
+
+            const newBalance = Number(fresh.balance || 0) + daily;
+            tx.update(userRef, {
+                purchasedProducts: products,
+                balance: newBalance,
+                earningsHistory: history
+            });
+
+            return {daily, balance:newBalance, products, history, productName:prod.name};
+        });
+
+        // Synchroniser immédiatement l'écran avec la version validée par Firebase.
+        userData.purchasedProducts = result.products;
+        userData.balance = result.balance;
+        userData.earningsHistory = result.history;
+        credited = result.daily;
+        productName = result.productName;
+
+        updateUI();
+        renderMyProducts();
+        showToast('+' + credited.toLocaleString() + ' FC ajoutés à votre solde ! Prochaine réclamation dans 24 heures.');
+    } catch (e) {
+        console.error('claimDailyProfit:', e);
+        if (e.message === 'CLAIM_24H') {
+            showToast('⏳ Vous avez déjà réclamé ce produit. ' + formatRemaining24h(e.remaining));
+        } else if (e.message === 'EXPIRED') {
+            showToast('Ce programme est arrivé à expiration.');
+        } else {
+            showToast('⚠️ La réclamation n’a pas été enregistrée. Aucun montant n’a été ajouté.');
+        }
+        renderMyProducts();
+    }
 }
 
 function renderEarningsHistory() {
