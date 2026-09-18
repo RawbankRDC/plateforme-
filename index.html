@@ -802,13 +802,13 @@ button{cursor:pointer}
 
             <div class="section-head"><h3>🤝 Rejoindre nos groupes</h3><span>Officiel</span></div>
             <div class="social-quick">
-                <a href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" aria-label="Groupe WhatsApp officiel">
+                <a href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" aria-label="Groupe WhatsApp officiel">
                     <div class="social-icon social-wa"><i class="fa-brands fa-whatsapp"></i></div><span class="social-label">💬 Groupe WhatsApp</span>
                 </a>
-                <a href="https://t.me/+k-qwl-IWiP5mOTk8" target="_blank" rel="noopener" aria-label="Groupe Telegram officiel">
+                <a href="https://t.me/+k-qwl-IWiP5mOTk8" aria-label="Groupe Telegram officiel">
                     <div class="social-icon social-tg"><i class="fa-brands fa-telegram"></i></div><span class="social-label">📲 Groupe Telegram</span>
                 </a>
-                <button type="button" onclick="openNotifications()" aria-label="Discuter avec l'administrateur">
+                <button type="button" onclick="openAdminDirect()" aria-label="Discuter avec l'administrateur">
                     <div class="social-icon social-admin"><i class="fa-solid fa-headset"></i></div><span class="social-label">👨‍💼 Administrateur</span>
                 </button>
             </div>
@@ -1137,7 +1137,7 @@ button{cursor:pointer}
             <button class="menu-item" onclick="navigateWithLoader('page-promo')"><span class="menu-left"><span class="menu-icon" style="background:#e9f8f1; color:var(--green);"><i class="fa-solid fa-ticket"></i></span><span class="menu-name">Code promo</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
             <button class="menu-item" onclick="navigateWithLoader('page-password')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-lock"></i></span><span class="menu-name">Mot de passe</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
             <button class="menu-item" onclick="navigateWithLoader('page-support')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-headset"></i></span><span class="menu-name">Service client</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
-            <a class="menu-item" href="https://raw.githubusercontent.com/RawbankRDC/Apk/main/application.apk" target="_blank" rel="noopener" download="LDCI-LONG-TERME.apk" style="text-decoration:none; color:inherit;"><span class="menu-left"><span class="menu-icon" style="background:#e8f5ff; color:#1687d9;"><i class="fa-brands fa-android"></i></span><span class="menu-name">📱 Télécharger l'application</span></span><span class="arrow"><i class="fa-solid fa-download"></i></span></a>
+            <a class="menu-item" href="https://raw.githubusercontent.com/RawbankRDC/Apk/main/application.apk" onclick="downloadApplication(event)" style="text-decoration:none; color:inherit;"><span class="menu-left"><span class="menu-icon" style="background:#e8f5ff; color:#1687d9;"><i class="fa-brands fa-android"></i></span><span class="menu-name">📱 Télécharger l'application</span></span><span class="arrow"><i class="fa-solid fa-download"></i></span></a>
         </div>
         <button class="logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Se déconnecter</button>
     </section>
@@ -1691,15 +1691,15 @@ button{cursor:pointer}
             <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Contactez notre équipe de support officielle via les canaux ci-dessous :</p>
             
             <div style="margin-top: 10px;">
-                <a href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="support-link-item">
+                <a href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" class="support-link-item">
                     <div class="support-icon"><i class="fa-brands fa-whatsapp"></i></div>
                     <div><div>Groupe WhatsApp officiel</div><small style="color:var(--muted);font-weight:normal">Rejoindre le groupe LDCI LONG TERME</small></div>
                 </a>
-                <a href="https://t.me/+k-qwl-IWiP5mOTk8" target="_blank" rel="noopener" class="support-link-item">
+                <a href="https://t.me/+k-qwl-IWiP5mOTk8" class="support-link-item">
                     <div class="support-icon"><i class="fa-brands fa-telegram"></i></div>
                     <div><div>Groupe Telegram officiel</div><small style="color:var(--muted);font-weight:normal">Rejoindre le groupe LDCI LONG TERME</small></div>
                 </a>
-                <button type="button" class="support-link-item" style="border:0;width:100%;text-align:left;cursor:pointer;" onclick="openNotifications()">
+                <button type="button" class="support-link-item" style="border:0;width:100%;text-align:left;cursor:pointer;" onclick="openAdminDirect()">
                     <div class="support-icon"><i class="fa-solid fa-headset"></i></div>
                     <div><div>Assistance en ligne (Agent)</div><small style="color:var(--muted);font-weight:normal">Discuter directement avec l'administrateur</small></div>
                 </button>
@@ -1765,9 +1765,9 @@ Merci pour votre confiance et bienvenue dans LDCI LONG TERME !</p>
 </div>
 
 <div class="contact-float" aria-label="Contacts rapides">
-    <a class="float-wa" href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" aria-label="Groupe WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-    <a class="float-tg" href="https://t.me/+k-qwl-IWiP5mOTk8" target="_blank" rel="noopener" aria-label="Groupe Telegram"><i class="fa-brands fa-telegram"></i></a>
-    <button class="float-admin" type="button" onclick="openNotifications()" aria-label="Discuter avec l'administrateur"><i class="fa-solid fa-headset"></i></button>
+    <a class="float-wa" href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" aria-label="Groupe WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a class="float-tg" href="https://t.me/+k-qwl-IWiP5mOTk8" aria-label="Groupe Telegram"><i class="fa-brands fa-telegram"></i></a>
+    <button class="float-admin" type="button" onclick="openAdminDirect()" aria-label="Discuter avec l'administrateur"><i class="fa-solid fa-headset"></i></button>
 </div>
 
 <div id="toast" class="toast"></div>
@@ -3200,6 +3200,25 @@ function renderNotifications(){
 function escapeHtml(value){
     return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 }
+function downloadApplication(event){
+    if(event) event.preventDefault();
+    // Ouvre directement le fichier APK, sans écran d'attente ni page intermédiaire.
+    window.location.href = 'https://raw.githubusercontent.com/RawbankRDC/Apk/main/application.apk';
+}
+
+function openAdminDirect(){
+    if(!userData || !currentAccountPhone){ showToast('Veuillez vous connecter'); return; }
+    // Ouvre immédiatement la messagerie avec l'administration, sans le délai de 2 secondes.
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('notifications');
+    if(target) target.classList.add('active');
+    const container = document.getElementById('mainAppContainer');
+    if(container){ container.classList.remove('deposit-mode','withdraw-mode','is-loading'); }
+    window.scrollTo({top:0, behavior:'auto'});
+    markNotificationsRead();
+    startNotificationListener();
+}
+
 async function openNotifications(){
     if(!userData || !currentAccountPhone){ showToast('Veuillez vous connecter'); return; }
     navigateWithLoader('notifications','Chargement des notifications...');
@@ -3289,6 +3308,8 @@ Object.assign(window, {
     closeLaunchWelcomeModal: closeLaunchWelcomeModal,
     navigateWithLoader: navigateWithLoader,
     openNotifications: openNotifications,
+    openAdminDirect: openAdminDirect,
+    downloadApplication: downloadApplication,
     sendUserReply: sendUserReply,
     openProductConfirm: openProductConfirm,
     openProductDetails: openProductDetails,
