@@ -716,14 +716,36 @@ button{cursor:pointer}
 .social-label{font-size:8.5px;font-weight:800;text-align:center;line-height:1.2}
 .social-wa{background:#e9f8f1;color:#25D366}.social-tg{background:#e8f5ff;color:#229ED9}.social-admin{background:#effbea;color:#148d16}
 .contact-float{position:fixed;right:max(10px,calc((100vw - 450px)/2 + 10px));top:50%;transform:translateY(-50%);z-index:120;display:flex;flex-direction:column;gap:8px}
-.contact-float a,.contact-float button{width:43px;height:43px;border:1px solid rgba(255,255,255,.9);border-radius:14px;display:grid;place-items:center;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.16);font-size:19px;cursor:pointer}
-.contact-float .float-wa{background:#25D366;color:#fff}.contact-float .float-tg{background:#229ED9;color:#fff}.contact-float .float-admin{background:#1aa51a;color:#fff}
-@media(max-width:450px){.contact-float{right:8px}.contact-float a,.contact-float button{width:40px;height:40px;border-radius:13px;font-size:17px}}
+.contact-float a,.contact-float button{width:48px;min-height:48px;padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid rgba(255,255,255,.9);border-radius:14px;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.16);font-size:19px;cursor:pointer}
+.contact-float a span{font-size:7px;font-weight:900;line-height:1;text-align:center}.contact-float .float-wa{background:#25D366;color:#fff}.contact-float .float-tg{background:#229ED9;color:#fff}.contact-float .float-admin{background:#1aa51a;color:#fff}
+@media(max-width:450px){.contact-float{right:8px}.contact-float a,.contact-float button{width:43px;min-height:43px;border-radius:13px;font-size:17px}.contact-float a span{font-size:6.5px}}
+
+/* ================= GROUPE WHATSAPP GAUCHE ================= */
+.contact-float-left{position:fixed;left:max(10px,calc((100vw - 450px)/2 + 10px));top:50%;transform:translateY(-50%);z-index:120;}
+.contact-float-left a{width:48px;min-height:48px;padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid rgba(255,255,255,.9);border-radius:14px;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.16);font-size:19px;cursor:pointer;background:#25D366;color:#fff;}
+@media(max-width:450px){.contact-float-left{left:8px}.contact-float-left a{width:43px;min-height:43px;border-radius:13px;font-size:17px}.contact-float-left a span{font-size:6.5px}}
+
+/* Contacts flottants : cachés par défaut jusqu'à l'ouverture d'une des 4 pages principales. */
+.contact-float,.contact-float-left{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease;}
+.contact-float.contact-visible,.contact-float-left.contact-visible{opacity:1;visibility:visible;pointer-events:auto;}
+
+/* ================= GROUPE D VISIBLE SUR CONNEXION / INSCRIPTION ================= */
+.auth-group-d{position:fixed;left:max(10px,calc((100vw - 450px)/2 + 10px));top:50%;transform:translateY(-50%);z-index:10020;}
+.auth-group-d a{width:48px;min-height:48px;padding:6px 4px;border:1px solid rgba(255,255,255,.95);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18);font-size:19px;cursor:pointer;background:#25D366;color:#fff;}
+.auth-group-d span{font-size:7px;font-weight:900;line-height:1;text-align:center;}
+@media(max-width:450px){.auth-group-d{left:8px}.auth-group-d a{width:43px;min-height:43px;border-radius:13px;font-size:17px}.auth-group-d span{font-size:6.5px}}
 </style>
 </head>
 
 <body>
 <div id="authGate">
+<div class="auth-group-d" aria-label="Groupe 2 WhatsApp">
+  <a href="https://chat.whatsapp.com/CRgwFr8egGOEI449e1lzrw?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" aria-label="Groupe 2 WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span>Groupe 2</span>
+  </a>
+</div>
+
   <section id="loginScreen" class="auth-screen active">
     <div class="auth-brand"><div class="auth-logo"><i class="fa-solid fa-right-to-bracket"></i></div><div><div class="auth-brand-name">LDCI LONG TERME</div><div class="auth-brand-sub">Connexion</div></div></div>
     <h1 class="auth-title">Bon retour !</h1>
@@ -1764,8 +1786,14 @@ Merci pour votre confiance et bienvenue dans LDCI LONG TERME !</p>
     </div>
 </div>
 
+<div class="contact-float-left" aria-label="Groupe 2 WhatsApp">
+    <a href="https://chat.whatsapp.com/CRgwFr8egGOEI449e1lzrw?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" aria-label="Groupe 2 WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i><span>Groupe 2</span>
+    </a>
+</div>
+
 <div class="contact-float" aria-label="Contacts rapides">
-    <a class="float-wa" href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" aria-label="Groupe WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a class="float-wa" href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" aria-label="Groupe 1 WhatsApp"><i class="fa-brands fa-whatsapp"></i><span>Groupe 1</span></a>
     <a class="float-tg" href="https://t.me/+k-qwl-IWiP5mOTk8" aria-label="Groupe Telegram"><i class="fa-brands fa-telegram"></i></a>
     <button class="float-admin" type="button" onclick="openAdminDirect()" aria-label="Discuter avec l'administrateur"><i class="fa-solid fa-headset"></i></button>
 </div>
@@ -2077,6 +2105,8 @@ function logoutUser(){
     showLoginScreen();
 }
 function navigateWithoutLoader(targetPageId){
+    // Même sans écran de chargement, les boutons flottants suivent les 4 pages principales.
+    updateFloatingContacts(targetPageId);
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     const target=document.getElementById(targetPageId); if(target) target.classList.add('active');
     document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.page===targetPageId));
@@ -2281,9 +2311,24 @@ function updateUI() {
 
 let isNavigating = false;
 
+// Les boutons de groupes/contacts sont visibles uniquement sur les 4 pages principales.
+// Dès que l'utilisateur ouvre une autre page (chat, partage, code promo, historique, etc.),
+// ils disparaissent. Ils réapparaissent automatiquement lorsqu'il revient sur Accueil,
+// Produits, Équipe ou Mon compte.
+function updateFloatingContacts(targetPageId) {
+    const mainPages = new Set(['home', 'products', 'team', 'profile']);
+    const show = mainPages.has(targetPageId);
+    document.querySelectorAll('.contact-float, .contact-float-left').forEach(el => {
+        el.classList.toggle('contact-visible', show);
+        el.setAttribute('aria-hidden', show ? 'false' : 'true');
+    });
+}
+
 function navigateWithLoader(targetPageId) {
     if (isNavigating) return;
     isNavigating = true;
+    // Masquer immédiatement les boutons lorsqu'on quitte l'une des 4 pages principales.
+    updateFloatingContacts(targetPageId);
 
     let msg = "Chargement en cours...";
     if (targetPageId.includes('deposit')) msg = "💰 Chargement du dépôt...";
@@ -2336,6 +2381,7 @@ function navigateWithLoader(targetPageId) {
         });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateFloatingContacts(targetPageId);
         isNavigating = false;
     }, 2000);
 }
