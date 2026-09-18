@@ -701,6 +701,24 @@ button{cursor:pointer}
 .guide-body p{margin:0;color:#5d6b65;font-size:13px;line-height:1.65}
 .info-fonctionnement-head{margin-top:22px}
 @media(max-width:420px){.guide-card img{height:175px}.guide-body{padding:14px}.guide-body h4{font-size:16px}.guide-body p{font-size:12.5px}}
+
+/* ================= ACCÈS RAPIDE GROUPES ================= */
+.social-quick{
+    background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;box-shadow:var(--shadow);
+}
+.social-quick a,.social-quick button{
+    border:0;background:none;text-decoration:none;color:var(--ink);display:flex;
+    flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;
+}
+.social-icon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:21px;transition:.2s;box-shadow:0 5px 14px rgba(0,0,0,.06)}
+.social-quick a:active .social-icon,.social-quick button:active .social-icon{transform:scale(.92)}
+.social-label{font-size:8.5px;font-weight:800;text-align:center;line-height:1.2}
+.social-wa{background:#e9f8f1;color:#25D366}.social-tg{background:#e8f5ff;color:#229ED9}.social-admin{background:#effbea;color:#148d16}
+.contact-float{position:fixed;right:max(10px,calc((100vw - 450px)/2 + 10px));top:50%;transform:translateY(-50%);z-index:120;display:flex;flex-direction:column;gap:8px}
+.contact-float a,.contact-float button{width:43px;height:43px;border:1px solid rgba(255,255,255,.9);border-radius:14px;display:grid;place-items:center;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.16);font-size:19px;cursor:pointer}
+.contact-float .float-wa{background:#25D366;color:#fff}.contact-float .float-tg{background:#229ED9;color:#fff}.contact-float .float-admin{background:#1aa51a;color:#fff}
+@media(max-width:450px){.contact-float{right:8px}.contact-float a,.contact-float button{width:40px;height:40px;border-radius:13px;font-size:17px}}
 </style>
 </head>
 
@@ -780,6 +798,19 @@ button{cursor:pointer}
                 <button onclick="startDepositFlow()"><div class="quick-icon"><i class="fa-solid fa-circle-arrow-down"></i></div><span>Dépôt</span></button>
                 <button onclick="startWithdrawFlow()"><div class="quick-icon"><i class="fa-solid fa-circle-arrow-up"></i></div><span>Retrait</span></button>
                 <button onclick="navigateWithLoader('team')"><div class="quick-icon"><i class="fa-solid fa-user-group"></i></div><span>Équipe</span></button>
+            </div>
+
+            <div class="section-head"><h3>🤝 Rejoindre nos groupes</h3><span>Officiel</span></div>
+            <div class="social-quick">
+                <a href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" aria-label="Groupe WhatsApp officiel">
+                    <div class="social-icon social-wa"><i class="fa-brands fa-whatsapp"></i></div><span class="social-label">💬 Groupe WhatsApp</span>
+                </a>
+                <a href="https://t.me/+k-qwl-IWiP5mOTk8" target="_blank" rel="noopener" aria-label="Groupe Telegram officiel">
+                    <div class="social-icon social-tg"><i class="fa-brands fa-telegram"></i></div><span class="social-label">📲 Groupe Telegram</span>
+                </a>
+                <button type="button" onclick="openNotifications()" aria-label="Discuter avec l'administrateur">
+                    <div class="social-icon social-admin"><i class="fa-solid fa-headset"></i></div><span class="social-label">👨‍💼 Administrateur</span>
+                </button>
             </div>
 
             <div class="section-head"><h3>Information</h3><span><i class="fa-solid fa-circle-info"></i></span></div>
@@ -1659,7 +1690,7 @@ button{cursor:pointer}
             <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Contactez notre équipe de support officielle via les canaux ci-dessous :</p>
             
             <div style="margin-top: 10px;">
-                <a href="https://chat.whatsapp.com/Cu0HCUlGsBsCyx1vHrE2T2" target="_blank" rel="noopener" class="support-link-item">
+                <a href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="support-link-item">
                     <div class="support-icon"><i class="fa-brands fa-whatsapp"></i></div>
                     <div><div>Groupe WhatsApp officiel</div><small style="color:var(--muted);font-weight:normal">Rejoindre le groupe LDCI LONG TERME</small></div>
                 </a>
@@ -1730,6 +1761,12 @@ Merci pour votre confiance et bienvenue dans LDCI LONG TERME !</p>
         <div class="spinner"></div>
         <div class="loader-text" id="loaderMessageText">Chargement de la page...</div>
     </div>
+</div>
+
+<div class="contact-float" aria-label="Contacts rapides">
+    <a class="float-wa" href="https://chat.whatsapp.com/Ej0aUuqtHJPDiBCgHldtqG?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" aria-label="Groupe WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a class="float-tg" href="https://t.me/+k-qwl-IWiP5mOTk8" target="_blank" rel="noopener" aria-label="Groupe Telegram"><i class="fa-brands fa-telegram"></i></a>
+    <button class="float-admin" type="button" onclick="openNotifications()" aria-label="Discuter avec l'administrateur"><i class="fa-solid fa-headset"></i></button>
 </div>
 
 <div id="toast" class="toast"></div>
