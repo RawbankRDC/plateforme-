@@ -214,6 +214,7 @@ button{cursor:pointer}
 .metric strong{display:block;font-size:10px;margin-top:2px}
 .metric.total strong{color:var(--orange)}
 .product-actions{display:grid;grid-template-columns:1fr 1.45fr;gap:8px;margin-top:12px}
+.purchase-limit{margin-top:9px;font-size:8px;color:var(--muted);display:flex;align-items:center;gap:5px}.purchase-limit i{color:var(--green)}
 .btn{
     border:0;border-radius:12px;padding:11px;font-size:10px;font-weight:800;
     transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px;
@@ -900,25 +901,26 @@ button{cursor:pointer}
         <div class="products-head">
             <div class="small">Catalogue</div>
             <h2>Programmes</h2>
-            <p>Chaque programme affiche clairement le montant, le revenu journalier, la durée et le revenu total.</p>
+            <p>Chaque programme affiche clairement le montant, le revenu journalier, la durée, le nombre d’achats autorisés et le revenu total.</p>
         </div>
         <div class="product-wrap">
-            <article class="product-card featured featured">
+            <article class="product-card featured">
                 <div class="product-image">
                     <span class="product-badge">POPULAIRE</span><span class="product-live"><span class="dot"></span>Disponible</span>
                     <div class="product-art"><i class="fa-solid fa-seedling"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 20K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 60 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 20K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 25 jours</div></div>
                     <div class="product-price">20,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>20,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>1,330 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>79,800 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>33,250 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>1 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 20K', 20000, 1330, 60, 79800)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 20K', 20000, 1330, 60, 79800)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 20K', 20000, 1330, 25, 33250, 1)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 20K', 20000, 1330, 25, 33250, 1)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -928,16 +930,17 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-wheat-awn"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 50K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 60 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 50K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
                     <div class="product-price">50,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>50,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>2,350 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>141,000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>70,500 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>1 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 50K', 50000, 2350, 60, 141000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 50K', 50000, 2350, 60, 141000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 50K', 50000, 2350, 30, 70500, 1)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 50K', 50000, 2350, 30, 70500, 1)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -947,16 +950,17 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-tree"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 100K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 60 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 100K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
                     <div class="product-price">100,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>100,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>4,666 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>279,960 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>139,980 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 100K', 100000, 4666, 60, 279960)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 100K', 100000, 4666, 60, 279960)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 100K', 100000, 4666, 30, 139980, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 100K', 100000, 4666, 30, 139980, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -966,16 +970,17 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-mountain-sun"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 200K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 80 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 200K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 33 jours</div></div>
                     <div class="product-price">200,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>200,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>8,333 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>666,640 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>274,989 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 200K', 200000, 8333, 80, 666640)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 200K', 200000, 8333, 80, 666640)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 200K', 200000, 8333, 33, 274989, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 200K', 200000, 8333, 33, 274989, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -985,16 +990,17 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-chart-line"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 500K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 80 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 500K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
                     <div class="product-price">500,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>500,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>20,000 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>1,600,000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>600,000 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 500K', 500000, 20000, 80, 1600000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 500K', 500000, 20000, 80, 1600000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 500K', 500000, 20000, 30, 600000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 500K', 500000, 20000, 30, 600000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1004,16 +1010,17 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-money-bill-trend-up"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 100 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
                     <div class="product-price">1,000,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>1,000,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>40,000 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>4,000,000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>1,200,000 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 1M', 1000000, 40000, 100, 4000000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1M', 1000000, 40000, 100, 4000000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 1M', 1000000, 40000, 30, 1200000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1M', 1000000, 40000, 30, 1200000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1023,16 +1030,17 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-coins"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 100 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 28 jours</div></div>
                     <div class="product-price">1,500,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>1,500,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>70,000 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>7,000,000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>1,960,000 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 1.5M', 1500000, 70000, 100, 7000000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1.5M', 1500000, 70000, 100, 7000000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 1.5M', 1500000, 70000, 28, 1960000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1.5M', 1500000, 70000, 28, 1960000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1042,16 +1050,17 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-gem"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 2.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 100 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 2.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 28 jours</div></div>
                     <div class="product-price">2,500,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>2,500,000 FC</strong></div>
                         <div class="metric"><i class="fa-solid fa-calendar-day"></i><label>Gain / jour</label><strong>130,000 FC</strong></div>
-                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>13,000,000 FC</strong></div>
+                        <div class="metric total"><i class="fa-solid fa-chart-line"></i><label>Revenu total</label><strong>3,640,000 FC</strong></div>
                     </div>
+                    <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 2.5M', 2500000, 130000, 100, 13000000)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 2.5M', 2500000, 130000, 100, 13000000)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 2.5M', 2500000, 130000, 28, 3640000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 2.5M', 2500000, 130000, 28, 3640000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1978,6 +1987,10 @@ function loginSuccess(account,phone){
     sessionStorage.setItem('vigoraPhone', phone); accountCache[String(phone).replace(/\D/g,'')]=userData;
     document.getElementById('authGate').style.display='none';
     document.getElementById('mainAppContainer').classList.remove('auth-hidden');
+    // Met à jour les anciens achats et supprime immédiatement ceux déjà terminés.
+    syncUserProductsWithCurrentPlans(phone, account).then(updated=>{
+        if(updated){ userData=updated; accountCache[canonicalPhoneKey(phone)]=userData; updateUI(); }
+    });
     updateUI();
     // Synchronise en temps réel le profil : commissions et membres d'équipe
     // ajoutés par une autre session apparaissent automatiquement.
@@ -2161,8 +2174,9 @@ function getTeamRevenueTotal(){
 function getProductRevenueTotal(){
     if(!userData) return 0;
     const products = Array.isArray(userData.purchasedProducts) ? userData.purchasedProducts : [];
-    // Seulement les revenus produits réellement reçus, pas le revenu théorique affiché dans le programme.
-    return products.reduce((sum,p) => sum + Number(p.totalReceived || 0), 0);
+    const completed = Array.isArray(userData.completedProducts) ? userData.completedProducts : [];
+    // Seulement les revenus produits réellement reçus, y compris les programmes terminés.
+    return [...products, ...completed].reduce((sum,p) => sum + Number(p.totalReceived || 0), 0);
 }
 
 let teamRepairInProgress = false;
@@ -2838,24 +2852,153 @@ function renderTeamLevel(lvl) {
     });
 }
 
-function openProductDetails(name, price, daily, duration, totalReturnAmt) {
-    selectedProductTemp = { name, price, daily, duration, totalReturnAmt };
+const LDCI_PLANS = {
+    'Programme 20K': { key:'20K', maxPurchases:1, price:20000, daily:1330, duration:25, totalReturnAmt:33250 },
+    'Programme 50K': { key:'50K', maxPurchases:1, price:50000, daily:2350, duration:30, totalReturnAmt:70500 },
+    'Programme 100K': { key:'100K', maxPurchases:3, price:100000, daily:4666, duration:30, totalReturnAmt:139980 },
+    'Programme 200K': { key:'200K', maxPurchases:3, price:200000, daily:8333, duration:33, totalReturnAmt:274989 },
+    'Programme 500K': { key:'500K', maxPurchases:3, price:500000, daily:20000, duration:30, totalReturnAmt:600000 },
+    'Programme 1M': { key:'1M', maxPurchases:3, price:1000000, daily:40000, duration:30, totalReturnAmt:1200000 },
+    'Programme 1.5M': { key:'1.5M', maxPurchases:3, price:1500000, daily:70000, duration:28, totalReturnAmt:1960000 },
+    'Programme 2.5M': { key:'2.5M', maxPurchases:3, price:2500000, daily:130000, duration:28, totalReturnAmt:3640000 }
+};
+
+function getPlanPurchaseCount(name, products, purchaseHistory){
+    const plan = LDCI_PLANS[name];
+    if(!plan) return 0;
+    const list = Array.isArray(products) ? products : [];
+    const history = Array.isArray(purchaseHistory) ? purchaseHistory : [];
+    const seen = new Set();
+    let count = 0;
+
+    // L'historique est prioritaire : il permet de conserver la limite d'achat
+    // même après la disparition d'un produit arrivé au terme de ses jours.
+    history.forEach(p => {
+        if(String(p.name || '') === name || String(p.planKey || '') === plan.key){
+            const id = String(p.id || `${p.planKey || p.name}-${p.activatedAt || p.date || Math.random()}`);
+            if(!seen.has(id)){ seen.add(id); count++; }
+        }
+    });
+
+    // Compatibilité avec les anciens comptes qui n'ont pas encore d'historique.
+    list.forEach(p => {
+        if(String(p.name || '') === name || String(p.planKey || '') === plan.key){
+            const id = String(p.id || `${p.planKey || p.name}-${p.activatedAt || ''}`);
+            if(!seen.has(id)){ seen.add(id); count++; }
+        }
+    });
+    return count;
+}
+
+function getPlan(name){ return LDCI_PLANS[name] || null; }
+
+// Synchronise les anciens achats avec les plans actuels et retire définitivement
+// de "Mes produits" les programmes qui ont déjà atteint leur nombre de jours.
+// Les achats terminés restent dans l'historique afin que la limite d'achat reste
+// respectée même après la disparition du produit.
+async function syncUserProductsWithCurrentPlans(phone, accountOverride=null){
+    const ref = userDoc(phone);
+    try{
+        let result = null;
+        await runTransaction(db, async tx => {
+            const snap = await tx.get(ref);
+            if(!snap.exists()) return;
+            const fresh = snap.data();
+            const sourceProducts = Array.isArray(fresh.purchasedProducts) ? fresh.purchasedProducts : [];
+            const purchaseHistory = Array.isArray(fresh.purchaseHistory) ? fresh.purchaseHistory.map(x=>({...x})) : [];
+            const completedProducts = Array.isArray(fresh.completedProducts) ? fresh.completedProducts.map(x=>({...x})) : [];
+            const activeProducts = [];
+            const historyIds = new Set(purchaseHistory.map(x=>String(x.id || '')));
+            const completedIds = new Set(completedProducts.map(x=>String(x.id || '')));
+
+            sourceProducts.forEach(raw => {
+                const prod = {...raw};
+                const plan = getPlan(prod.name) || (prod.planKey ? Object.values(LDCI_PLANS).find(x=>x.key===String(prod.planKey)) : null);
+                if(plan){
+                    // Les achats déjà existants utilisent maintenant les paramètres
+                    // actuels du même programme. Les jours déjà réclamés sont conservés.
+                    prod.planKey = plan.key;
+                    prod.price = Number(plan.price);
+                    prod.daily = Number(plan.daily);
+                    prod.duration = Number(plan.duration);
+                    prod.totalReturn = Number(plan.totalReturnAmt);
+                    prod.maxPurchases = Number(plan.maxPurchases);
+                }
+                prod.claimedDays = Number(prod.claimedDays || 0);
+                prod.totalReceived = Number(prod.totalReceived || 0);
+
+                if(!historyIds.has(String(prod.id))){
+                    purchaseHistory.push({
+                        id: prod.id,
+                        planKey: prod.planKey || '',
+                        name: prod.name || '',
+                        price: Number(prod.price || 0),
+                        activatedAt: prod.activatedAt || '',
+                        date: prod.activatedAt || ''
+                    });
+                    historyIds.add(String(prod.id));
+                }
+
+                if(prod.duration > 0 && prod.claimedDays >= prod.duration){
+                    if(!completedIds.has(String(prod.id))){
+                        completedProducts.push({...prod, completedAt: prod.completedAt || new Date().toISOString()});
+                        completedIds.add(String(prod.id));
+                    }
+                }else{
+                    activeProducts.push(prod);
+                }
+            });
+
+            const changed = JSON.stringify(sourceProducts) !== JSON.stringify(activeProducts)
+                || JSON.stringify(fresh.purchaseHistory || []) !== JSON.stringify(purchaseHistory)
+                || JSON.stringify(fresh.completedProducts || []) !== JSON.stringify(completedProducts);
+
+            if(changed){
+                tx.update(ref, {
+                    purchasedProducts: activeProducts,
+                    purchaseHistory,
+                    completedProducts
+                });
+            }
+            result = {account:{...fresh,purchasedProducts:activeProducts,purchaseHistory,completedProducts}};
+        });
+
+        if(result?.account && canonicalPhoneKey(phone) === canonicalPhoneKey(currentAccountPhone || phone)){
+            userData = result.account;
+            accountCache[canonicalPhoneKey(phone)] = userData;
+        }
+        return result?.account || accountOverride || null;
+    }catch(e){
+        console.warn('Synchronisation des produits:', e);
+        return accountOverride || null;
+    }
+}
+
+function openProductDetails(name, price, daily, duration, totalReturnAmt, maxPurchases) {
+    const plan = getPlan(name) || {maxPurchases:Number(maxPurchases)||1};
+    selectedProductTemp = { name, price, daily, duration, totalReturnAmt, maxPurchases:plan.maxPurchases, planKey:plan.key };
     document.getElementById('detProdNameTitle').textContent = name;
     document.getElementById('detProdPrice').textContent = price.toLocaleString() + ' FC';
     document.getElementById('detProdDuration').textContent = duration + ' jours';
     document.getElementById('detProdDaily').textContent = daily.toLocaleString() + ' FC';
     document.getElementById('detProdTotal').textContent = totalReturnAmt.toLocaleString() + ' FC';
-    document.getElementById('detProdCycles').textContent = duration + ' cycles journaliers';
+    document.getElementById('detProdCycles').textContent = duration + ' cycles journaliers • ' + plan.maxPurchases + ' achat' + (plan.maxPurchases > 1 ? 's' : '') + ' maximum';
     navigateWithLoader('page-product-details');
 }
 
 function proceedToBuyFromDetails() {
     if (!selectedProductTemp) return;
-    openProductConfirm(selectedProductTemp.name, selectedProductTemp.price, selectedProductTemp.daily, selectedProductTemp.duration, selectedProductTemp.totalReturnAmt);
+    openProductConfirm(selectedProductTemp.name, selectedProductTemp.price, selectedProductTemp.daily, selectedProductTemp.duration, selectedProductTemp.totalReturnAmt, selectedProductTemp.maxPurchases);
 }
 
-function openProductConfirm(name, price, daily, duration, totalReturnAmt) {
-    selectedProductTemp = { name, price, daily, duration, totalReturnAmt };
+function openProductConfirm(name, price, daily, duration, totalReturnAmt, maxPurchases) {
+    const plan = getPlan(name) || {maxPurchases:Number(maxPurchases)||1};
+    const count = getPlanPurchaseCount(name, userData?.purchasedProducts, userData?.purchaseHistory);
+    if(count >= plan.maxPurchases){
+        showToast(`Limite atteinte : ${name} peut être activé ${plan.maxPurchases} fois maximum.`);
+        return;
+    }
+    selectedProductTemp = { name, price, daily, duration, totalReturnAmt, maxPurchases:plan.maxPurchases, planKey:plan.key };
     document.getElementById('confProdName').textContent = name;
     document.getElementById('confProdPrice').textContent = price.toLocaleString() + ' FC';
     document.getElementById('confProdDaily').textContent = daily.toLocaleString() + ' FC';
@@ -2864,34 +3007,72 @@ function openProductConfirm(name, price, daily, duration, totalReturnAmt) {
     navigateWithLoader('page-product-confirm');
 }
 
-function executeProductActivation() {
-    if (!selectedProductTemp || isNavigating) return;
-    if (userData.balance < selectedProductTemp.price) {
-        showToast('Solde insuffisant pour activer ce programme !');
-        navigateWithLoader('products');
-        return;
+async function executeProductActivation() {
+    if (!selectedProductTemp || isNavigating || !userData || !currentAccountPhone) return;
+    const plan = getPlan(selectedProductTemp.name) || selectedProductTemp;
+    const userRef = userDoc(currentAccountPhone);
+    const activationTime = new Date();
+
+    try {
+        let result = null;
+        await runTransaction(db, async (tx) => {
+            const snap = await tx.get(userRef);
+            if(!snap.exists()) throw new Error('Compte utilisateur introuvable.');
+            const fresh = snap.data();
+            const products = Array.isArray(fresh.purchasedProducts) ? fresh.purchasedProducts.map(p => ({...p})) : [];
+            const purchaseHistory = Array.isArray(fresh.purchaseHistory) ? fresh.purchaseHistory.map(p => ({...p})) : [];
+            const count = getPlanPurchaseCount(selectedProductTemp.name, products, purchaseHistory);
+            const maxPurchases = Number(plan.maxPurchases || 1);
+            if(count >= maxPurchases){
+                throw new Error(`Limite atteinte : ${selectedProductTemp.name} peut être activé ${maxPurchases} fois maximum.`);
+            }
+            const balance = Number(fresh.balance || 0);
+            const price = Number(selectedProductTemp.price || 0);
+            if(balance < price) throw new Error('Solde insuffisant pour activer ce programme !');
+
+            const product = {
+                id: activationTime.getTime(),
+                planKey: plan.key || selectedProductTemp.planKey || '',
+                name: selectedProductTemp.name,
+                price,
+                daily: Number(selectedProductTemp.daily || 0),
+                duration: Number(selectedProductTemp.duration || 0),
+                claimedDays: 0,
+                totalReceived: 0,
+                totalReturn: Number(selectedProductTemp.totalReturnAmt || 0),
+                maxPurchases,
+                lastClaimDate: '',
+                lastClaimAt: '',
+                activatedAt: activationTime.toISOString()
+            };
+            products.push(product);
+            purchaseHistory.push({
+                id: product.id,
+                planKey: product.planKey,
+                name: product.name,
+                price: product.price,
+                activatedAt: product.activatedAt,
+                date: product.activatedAt
+            });
+            const newBalance = balance - price;
+            const newTotalReturn = Number(fresh.totalReturn || 0) + product.totalReturn;
+            tx.update(userRef, { balance:newBalance, totalReturn:newTotalReturn, purchasedProducts:products, purchaseHistory });
+            result = {newBalance,newTotalReturn,products,purchaseHistory,product};
+        });
+
+        userData.balance = result.newBalance;
+        userData.totalReturn = result.newTotalReturn;
+        userData.purchasedProducts = result.products;
+        userData.purchaseHistory = result.purchaseHistory;
+        accountCache[canonicalPhoneKey(currentAccountPhone)] = userData;
+        distributeReferralCommissions(userData, selectedProductTemp.price).catch(e=>console.error('Referral Firebase',e));
+        updateUI();
+        showToast(selectedProductTemp.name + ' activé avec succès !');
+        navigateWithLoader('page-my-products');
+    } catch(e) {
+        console.error('Activation produit:', e);
+        showToast(e?.message || 'Impossible d’activer ce programme.');
     }
-
-    userData.balance -= selectedProductTemp.price;
-    userData.purchasedProducts.push({
-        id: Date.now(),
-        name: selectedProductTemp.name,
-        price: selectedProductTemp.price,
-        daily: selectedProductTemp.daily,
-        duration: selectedProductTemp.duration,
-        claimedDays: 0,
-        totalReceived: 0,
-        totalReturn: selectedProductTemp.totalReturnAmt,
-        lastClaimDate: "",
-        lastClaimAt: ""
-    });
-    userData.totalReturn += selectedProductTemp.totalReturnAmt;
-    distributeReferralCommissions(userData, selectedProductTemp.price).catch(e=>console.error('Referral Firebase',e));
-    saveCurrentAccount();
-    updateUI();
-
-    showToast(selectedProductTemp.name + ' activé avec succès !');
-    navigateWithLoader('page-my-products');
 }
 
 async function distributeReferralCommissions(investor, investmentAmount){
@@ -2963,12 +3144,17 @@ function renderMyProducts() {
     const container = document.getElementById('myProductsListContainer');
     container.innerHTML = '';
 
-    if (!Array.isArray(userData.purchasedProducts) || userData.purchasedProducts.length === 0) {
+    const products = Array.isArray(userData?.purchasedProducts) ? userData.purchasedProducts : [];
+    if (products.length === 0) {
         container.innerHTML = '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucun produit actif pour le moment.</div>';
         return;
     }
 
-    userData.purchasedProducts.forEach(prod => {
+    products.forEach(prod => {
+        // Un produit terminé ne doit plus être affiché dans Mes produits.
+        if(Number(prod.claimedDays || 0) >= Number(prod.duration || 0)){
+            return;
+        }
         const remainingDays = Math.max(0, Number(prod.duration || 0) - Number(prod.claimedDays || 0));
         const remainingRevenue = remainingDays * Number(prod.daily || 0);
         const claimable = isProductClaimable(prod);
@@ -2977,9 +3163,7 @@ function renderMyProducts() {
             ? '⏳ Enregistrement...'
             : claimable
                 ? 'Réclamer ' + Number(prod.daily || 0).toLocaleString() + ' FC'
-                : (Number(prod.claimedDays || 0) >= Number(prod.duration || 0)
-                    ? 'Programme terminé'
-                    : 'Déjà réclamé — 24h');
+                : 'Déjà réclamé — 24h';
 
         container.innerHTML += `
             <div class="my-product-card">
@@ -2992,9 +3176,10 @@ function renderMyProducts() {
                     <div>Revenu/jour : <strong>${Number(prod.daily || 0).toLocaleString()} FC</strong></div>
                     <div>Jours réclamés : <strong>${Number(prod.claimedDays || 0)} / ${prod.duration}</strong></div>
                     <div>Jours restants : <strong>${remainingDays}</strong></div>
+                    <div>Achats : <strong>${getPlanPurchaseCount(prod.name, userData.purchasedProducts, userData.purchaseHistory)} / ${Number(prod.maxPurchases || getPlan(prod.name)?.maxPurchases || 1)}</strong></div>
                     <div>Reçu : <strong style="color:var(--green)">${Number(prod.totalReceived || 0).toLocaleString()} FC</strong></div>
                     <div>Restant : <strong>${remainingRevenue.toLocaleString()} FC</strong></div>
-                    ${claimable || Number(prod.claimedDays || 0) >= Number(prod.duration || 0) ? '' : `<div style="grid-column:1/-1;color:var(--muted);font-size:9px;">⏱️ ${getNextClaimText(prod)}</div>`}
+                    ${claimable ? '' : `<div style="grid-column:1/-1;color:var(--muted);font-size:9px;">⏱️ ${getNextClaimText(prod)}</div>`}
                 </div>
                 <button class="claim-btn" onclick="claimDailyProfit(${JSON.stringify(prod.id)})" ${(!claimable || busy) ? 'disabled' : ''}>
                     ${claimLabel}
@@ -3002,6 +3187,10 @@ function renderMyProducts() {
             </div>
         `;
     });
+
+    if(!container.innerHTML.trim()){
+        container.innerHTML = '<div style="font-size:10px;color:var(--muted);text-align:center;padding:15px;">Aucun produit actif pour le moment.</div>';
+    }
 }
 
 async function claimDailyProfit(prodId) {
@@ -3049,7 +3238,19 @@ async function claimDailyProfit(prodId) {
             prod.totalReceived = Number(prod.totalReceived || 0) + daily;
             prod.lastClaimAt = claimIso;
             prod.lastClaimDate = claimTime.toDateString();
-            products[index] = prod;
+
+            // Après la dernière journée, le produit disparaît immédiatement
+            // de la liste des produits actifs, mais reste conservé dans
+            // completedProducts pour l'historique et le total des revenus reçus.
+            const completedProducts = Array.isArray(fresh.completedProducts) ? fresh.completedProducts.map(p=>({...p})) : [];
+            let completedNow = false;
+            if(prod.claimedDays >= duration){
+                completedProducts.push({...prod, completedAt: claimIso});
+                products.splice(index, 1);
+                completedNow = true;
+            }else{
+                products[index] = prod;
+            }
 
             const history = Array.isArray(fresh.earningsHistory) ? [...fresh.earningsHistory] : [];
             history.unshift({
@@ -3069,14 +3270,16 @@ async function claimDailyProfit(prodId) {
             tx.update(userRef, {
                 balance: newBalance,
                 purchasedProducts: products,
+                completedProducts,
                 earningsHistory: history
             });
 
-            result = { daily, newBalance, products };
+            result = { daily, newBalance, products, completedProducts, completedNow };
         });
 
         userData.balance = result.newBalance;
         userData.purchasedProducts = result.products;
+        userData.completedProducts = result.completedProducts;
 
         const saved = await getDoc(userRef);
         if (saved.exists()) userData = saved.data();
