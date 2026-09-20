@@ -730,6 +730,38 @@ button{cursor:pointer}
 .contact-float,.contact-float-left{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease;}
 .contact-float.contact-visible,.contact-float-left.contact-visible{opacity:1;visibility:visible;pointer-events:auto;}
 
+
+/* ================= SALAIRE MENSUEL LEADERS / PROMOTEURS ================= */
+.salary-page{background:var(--bg);min-height:100vh;padding-bottom:105px;}
+.salary-hero{background:linear-gradient(135deg,#15991d,#31c810);color:#fff;padding:24px 18px 30px;}
+.salary-hero-row{display:flex;align-items:center;gap:12px;}
+.salary-hero-icon{width:50px;height:50px;border-radius:16px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:22px;border:1px solid rgba(255,255,255,.22);}
+.salary-hero h2{font-size:20px;font-weight:800;}
+.salary-hero p{font-size:10px;color:#d7f5e1;margin-top:5px;line-height:1.5;}
+.salary-card{margin:-18px 16px 14px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:15px;box-shadow:var(--shadow);position:relative;z-index:2;}
+.salary-title{display:flex;align-items:center;gap:9px;margin-bottom:12px;}
+.salary-title i{width:36px;height:36px;border-radius:11px;background:var(--green3);color:var(--green);display:grid;place-items:center;}
+.salary-title strong{font-size:14px;}
+.salary-title small{display:block;color:var(--muted);font-size:9px;margin-top:2px;}
+.salary-table-wrap{overflow-x:auto;border-radius:13px;border:1px solid #edf2ef;}
+.salary-table{width:100%;border-collapse:collapse;min-width:330px;font-size:10px;}
+.salary-table th{background:#0b7f4e;color:#fff;padding:11px 8px;text-align:left;font-size:9px;}
+.salary-table th:last-child{text-align:right;}
+.salary-table td{padding:11px 8px;border-top:1px solid #edf2ef;font-weight:700;background:#fff;}
+.salary-table td:last-child{text-align:right;color:#087f4e;font-weight:900;white-space:nowrap;}
+.salary-table tr:nth-child(even) td{background:#f8fbf9;}
+.salary-note{margin-top:11px;background:#effbea;border:1px solid #d5eedf;color:#37614d;border-radius:12px;padding:10px;font-size:9px;line-height:1.55;}
+.regional-card{margin:14px 16px;background:#061910;color:#fff;border-radius:20px;padding:16px;box-shadow:var(--shadow2);}
+.regional-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.regional-head i{width:38px;height:38px;border-radius:12px;background:#0ba76a;display:grid;place-items:center;}
+.regional-head strong{font-size:14px;}
+.regional-head small{display:block;color:#9fc7b4;font-size:9px;margin-top:2px;}
+.regional-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.regional-item{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);border-radius:13px;padding:11px 6px;text-align:center;}
+.regional-item strong{display:block;font-size:16px;color:#fff;}
+.regional-item small{display:block;color:#9fc7b4;font-size:8px;margin-top:4px;line-height:1.3;}
+.salary-back{margin:14px 16px 0;width:calc(100% - 32px);}
+
 /* ================= GROUPE D VISIBLE SUR CONNEXION / INSCRIPTION ================= */
 .auth-group-d{position:fixed;left:max(10px,calc((100vw - 450px)/2 + 10px));top:50%;transform:translateY(-50%);z-index:10020;}
 .auth-group-d a{width:48px;min-height:48px;padding:6px 4px;border:1px solid rgba(255,255,255,.95);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18);font-size:19px;cursor:pointer;background:#25D366;color:#fff;}
@@ -906,11 +938,11 @@ button{cursor:pointer}
         <div class="product-wrap">
             <article class="product-card featured">
                 <div class="product-image">
-                    <span class="product-badge">POPULAIRE</span><span class="product-live"><span class="dot"></span>Disponible</span>
+                    <span class="product-badge">VIP</span><span class="product-live"><span class="dot"></span>Disponible</span>
                     <div class="product-art"><i class="fa-solid fa-seedling"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 20K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 25 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 20K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 35 jours</div></div>
                     <div class="product-price">20,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>20,000 FC</strong></div>
@@ -919,8 +951,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>1 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 20K', 20000, 1330, 25, 33250, 1)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 20K', 20000, 1330, 25, 33250, 1)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 20K', 20000, 1330, 35, 46550, 1)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 20K', 20000, 1330, 35, 46550, 1)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -930,7 +962,7 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-wheat-awn"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 50K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 50K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 45 jours</div></div>
                     <div class="product-price">50,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>50,000 FC</strong></div>
@@ -939,8 +971,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>1 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 50K', 50000, 2350, 30, 70500, 1)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 50K', 50000, 2350, 30, 70500, 1)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 50K', 50000, 2350, 45, 105750, 1)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 50K', 50000, 2350, 45, 105750, 1)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -950,7 +982,7 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-tree"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 100K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 100K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 45 jours</div></div>
                     <div class="product-price">100,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>100,000 FC</strong></div>
@@ -959,8 +991,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 100K', 100000, 4666, 30, 139980, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 100K', 100000, 4666, 30, 139980, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 100K', 100000, 4666, 45, 209970, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 100K', 100000, 4666, 45, 209970, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -970,7 +1002,7 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-mountain-sun"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 200K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 33 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 200K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 45 jours</div></div>
                     <div class="product-price">200,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>200,000 FC</strong></div>
@@ -979,8 +1011,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 200K', 200000, 8333, 33, 274989, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 200K', 200000, 8333, 33, 274989, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 200K', 200000, 8333, 45, 374985, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 200K', 200000, 8333, 45, 374985, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -990,7 +1022,7 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-chart-line"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 500K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 500K</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 45 jours</div></div>
                     <div class="product-price">500,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>500,000 FC</strong></div>
@@ -999,8 +1031,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 500K', 500000, 20000, 30, 600000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 500K', 500000, 20000, 30, 600000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 500K', 500000, 20000, 45, 900000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 500K', 500000, 20000, 45, 900000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1010,7 +1042,7 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-money-bill-trend-up"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 30 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 45 jours</div></div>
                     <div class="product-price">1,000,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>1,000,000 FC</strong></div>
@@ -1019,8 +1051,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 1M', 1000000, 40000, 30, 1200000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1M', 1000000, 40000, 30, 1200000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 1M', 1000000, 40000, 45, 1800000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1M', 1000000, 40000, 45, 1800000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1030,7 +1062,7 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-coins"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 28 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 1.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 45 jours</div></div>
                     <div class="product-price">1,500,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>1,500,000 FC</strong></div>
@@ -1039,8 +1071,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 1.5M', 1500000, 70000, 28, 1960000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1.5M', 1500000, 70000, 28, 1960000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 1.5M', 1500000, 70000, 45, 3150000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 1.5M', 1500000, 70000, 45, 3150000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1050,7 +1082,7 @@ button{cursor:pointer}
                     <div class="product-art"><i class="fa-solid fa-gem"></i></div>
                 </div>
                 <div class="product-body">
-                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 2.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 28 jours</div></div>
+                    <div class="product-title-row"><div class="product-title"><i class="fa-solid fa-chart-pie"></i>Programme 2.5M</div><div class="product-duration"><i class="fa-regular fa-clock"></i> 45 jours</div></div>
                     <div class="product-price">2,500,000 FC</div>
                     <div class="product-grid">
                         <div class="metric"><i class="fa-solid fa-coins"></i><label>Investissement</label><strong>2,500,000 FC</strong></div>
@@ -1059,8 +1091,8 @@ button{cursor:pointer}
                     </div>
                     <div class="purchase-limit"><i class="fa-solid fa-bag-shopping"></i><span>Achats autorisés : <strong>3 fois</strong></span></div>
                     <div class="product-actions">
-                        <button class="btn btn-light" onclick="openProductDetails('Programme 2.5M', 2500000, 130000, 28, 3640000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
-                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 2.5M', 2500000, 130000, 28, 3640000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
+                        <button class="btn btn-light" onclick="openProductDetails('Programme 2.5M', 2500000, 130000, 45, 5850000, 3)"><i class="fa-solid fa-circle-info"></i>Détails</button>
+                        <button class="btn btn-primary" onclick="openProductConfirm('Programme 2.5M', 2500000, 130000, 45, 5850000, 3)"><i class="fa-solid fa-bag-shopping"></i>Choisir</button>
                     </div>
                 </div>
             </article>
@@ -1090,7 +1122,7 @@ button{cursor:pointer}
             <div class="section-head" style="color:white;margin-top:6px"><h3>Niveaux de l'équipe</h3><span style="color:#78dcb1" onclick="navigateWithLoader('page-team-details')">Détails</span></div>
             <div class="level" onclick="openTeamLevel(1)">
                 <div class="lv">LV1</div>
-                <div><strong>12%</strong><small>Commission</small></div>
+                <div><strong>11%</strong><small>Commission</small></div>
                 <div><strong id="teamLv1Users">0</strong><small>Utilisateurs</small></div>
                 <div><strong id="teamLv1Rewards">0 FC</strong><small>Récompenses</small></div>
             </div>
@@ -1166,6 +1198,7 @@ button{cursor:pointer}
             <button class="menu-item" onclick="navigateWithLoader('page-earnings-history')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-chart-line"></i></span><span class="menu-name">Historique des gains</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
             <button class="menu-item" onclick="navigateWithLoader('page-transactions')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-clock-rotate-left"></i></span><span class="menu-name">Historique des transactions</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
             <button class="menu-item" onclick="navigateWithLoader('page-promo')"><span class="menu-left"><span class="menu-icon" style="background:#e9f8f1; color:var(--green);"><i class="fa-solid fa-ticket"></i></span><span class="menu-name">Code promo</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
+            <button class="menu-item" onclick="navigateWithLoader('page-monthly-salary')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-sack-dollar"></i></span><span class="menu-name">Salaire mensuel</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
             <button class="menu-item" onclick="navigateWithLoader('page-password')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-lock"></i></span><span class="menu-name">Mot de passe</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
             <button class="menu-item" onclick="navigateWithLoader('page-support')"><span class="menu-left"><span class="menu-icon"><i class="fa-solid fa-headset"></i></span><span class="menu-name">Service client</span></span><span class="arrow"><i class="fa-solid fa-chevron-right"></i></span></button>
             <a class="menu-item" href="https://raw.githubusercontent.com/RawbankRDC/Apk/main/application.apk" onclick="downloadApplication(event)" style="text-decoration:none; color:inherit;"><span class="menu-left"><span class="menu-icon" style="background:#e8f5ff; color:#1687d9;"><i class="fa-brands fa-android"></i></span><span class="menu-name">📱 Télécharger l'application</span></span><span class="arrow"><i class="fa-solid fa-download"></i></span></a>
@@ -1454,7 +1487,7 @@ button{cursor:pointer}
             <div class="payment-box">
                 <div class="payment-row"><span class="label">Montant minimum :</span><strong>2 500 FC</strong></div>
                 <div class="payment-row"><span class="label">Frais de retrait :</span><strong style="color:var(--red)">10 %</strong></div>
-                <div class="payment-row"><span class="label">Délai de traitement :</span><strong>5 minutes à 1 heure</strong></div>
+                <div class="payment-row"><span class="label">Délai de traitement :</span><strong>1 heure à 24 heures</strong></div>
                 <div class="payment-row"><span class="label">Heures autorisées :</span><strong style="color:var(--green)">09h00 à 18h00</strong></div>
             </div>
 
@@ -1483,7 +1516,7 @@ button{cursor:pointer}
                 <i class="fa-solid fa-check"></i>
             </div>
             <h3 style="font-size:16px; font-weight:800; margin-bottom:8px;">Demande de retrait soumise</h3>
-            <p style="font-size:11px; color:var(--muted); line-height:1.5; margin-bottom:24px;">Votre demande a été enregistrée avec succès. Elle sera traitée dans les délais indiqués (5 min à 1h).</p>
+            <p style="font-size:11px; color:var(--muted); line-height:1.5; margin-bottom:24px;">Votre demande a été enregistrée avec succès. Elle sera traitée dans les délais indiqués (1h à 24h).</p>
             <button class="btn btn-primary" style="width:100%; padding:13px;" onclick="navigateWithLoader('profile')">Retour au profil</button>
         </div>
     </section>
@@ -1546,7 +1579,7 @@ button{cursor:pointer}
         </div>
         <div class="subpage-container">
             <div class="tab-headers">
-                <button class="tab-btn active" id="lvTab1Btn" onclick="switchTeamLevelTab(1, this)">🟢 Niveau 1 (12%)</button>
+                <button class="tab-btn active" id="lvTab1Btn" onclick="switchTeamLevelTab(1, this)">🟢 Niveau 1 (11%)</button>
                 <button class="tab-btn" id="lvTab2Btn" onclick="switchTeamLevelTab(2, this)">🔵 Niveau 2 (3%)</button>
                 <button class="tab-btn" id="lvTab3Btn" onclick="switchTeamLevelTab(3, this)">🟣 Niveau 3 (1%)</button>
             </div>
@@ -1763,6 +1796,54 @@ button{cursor:pointer}
         </div>
     </section>
 
+
+    <!-- SALAIRE MENSUEL LEADERS / PROMOTEURS -->
+    <section id="page-monthly-salary" class="page salary-page">
+        <div class="salary-hero">
+            <div class="salary-hero-row">
+                <button class="icon-btn" onclick="navigateWithLoader('profile')" style="background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.20);color:#fff;" aria-label="Retour au profil">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div class="salary-hero-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                <div>
+                    <h2>Salaire mensuel</h2>
+                    <p>Programme destiné aux vrais leaders et promoteurs selon le nombre de membres validés.</p>
+                </div>
+            </div>
+        </div>
+        <div class="salary-card">
+            <div class="salary-title">
+                <i class="fa-solid fa-users"></i>
+                <div><strong>Tableau des salaires mensuels</strong><small>Base : membres validés du Niveau 1</small></div>
+            </div>
+            <div class="salary-table-wrap">
+                <table class="salary-table">
+                    <thead><tr><th>Membres validés — Niveau 1</th><th>Salaire mensuel</th></tr></thead>
+                    <tbody>
+                        <tr><td>5 membres validés</td><td>10 000 FC</td></tr>
+                        <tr><td>10 membres validés</td><td>30 000 FC</td></tr>
+                        <tr><td>30 membres validés</td><td>105 000 FC</td></tr>
+                        <tr><td>60 membres validés</td><td>210 000 FC</td></tr>
+                        <tr><td>120 membres validés</td><td>435 000 FC</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="salary-note"><i class="fa-solid fa-circle-info"></i> Le salaire mensuel est présenté selon le nombre de membres réellement validés au Niveau 1.</div>
+        </div>
+        <div class="regional-card">
+            <div class="regional-head">
+                <i class="fa-solid fa-crown"></i>
+                <div><strong>CHEFS RÉGIONAL</strong><small>Conditions de responsabilité par niveau</small></div>
+            </div>
+            <div class="regional-grid">
+                <div class="regional-item"><strong>100</strong><small>Membres validés<br>Niveau 1</small></div>
+                <div class="regional-item"><strong>300</strong><small>Membres validés<br>Niveau 2</small></div>
+                <div class="regional-item"><strong>500</strong><small>Membres validés<br>Niveau 3</small></div>
+            </div>
+        </div>
+        <button class="btn btn-light salary-back" onclick="navigateWithLoader('profile')"><i class="fa-solid fa-arrow-left"></i> Retour au profil</button>
+    </section>
+
     <!-- NAVIGATION INFÉRIEURE -->
     <nav class="bottom">
         <button class="nav active" data-page="home" onclick="navigateWithLoader('home')"><i class="fa-solid fa-house"></i><span>Accueil</span></button>
@@ -1896,7 +1977,7 @@ function createEmptyAccount(name, phone, password){
         withdrawAccounts: [],
         purchasedProducts: [],
         teamLevels: {
-            1: { commission: '12%', users: 0, rewards: '0 FC', membersList: [] },
+            1: { commission: '11%', users: 0, rewards: '0 FC', membersList: [] },
             2: { commission: '3%', users: 0, rewards: '0 FC', membersList: [] },
             3: { commission: '1%', users: 0, rewards: '0 FC', membersList: [] }
         },
@@ -2046,7 +2127,7 @@ async function handleRegister(){
             if(!ancestorSnap.exists()) break;
             const ancestor = ancestorSnap.data();
             ancestor.teamLevels = ancestor.teamLevels || {};
-            const rate = teamLevel===1 ? '12%' : (teamLevel===2 ? '3%' : '1%');
+            const rate = teamLevel===1 ? '11%' : (teamLevel===2 ? '3%' : '1%');
             ancestor.teamLevels[teamLevel] = ancestor.teamLevels[teamLevel] || {commission:rate,users:0,rewards:'0 FC',membersList:[]};
             const team = ancestor.teamLevels[teamLevel];
             team.membersList = Array.isArray(team.membersList) ? team.membersList : [];
@@ -2215,7 +2296,7 @@ async function repairCurrentTeamMemberships(){
         let changed=false;
         userData.teamLevels = userData.teamLevels || {};
         for(let level=1; level<=3; level++){
-            const rate=level===1?'12%':(level===2?'3%':'1%');
+            const rate=level===1?'11%':(level===2?'3%':'1%');
             userData.teamLevels[level]=userData.teamLevels[level]||{commission:rate,users:0,rewards:'0 FC',membersList:[]};
             const team=userData.teamLevels[level];
             team.membersList=Array.isArray(team.membersList)?team.membersList:[];
@@ -2252,7 +2333,7 @@ function updateUI() {
     userData.teamLevels = userData.teamLevels || {};
     for(let lvl=1; lvl<=3; lvl++){
         userData.teamLevels[lvl] = userData.teamLevels[lvl] || {
-            commission: lvl===1 ? '12%' : (lvl===2 ? '3%' : '1%'),
+            commission: lvl===1 ? '11%' : (lvl===2 ? '3%' : '1%'),
             users: 0, rewards: '0 FC', membersList: []
         };
         userData.teamLevels[lvl].membersList =
@@ -2357,6 +2438,7 @@ function navigateWithLoader(targetPageId) {
     else if (targetPageId === 'page-earnings-history') msg = "📊 Chargement des gains...";
     else if (targetPageId === 'page-transactions') msg = "💳 Chargement des transactions...";
     else if (targetPageId === 'page-promo') msg = "🎟️ Chargement du code promo...";
+    else if (targetPageId === 'page-monthly-salary') msg = "💰 Chargement du salaire mensuel...";
     else if (targetPageId === 'page-password') msg = "🔐 Ouverture de la sécurité...";
     else if (targetPageId === 'page-support') msg = "🎧 Connexion au service client...";
     else if (targetPageId === 'products') msg = "🛍️ Chargement du catalogue...";
@@ -2546,32 +2628,47 @@ function proceedToWithdrawConditions() {
 // Vérification des horaires (09h00 à 18h00) côté interface et simulation sécurisée serveur/Firebase
 function checkWithdrawTimeAndRender() {
     const statusContainer = document.getElementById('withdrawStatusContainer');
-    
-    // Heure actuelle (simulation ou heure réelle locale)
     const now = new Date();
     const currentHour = now.getHours();
-    const currentMinutes = now.getMinutes();
-    
-    // Vérification stricte serveur/Firebase (09:00 <= heure < 18:00)
-    const isOpen = (currentHour >= 9 && currentHour < 18);
+    const weekend = isLDCIWeekend(now);
+    const withdrawalCount = getWithdrawalsTodayCount();
+    const isOpen = !weekend && currentHour >= 9 && currentHour < 18;
 
-    if (!isOpen) {
-        // Bloqué en dehors des heures
+    if (weekend) {
+        statusContainer.innerHTML = `
+            <div style="background:#fdeeee; border:1px solid #f9b8b8; border-radius:14px; padding:16px; text-align:center; color:#8c1313;">
+                <div style="font-size:14px; font-weight:800; margin-bottom:6px;"><i class="fa-solid fa-calendar-xmark"></i> Jour de repos LDCI</div>
+                <p style="font-size:11px; line-height:1.5;">Samedi et dimanche : aucun retrait et aucun revenu journalier. Reprise lundi.</p>
+            </div>
+            <button class="btn btn-light" style="width:100%; padding:13px; margin-top:14px; opacity:0.6; cursor:not-allowed;" disabled>
+                🔒 Retraits fermés — Reprise lundi
+            </button>
+        `;
+    } else if (withdrawalCount >= 2) {
+        statusContainer.innerHTML = `
+            <div style="background:#fdf6e9; border:1px solid #f9e2b8; border-radius:14px; padding:16px; text-align:center; color:#7b5812;">
+                <div style="font-size:14px; font-weight:800; margin-bottom:6px;"><i class="fa-solid fa-circle-check"></i> Limite journalière atteinte</div>
+                <p style="font-size:11px; line-height:1.5;">Vous avez effectué 2 retraits aujourd'hui. Revenez demain.</p>
+            </div>
+            <button class="btn btn-light" style="width:100%; padding:13px; margin-top:14px; opacity:0.6; cursor:not-allowed;" disabled>
+                🔒 2/2 retraits utilisés
+            </button>
+        `;
+    } else if (!isOpen) {
         statusContainer.innerHTML = `
             <div style="background:#fdeeee; border:1px solid #f9b8b8; border-radius:14px; padding:16px; text-align:center; color:#8c1313;">
                 <div style="font-size:14px; font-weight:800; margin-bottom:6px;"><i class="fa-solid fa-lock"></i> Retraits fermés</div>
-                <p style="font-size:11px; line-height:1.5;">« Les retraits sont disponibles de 09h00 à 18h00. Veuillez revenir pendant les heures d'ouverture. »</p>
+                <p style="font-size:11px; line-height:1.5;">Les retraits sont disponibles de 09h00 à 18h00, du lundi au vendredi. Traitement : 1h à 24h.</p>
             </div>
             <button class="btn btn-light" style="width:100%; padding:13px; margin-top:14px; opacity:0.6; cursor:not-allowed;" disabled>
-                🔒 Retirer (Indisponible)
+                🔒 Retrait indisponible
             </button>
         `;
     } else {
-        // Ouvert de 09h00 à 18h00
         statusContainer.innerHTML = `
             <div class="instruction-box" style="background:#e9f8f1; border-color:#b8e7d0; color:#065232; margin-bottom:14px;">
                 <strong>🟢 Retraits ouverts :</strong>
-                <p style="margin-top:2px; font-size:10px;">Les services de retrait sont actuellement actifs (09h00 à 18h00).</p>
+                <p style="margin-top:2px; font-size:10px;">09h00–18h00 • ${2-withdrawalCount} retrait(s) restant(s) aujourd'hui • traitement 1h à 24h.</p>
             </div>
             <button class="btn btn-primary" style="width:100%; padding:13px;" onclick="executeWithdrawRequest()">
                 💸 Retirer maintenant
@@ -2585,25 +2682,42 @@ function getLocalDateKey(){
     return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
 
-function hasWithdrawnToday(){
-    if(!userData) return false;
+// Samedi (6) et dimanche (0) = jours de repos LDCI.
+function isLDCIWeekend(date=new Date()){
+    const day=date.getDay();
+    return day===0 || day===6;
+}
+
+function getLDCIWeekendMessage(){
+    return "🔒 Jour de repos LDCI : revenus et retraits sont indisponibles le samedi et le dimanche. Reprise lundi.";
+}
+
+function getWithdrawalsTodayCount(){
+    if(!userData) return 0;
     const today=getLocalDateKey();
-    if(userData.lastWithdrawalDateKey===today) return true;
     const list=Array.isArray(userData.transactions?.withdraw)?userData.transactions.withdraw:[];
-    return list.some(t=>{
-        if(t.dateKey) return t.dateKey===today;
-        return false;
-    });
+    let count=list.filter(t=>t && t.dateKey===today).length;
+    if(count===0 && userData.lastWithdrawalDateKey===today) count=1;
+    return count;
+}
+
+function hasWithdrawnToday(){
+    return getWithdrawalsTodayCount() >= 2;
 }
 
 function executeWithdrawRequest() {
     const amtInput = parseInt(document.getElementById('withdrawFinalAmountInput').value);
     
-    // Vérification serveur simulée (protection anti-contournement)
+    // Vérification locale + protection contre le contournement de l'interface.
     const now = new Date();
     const currentHour = now.getHours();
+    if (isLDCIWeekend(now)) {
+        showToast(getLDCIWeekendMessage());
+        checkWithdrawTimeAndRender();
+        return;
+    }
     if (currentHour < 9 || currentHour >= 18) {
-        showToast('Erreur serveur : Retraits fermés (Horaires : 09h00 - 18h00)');
+        showToast('🔒 Retraits fermés : 09h00 à 18h00, du lundi au vendredi.');
         checkWithdrawTimeAndRender();
         return;
     }
@@ -2620,13 +2734,14 @@ function executeWithdrawRequest() {
         return;
     }
 
-    // Une seule demande de retrait autorisée par utilisateur et par jour.
-    if (hasWithdrawnToday()) {
-        showToast('🔒 Une seule demande de retrait est autorisée par jour. Revenez demain.');
+    // Maximum 2 demandes de retrait autorisées par utilisateur et par jour.
+    const withdrawalsToday = getWithdrawalsTodayCount();
+    if (withdrawalsToday >= 2) {
+        showToast('🔒 Limite atteinte : 2 retraits maximum par jour.');
         return;
     }
 
-    const fee = Math.round(amtInput * 0.10); // Frais de retrait : 10%
+    const fee = Math.round(amtInput * 0.07); // Frais de retrait : 7%
     const net = amtInput - fee;
 
     userData.balance -= amtInput;
@@ -2642,7 +2757,7 @@ function executeWithdrawRequest() {
         fee: fee.toLocaleString() + ' FC',
         net: net.toLocaleString() + ' FC',
         method: 'Mobile Money',
-        status: 'En cours (5m - 1h)'
+        status: 'En cours (1h - 24h)'
     });
 
     // IMPORTANT : enregistrer immédiatement la demande dans Firestore
@@ -2821,7 +2936,7 @@ function switchTeamLevelTab(lvl, btnElem) {
 function renderTeamLevel(lvl) {
     const container = document.getElementById('teamLevelContentContainer');
     container.innerHTML = '';
-    let commRate = (lvl === 1 ? "12%" : (lvl === 2 ? "3%" : "1%"));
+    let commRate = (lvl === 1 ? "11%" : (lvl === 2 ? "3%" : "1%"));
     const data = (userData.teamLevels && userData.teamLevels[lvl]) || {membersList:[], rewards:'0 FC'};
     data.membersList = Array.isArray(data.membersList) ? data.membersList : [];
 
@@ -2853,14 +2968,14 @@ function renderTeamLevel(lvl) {
 }
 
 const LDCI_PLANS = {
-    'Programme 20K': { key:'20K', maxPurchases:1, price:20000, daily:1330, duration:25, totalReturnAmt:33250 },
-    'Programme 50K': { key:'50K', maxPurchases:1, price:50000, daily:2350, duration:30, totalReturnAmt:70500 },
-    'Programme 100K': { key:'100K', maxPurchases:3, price:100000, daily:4666, duration:30, totalReturnAmt:139980 },
-    'Programme 200K': { key:'200K', maxPurchases:3, price:200000, daily:8333, duration:33, totalReturnAmt:274989 },
-    'Programme 500K': { key:'500K', maxPurchases:3, price:500000, daily:20000, duration:30, totalReturnAmt:600000 },
-    'Programme 1M': { key:'1M', maxPurchases:3, price:1000000, daily:40000, duration:30, totalReturnAmt:1200000 },
-    'Programme 1.5M': { key:'1.5M', maxPurchases:3, price:1500000, daily:70000, duration:28, totalReturnAmt:1960000 },
-    'Programme 2.5M': { key:'2.5M', maxPurchases:3, price:2500000, daily:130000, duration:28, totalReturnAmt:3640000 }
+    'Programme 20K': { key:'20K', maxPurchases:1, price:20000, daily:1330, duration:35, totalReturnAmt:46550 },
+    'Programme 50K': { key:'50K', maxPurchases:1, price:50000, daily:2350, duration:45, totalReturnAmt:105750 },
+    'Programme 100K': { key:'100K', maxPurchases:3, price:100000, daily:4666, duration:45, totalReturnAmt:209970 },
+    'Programme 200K': { key:'200K', maxPurchases:3, price:200000, daily:8333, duration:45, totalReturnAmt:374985 },
+    'Programme 500K': { key:'500K', maxPurchases:3, price:500000, daily:20000, duration:45, totalReturnAmt:900000 },
+    'Programme 1M': { key:'1M', maxPurchases:3, price:1000000, daily:40000, duration:45, totalReturnAmt:1800000 },
+    'Programme 1.5M': { key:'1.5M', maxPurchases:3, price:1500000, daily:70000, duration:45, totalReturnAmt:3150000 },
+    'Programme 2.5M': { key:'2.5M', maxPurchases:3, price:2500000, daily:130000, duration:45, totalReturnAmt:5850000 }
 };
 
 function getPlanPurchaseCount(name, products, purchaseHistory){
@@ -3077,7 +3192,7 @@ async function executeProductActivation() {
 
 async function distributeReferralCommissions(investor, investmentAmount){
     let sponsorPhone=investor.sponsorPhone||'';
-    const rates=[0.12,0.03,0.01];
+    const rates=[0.11,0.03,0.01];
     for(let level=0; level<3 && sponsorPhone; level++){
         const sponsorSnap=await getDoc(userDoc(sponsorPhone));
         if(!sponsorSnap.exists()) break;
@@ -3089,7 +3204,7 @@ async function distributeReferralCommissions(investor, investmentAmount){
         sponsor.transactions.other=sponsor.transactions.other||[];
         sponsor.transactions.other.unshift({date:new Date().toLocaleString('fr-FR'),desc:`Commission parrainage LV${level+1} - ${investor.name}`,amount:`+${commission.toLocaleString()} FC`,status:'Réussi'});
         sponsor.teamLevels=sponsor.teamLevels||{};
-        sponsor.teamLevels[level+1]=sponsor.teamLevels[level+1]||{commission:level===0?'12%':level===1?'3%':'1%',users:0,rewards:'0 FC',membersList:[]};
+        sponsor.teamLevels[level+1]=sponsor.teamLevels[level+1]||{commission:level===0?'11%':level===1?'3%':'1%',users:0,rewards:'0 FC',membersList:[]};
         const team=sponsor.teamLevels[level+1];
         team.membersList=Array.isArray(team.membersList) ? team.membersList : [];
         let member=team.membersList.find(m=>m.userId===investor.userId || canonicalPhoneKey(m.phone)===canonicalPhoneKey(investor.phone));
@@ -3124,6 +3239,7 @@ function getProductLastClaimAt(prod) {
 
 function isProductClaimable(prod) {
     if (!prod) return false;
+    if (isLDCIWeekend()) return false;
     if (Number(prod.claimedDays || 0) >= Number(prod.duration || 0)) return false;
     const last = getProductLastClaimAt(prod);
     return !last || (Date.now() - last >= CLAIM_INTERVAL_MS);
@@ -3157,13 +3273,16 @@ function renderMyProducts() {
         }
         const remainingDays = Math.max(0, Number(prod.duration || 0) - Number(prod.claimedDays || 0));
         const remainingRevenue = remainingDays * Number(prod.daily || 0);
+        const weekend = isLDCIWeekend();
         const claimable = isProductClaimable(prod);
         const busy = claimInProgress.has(String(prod.id));
         const claimLabel = busy
             ? '⏳ Enregistrement...'
-            : claimable
-                ? 'Réclamer ' + Number(prod.daily || 0).toLocaleString() + ' FC'
-                : 'Déjà réclamé — 24h';
+            : weekend
+                ? '🔒 Jour de repos — Reprise lundi'
+                : claimable
+                    ? 'Réclamer ' + Number(prod.daily || 0).toLocaleString() + ' FC'
+                    : 'Déjà réclamé — 24h';
 
         container.innerHTML += `
             <div class="my-product-card">
@@ -3179,7 +3298,9 @@ function renderMyProducts() {
                     <div>Achats : <strong>${getPlanPurchaseCount(prod.name, userData.purchasedProducts, userData.purchaseHistory)} / ${Number(prod.maxPurchases || getPlan(prod.name)?.maxPurchases || 1)}</strong></div>
                     <div>Reçu : <strong style="color:var(--green)">${Number(prod.totalReceived || 0).toLocaleString()} FC</strong></div>
                     <div>Restant : <strong>${remainingRevenue.toLocaleString()} FC</strong></div>
-                    ${claimable ? '' : `<div style="grid-column:1/-1;color:var(--muted);font-size:9px;">⏱️ ${getNextClaimText(prod)}</div>`}
+                    ${weekend
+                        ? `<div style="grid-column:1/-1;color:#9a6500;font-size:9px;font-weight:700;">🛌 Samedi et dimanche : aucun revenu à réclamer. Reprise lundi.</div>`
+                        : (claimable ? '' : `<div style="grid-column:1/-1;color:var(--muted);font-size:9px;">⏱️ ${getNextClaimText(prod)}</div>`)}
                 </div>
                 <button class="claim-btn" onclick="claimDailyProfit(${JSON.stringify(prod.id)})" ${(!claimable || busy) ? 'disabled' : ''}>
                     ${claimLabel}
@@ -3218,6 +3339,11 @@ async function claimDailyProfit(prodId) {
             if (index < 0) throw new Error('Produit actif introuvable.');
 
             const prod = { ...products[index] };
+
+            if (isLDCIWeekend(claimTime)) {
+                throw new Error('🛌 Jour de repos LDCI : aucun revenu ne peut être réclamé le samedi et le dimanche. Reprise lundi.');
+            }
+
             const claimedDays = Number(prod.claimedDays || 0);
             const duration = Number(prod.duration || 0);
             const daily = Number(prod.daily || 0);
